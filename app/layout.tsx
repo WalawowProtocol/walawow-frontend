@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <WalletProvider>
-          {children}
+          <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
+            {children}
+          </div>
         </WalletProvider>
       </body>
     </html>
