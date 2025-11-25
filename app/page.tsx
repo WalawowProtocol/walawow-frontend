@@ -8,12 +8,12 @@ export default function Home() {
   const { connected } = useWallet()
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <main className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-8">
         {/* 顶部标题和钱包连接 */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="text-center md:text-left mb-4 md:mb-0">
-            <h1 className="text-4xl font-bold jackpot-gradient bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
               🎰 Jackpot Protocol
             </h1>
             <p className="text-gray-400 mt-2">
@@ -34,7 +34,9 @@ export default function Home() {
               <p className="text-gray-400 mb-8">
                 Connect your Solana wallet to start participating in the Jackpot Protocol
               </p>
-              <WalletConnect />
+              <div className="flex justify-center">
+                <WalletConnect />
+              </div>
             </div>
           </div>
         )}
