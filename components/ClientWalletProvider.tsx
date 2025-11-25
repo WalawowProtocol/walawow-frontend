@@ -15,7 +15,7 @@ export default function ClientWalletProvider({ children }: { children: React.Rea
   const network = WalletAdapterNetwork.Devnet
   const endpoint = useMemo(() => clusterApiUrl(network), [network])
 
-  // 配置支持的钱包 - 使用更稳定的配置
+  // 配置支持的钱包
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
