@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { WalletProvider } from '../components/WalletProvider'
+import ClientWalletProvider from '../components/ClientWalletProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WalletProvider>
+        <ClientWalletProvider>
           <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
             {children}
           </div>
-        </WalletProvider>
+        </ClientWalletProvider>
       </body>
     </html>
   )
