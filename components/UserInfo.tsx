@@ -7,44 +7,46 @@ interface UserInfoProps {
 }
 
 export default function UserInfo({ publicKey }: UserInfoProps) {
-  const userBalance = 50000
-  const userWeight = 50000
-  const winProbability = 0.15
+  // 模拟用户数据
+  const userBalance = 50000 // JACKPOT tokens
+  const userWeight = 50000 // 持仓权重
+  const winProbability = 0.15 // 15% 获奖概率
 
   return (
-    {/* 修改背景颜色 */}
-    <div className="bg-green-900 bg-opacity-50 rounded-lg p-6 border border-green-700">
-      <h3 className="text-xl font-bold mb-4 text-green-100">👤 Your Position</h3>
+    <div className="bg-gray-800 rounded-lg p-6">
+      <h3 className="text-xl font-bold mb-4">👤 Your Position</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* 持仓信息 */}
         <div className="text-center">
-          {/* 修改数字颜色 */}
-          <div className="text-2xl font-bold text-green-300">
+          <div className="text-2xl font-bold text-yellow-400">
             {userBalance.toLocaleString()}
           </div>
-          <div className="text-green-200">JACKPOT Balance</div>
+          <div className="text-gray-400">JACKPOT Balance</div>
         </div>
 
+        {/* 持仓权重 */}
         <div className="text-center">
-          <div className="text-2xl font-bold text-green-300">
+          <div className="text-2xl font-bold text-green-400">
             {userWeight.toLocaleString()}
           </div>
-          <div className="text-green-200">Voting Weight</div>
+          <div className="text-gray-400">Voting Weight</div>
         </div>
 
+        {/* 中奖概率 */}
         <div className="text-center">
-          <div className="text-2xl font-bold text-green-300">
+          <div className="text-2xl font-bold text-blue-400">
             {(winProbability * 100).toFixed(2)}%
           </div>
-          <div className="text-green-200">Win Probability</div>
+          <div className="text-gray-400">Win Probability</div>
         </div>
       </div>
 
-      {/* 修改中奖状态颜色 */}
-      <div className="mt-6 p-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg text-center">
+      {/* 中奖状态显示 */}
+      <div className="mt-6 p-4 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg text-center winner-glow">
         <div className="text-xl font-bold">🎉 You are a Winner! 🎉</div>
-        <div className="mt-2 text-green-50">Click the button below to claim your prize!</div>
-        <button className="mt-4 bg-white text-green-700 px-6 py-2 rounded-lg font-bold hover:bg-green-50">
+        <div className="mt-2">Click the button below to claim your prize!</div>
+        <button className="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200">
           Claim Prize
         </button>
       </div>
