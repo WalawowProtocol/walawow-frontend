@@ -1,43 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import ClientWalletProvider from '../components/ClientWalletProvider'
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 6, 78, 59;
-  --background-end-rgb: 4, 47, 46;
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Jackpot Protocol - The Perpetual Wealth Aggregator on Solana',
+  description: 'A smart contract-driven on-chain wealth aggregation protocol on Solana',
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-/* 绿色主题样式 */
-.jackpot-gradient {
-  background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
-}
-
-.green-glow {
-  animation: green-glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes green-glow {
-  from {
-    box-shadow: 0 0 10px #10B981;
-  }
-  to {
-    box-shadow: 0 0 20px #10B981, 0 0 30px #34D399;
-  }
-}
-
-.wealth-pattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <ClientWalletProvider>
+          <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-green-900 to-teal-900 wealth-pattern">
+            {children}
+          </div>
+        </ClientWalletProvider>
+      </body>
+    </html>
+  )
 }
