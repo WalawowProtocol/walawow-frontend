@@ -2,44 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-/* 自定义 Jackpot 主题样式 */
-.jackpot-gradient {
-  background: linear-gradient(135deg, #FFD700 0%, #DC2626 50%, #16A34A 100%);
-}
-
-.winner-glow {
-  animation: winner-glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes winner-glow {
-  from {
-    box-shadow: 0 0 10px #FFD700;
-  }
-  to {
-    box-shadow: 0 0 20px #FFD700, 0 0 30px #DC2626;
-  }
+  @apply bg-jackpot-bg text-white;
 }
