@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    'pino-pretty': false,
   },
 }
 
