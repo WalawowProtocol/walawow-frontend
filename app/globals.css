@@ -2,26 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 基础样式 */
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
 body {
-  color: rgb(255, 255, 255);
-  background: linear-gradient(to bottom, transparent, rgb(4, 47, 46)) rgb(6, 78, 59);
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
-/* 绿色主题样式 */
+/* 自定义 Jackpot 主题样式 */
 .jackpot-gradient {
-  background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+  background: linear-gradient(135deg, #FFD700 0%, #DC2626 50%, #16A34A 100%);
 }
 
-.green-glow {
-  animation: green-glow 2s ease-in-out infinite alternate;
+.winner-glow {
+  animation: winner-glow 2s ease-in-out infinite alternate;
 }
 
-@keyframes green-glow {
+@keyframes winner-glow {
   from {
-    box-shadow: 0 0 10px #10B981;
+    box-shadow: 0 0 10px #FFD700;
   }
   to {
-    box-shadow: 0 0 20px #10B981, 0 0 30px #34D399;
+    box-shadow: 0 0 20px #FFD700, 0 0 30px #DC2626;
   }
 }
