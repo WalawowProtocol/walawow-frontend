@@ -11,7 +11,7 @@ export default function PoolCard({ title, poolType, nextDraw }: PoolCardProps) {
   const totalWinners = 8
 
   return (
-    <div className="bg-gradient-to-br from-emerald-800 to-green-900 rounded-xl p-6 shadow-lg border border-emerald-700 green-glow">
+    <div className="bg-gradient-to-br from-emerald-800 to-green-900 rounded-xl p-6 shadow-lg border border-emerald-700">
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-bold text-white">{title}</h3>
         <div className="text-sm bg-emerald-500 text-white px-2 py-1 rounded-full">
@@ -46,7 +46,7 @@ export default function PoolCard({ title, poolType, nextDraw }: PoolCardProps) {
         </div>
 
         <button 
-          className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl hover:translate-y-[-1px]"
+          className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
           onClick={() => alert('This feature will be implemented soon!')}
         >
           Check Details
