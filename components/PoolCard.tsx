@@ -15,7 +15,7 @@ export default function PoolCard({ title, poolType, nextDraw }: PoolCardProps) {
     <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 shadow-lg border border-gray-700">
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-bold text-white">{title}</h3>
-        <div className="text-sm bg-green-600 text-black px-2 py-1 rounded-full">
+        <div className="text-sm bg-green-500 text-black px-2 py-1 rounded-full">
           {poolType === 'weekly' ? 'Weekly' : 'Monthly'}
         </div>
       </div>
