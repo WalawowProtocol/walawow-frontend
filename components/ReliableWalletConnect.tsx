@@ -31,7 +31,7 @@ export default function ReliableWalletConnect() {
       )}
       <WalletMultiButton 
         style={{
-          backgroundColor: '#059669',
+          backgroundColor: '#f59e0b',
           backgroundImage: 'linear-gradient(to right, #f59e0b, #dc2626)',
           color: 'white',
           border: 'none',
