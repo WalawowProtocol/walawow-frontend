@@ -6,7 +6,7 @@ import ClientWalletProvider from '../components/ClientWalletProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Jackpot Protocol - The Perpetual Wealth Aggregator on Solana',
+  title: 'openpool Protocol - The Perpetual Wealth Aggregator on Solana',
   description: 'A smart contract-driven on-chain wealth aggregation protocol on Solana',
 }
 
