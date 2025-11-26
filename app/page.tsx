@@ -13,8 +13,8 @@ export default function Home() {
         {/* 顶部标题和钱包连接 */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="text-center md:text-left mb-4 md:mb-0">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-              🎰 Jackpot Protocol
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-green-500 bg-clip-text text-transparent">
+              OpenPool Protocol
             </h1>
             <p className="text-gray-400 mt-2">
               The Perpetual Wealth Aggregator on Solana
@@ -29,10 +29,10 @@ export default function Home() {
         ) : (
           <div className="text-center py-16">
             <div className="max-w-md mx-auto">
-              <div className="text-6xl mb-4">🎯</div>
-              <h2 className="text-2xl font-bold mb-4">连接钱包</h2>
+              <div className="text-6xl mb-4">🦋</div>
+              <h2 className="text-2xl font-bold mb-4">Connect wallet</h2>
               <p className="text-gray-400 mb-8">
-                连接您的Solana钱包开始参与Jackpot Protocol
+                Connect your Solana wallet to start participating in the openpool Protocol
               </p>
               <div className="flex justify-center">
                 <ReliableWalletConnect />
