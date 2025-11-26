@@ -13,7 +13,7 @@ export default function Home() {
         {/* 顶部标题和钱包连接 */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="text-center md:text-left mb-4 md:mb-0">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-300 to-green-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-700 bg-clip-text text-transparent">
               OpenPool Protocol
             </h1>
             <p className="text-gray-400 mt-2">
