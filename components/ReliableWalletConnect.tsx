@@ -13,7 +13,7 @@ const WalletMultiButton = dynamic(
         disabled
         className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold opacity-50"
       >
-        Loading...
+        加载钱包...
       </button>
     )
   }
