@@ -23,14 +23,19 @@ export default function Dashboard() {
 
       try {
         const configAddress = new PublicKey(JACKPOT_PROTOCOL_ADDRESSES.DISTRIBUTOR_CONFIG);
-        const data = await distributorProgram.account.distributorConfig.fetch(configAddress);
-        // Total Distributed近似last distribute total，真实需sum事件
-        setTotalDistributed(data.total || 0); // 调整如果有历史sum
-
-        // winners/activeHolders暂模拟
-        setWinners(0); // 后面可从pool事件count
-        setActiveHolders(0); // 从索引器
-
+        const accountNamespace = distributorProgram.account as any; // Add this line to cast
+        const data = await accountNamespace.distributorConfig.fetch(configAddress);
+        
+        // No 'total' field in IDL, so use vault balance instead for Total Distributed
+        const vaultAddress = new PublicKey(JACKPOT_PROTOCOL_ADDRESSES.DISTRIBUTOR_VAULT);
+        const connection = new Connection(RPC_URL, 'confirmed');
+        const balanceInfo = await connection.getTokenAccountBalance(vaultAddress);
+        const balance = parseInt(balanceInfo.value.amount) / 10**6; // USDC decimals=6
+        setTotalDistributed(balance); // Use vault as approximate total
+      
+        // winners/activeHolders temp simulation
+        setWinners(0);
+        setActiveHolders(0);
       } catch (err) {
         console.error(err);
       } finally {
