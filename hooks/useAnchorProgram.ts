@@ -5,9 +5,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
 import { JACKPOT_PROTOCOL_ADDRESSES, RPC_URL } from '../config/addresses';
 
-// 加distributor IDL
 import jackpotPoolIDL from '../idl/jackpot_pool.json';
-import jackpotDistributorIDL from '../idl/jackpot_distributor.json'; // 新加
+import jackpotDistributorIDL from '../idl/jackpot_distributor.json';
 
 export function useAnchorProgram(programName: 'harvest' | 'swap' | 'distributor' | 'pool') {
   const wallet = useWallet();
@@ -25,15 +24,15 @@ export function useAnchorProgram(programName: 'harvest' | 'swap' | 'distributor'
         idl = jackpotPoolIDL;
         programId = JACKPOT_PROTOCOL_ADDRESSES.POOL_PROGRAM;
         break;
-      case 'distributor': // 新加
+      case 'distributor':
         idl = jackpotDistributorIDL;
         programId = JACKPOT_PROTOCOL_ADDRESSES.DISTRIBUTOR_PROGRAM;
         break;
-      // 加其他如果需要
       default:
         return null;
     }
 
+    // ✅ 不使用类型参数，让 Anchor 动态处理
     return new Program(idl, new PublicKey(programId), provider);
-  }, [wallet.publicKey, connection, programName]);
+  }, [wallet.publicKey, connection, programName, wallet.signTransaction]);
 }
