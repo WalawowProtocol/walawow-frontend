@@ -37,7 +37,9 @@ export const JACKPOT_PROTOCOL_ADDRESSES = {
   POOL_AUTHORITY: "5EM38m98sMbxhViEjupHGvGcFdXkeCmkZAgiSDDpq3rh",
  
   // 管理员地址
-  OWNER: "9xN1DcpQeA3HzShZiiGq7kafuQPzU88gV86bsMo77iwp"
+  OWNER: "9xN1DcpQeA3HzShZiiGq7kafuQPzU88gV86bsMo77iwp",
+  // 添加 RPC_URL
+  RPC_URL: "https://api.devnet.solana.com",
 } as const;
 
 // 新加：Solana devnet RPC URL
