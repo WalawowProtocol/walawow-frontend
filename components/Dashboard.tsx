@@ -2,7 +2,6 @@
 import { useWallet } from '@solana/wallet-adapter-react'
 import PoolCard from './PoolCard'
 import UserInfo from './UserInfo'
-import { useAnchorProgram } from '../hooks/useAnchorProgram'
 import { JACKPOT_PROTOCOL_ADDRESSES } from '../config/addresses'
 import { useEffect, useState } from 'react'
 import { PublicKey } from '@solana/web3.js'
