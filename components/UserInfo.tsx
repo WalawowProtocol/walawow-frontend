@@ -78,8 +78,8 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
 
       {/* 提示信息 */}
       {userBalance === 0 && (
-        <div className="mt-4 p-3 bg-blue-900 border border-blue-700 rounded-lg text-center">
-          <p className="text-blue-200 text-sm">
+        <div className="mt-4 p-3 bg-green-900 border border-green-700 rounded-lg text-center">
+          <p className="text-green-200 text-sm">
             No OPENPOOL tokens found. Get some tokens to participate!
           </p>
         </div>
