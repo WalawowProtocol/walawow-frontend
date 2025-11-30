@@ -6,6 +6,8 @@ import { useWallet } from '@solana/wallet-adapter-react'
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
+  { name: 'Web Trigger', href: '/trigger' },
+  { name: 'Source Code', href: '/trigger-script' }, // 新增源代码页面
   { name: 'How It Works', href: '/how-it-works' },
   { name: 'Whitepaper', href: '/whitepaper' },
   { name: 'Winners', href: '/winners' },
