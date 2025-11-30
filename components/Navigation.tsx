@@ -10,6 +10,7 @@ const navigation = [
   { name: 'How It Works', href: '/how-it-works' },
   { name: 'Whitepaper', href: '/whitepaper' },
   { name: 'Winners', href: '/winners' },
+  { name: 'Web Trigger', href: '/trigger' },
   { name: 'Source Code', href: '/trigger-script' },
 ]
 
