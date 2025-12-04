@@ -57,7 +57,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
   }
 
   return (
-    <div className="glass-card p-6 hover:glow-purple transition-all duration-500">
+    <div className="notranslate glass-card p-6 hover:glow-purple transition-all duration-500">
       {/* 用户身份区域 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pb-6 border-b border-walawow-neutral-border">
         <div className="flex items-center gap-4 mb-4 sm:mb-0">
