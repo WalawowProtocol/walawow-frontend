@@ -1,7 +1,7 @@
 // app/trigger-script/page.tsx
 'use client'
 import { useState } from 'react'
-import { Code2, Cpu, Zap, Target, BookOpen, Search, Trophy, Globe, CpuChip, Timer, Shield, Rocket } from 'lucide-react'
+import { Code2, Cpu, Zap, Target, BookOpen, Search, Trophy, Globe, Timer, Shield, Rocket } from 'lucide-react'
 
 export default function TriggerScriptPage() {
   const [activeTab, setActiveTab] = useState('instruction')
@@ -152,7 +152,7 @@ pub mod magic_spellbook {
         <div className="flex flex-wrap gap-3 mb-8">
           {[
             { id: 'instruction', label: '📋 Core Spell', icon: Zap },
-            { id: 'addresses', label: '🏷️ Pool Addresses', icon: CpuChip },
+            { id: 'addresses', label: '🏷️ Pool Addresses', icon: Cpu },
             { id: 'errors', label: '⚠️ Spell Backlash', icon: Shield },
             { id: 'examples', label: '💡 Spell Examples', icon: Code2 }
           ].map((tab) => {
@@ -206,7 +206,7 @@ pub mod magic_spellbook {
           {activeTab === 'addresses' && (
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
-                <CpuChip className="h-5 w-5 text-walawow-purple-light" />
+                <Cpu className="h-5 w-5 text-walawow-purple-light" />
                 <h3 className="text-lg font-semibold text-white">Magic Pool Addresses (Magic Testnet)</h3>
               </div>
               <pre className="text-walawow-gold-light text-sm overflow-x-auto p-4 rounded-lg bg-black/50 border border-walawow-gold/30">
