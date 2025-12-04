@@ -27,7 +27,7 @@ export default function Navigation() {
           {/* 左侧Logo和导航链接 */}
           <div className="flex items-center">
             {/* Logo - 应用新的渐变标题样式 */}
-            <div className="flex-shrink-0 flex items-center">
+            <div className="notranslate flex-shrink-0 flex items-center">
               <Link 
                 href="/" 
                 className="title-gradient text-2xl font-bold tracking-tight"
