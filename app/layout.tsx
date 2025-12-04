@@ -1,14 +1,26 @@
 // app/layout.tsx
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter, Space_Grotesk } from 'next/font/google'
 import ClientWalletProvider from '../components/ClientWalletProvider'
 import Navigation from '../components/Navigation'
 
-const inter = Inter({ subsets: ['latin'] })
+// 配置正文字体：Inter
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+// 配置标题字体：Space Grotesk，更具科技感
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
+})
 
 export const metadata = {
-  title: 'Jackpot Protocol - Perpetual Wealth Aggregator on Solana',
-  description: 'The revolutionary wealth distribution protocol on Solana blockchain',
+  // 更新为 Walawow 品牌名称和口号
+  title: 'Walawow - The Surprise Protocol on Solana',
+  description: 'Experience the thrill of decentralized surprises. Where every interaction could lead to a magical Walawow moment.',
 }
 
 export default function RootLayout({
@@ -17,12 +29,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className="min-h-screen antialiased">
+        {/* 已删除原有的内联背景样式，由globals.css中的华丽星云背景统一接管 */}
         <ClientWalletProvider>
-          <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+          {/* 应用新的全局字体变量 */}
+          <div className="font-sans">
             <Navigation />
-            <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            {/* 主内容区域：移除了旧容器，为各页面提供更灵活的布局基础 */}
+            <main>
               {children}
             </main>
           </div>
