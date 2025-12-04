@@ -151,10 +151,10 @@ pub mod magic_spellbook {
         
         <div className="flex flex-wrap gap-3 mb-8">
           {[
-            { id: 'instruction', label: '📋 Core Spell', icon: Zap },
-            { id: 'addresses', label: '🏷️ Pool Addresses', icon: Cpu },
-            { id: 'errors', label: '⚠️ Spell Backlash', icon: Shield },
-            { id: 'examples', label: '💡 Spell Examples', icon: Code2 }
+            { id: 'instruction', label: 'Core Spell', icon: Zap },
+            { id: 'addresses', label: 'Pool Addresses', icon: Cpu },
+            { id: 'errors', label: 'Spell Backlash', icon: Shield },
+            { id: 'examples', label: 'Spell Examples', icon: Code2 }
           ].map((tab) => {
             const Icon = tab.icon
             return (
