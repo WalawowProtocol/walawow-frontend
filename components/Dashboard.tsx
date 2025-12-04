@@ -14,7 +14,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* 资金池信息 - 添加了标题和描述 */}
       <div>
-        <h2 className="section-title text-3xl mb-2">Surprise Pools</h2>
+        <h2 className="notranslate section-title text-3xl mb-2">Surprise Pools</h2>
         <p className="text-walawow-neutral-text-secondary mb-6">
           Participate in our periodic draws. The more you engage, the higher your chances of a <span className="text-walawow-gold font-semibold">WOW moment</span>!
         </p>
@@ -41,7 +41,7 @@ export default function Dashboard() {
       <div className="glass-card p-6 md:p-8 rounded-3xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <div>
-            <h3 className="text-2xl font-bold text-white mb-2">Magic in Numbers</h3>
+            <h3 className="notranslate text-2xl font-bold text-white mb-2">Magic in Numbers</h3>
             <p className="text-walawow-neutral-text-secondary">
               Real-time protocol performance & community growth
             </p>
