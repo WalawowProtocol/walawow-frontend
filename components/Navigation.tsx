@@ -27,7 +27,7 @@ export default function Navigation() {
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="text-2xl font-bold text-yellow-400">
-                🎰 JACKPOT
+                WalaWow
               </Link>
             </div>
             
