@@ -80,6 +80,7 @@ export default function HowItWorks() {
         <div className="space-y-10">
           {[
             {
+              step: "",
               title: "Snapshot & Enchantment",
               icon: <Cpu className="h-5 w-5" />,
               items: [
@@ -91,6 +92,7 @@ export default function HowItWorks() {
               accent: "purple"
             },
             {
+              step: "",
               title: "Community Spellcasting",
               icon: <Zap className="h-5 w-5" />,
               items: [
@@ -102,6 +104,7 @@ export default function HowItWorks() {
               accent: "gold"
             },
             {
+              step: "",
               title: "Random Revelation",
               icon: <Target className="h-5 w-5" />,
               items: [
@@ -113,6 +116,7 @@ export default function HowItWorks() {
               accent: "purple"
             },
             {
+              step: "",
               title: "Treasure Distribution",
               icon: <Coins className="h-5 w-5" />,
               items: [
