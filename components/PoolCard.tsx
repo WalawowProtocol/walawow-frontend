@@ -107,7 +107,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
   }
 
   return (
-    <div className={`glass-card p-6 hover:glow-${accent} transition-all duration-500 border ${theme.border} hover:scale-[1.01]`}>
+    <div className={`glass-card p-6 hover:glow-${accent} notranslate transition-all duration-500 border ${theme.border} hover:scale-[1.01]`}>
       {/* 标题和徽章 */}
       <div className="flex justify-between items-start mb-6">
         <div>
