@@ -11,7 +11,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="text-center md:text-left mb-4 md:mb-0">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-700 bg-clip-text text-transparent">
-              OpenPool Protocol
+              WalaWow Protocol
             </h1>
             <p className="text-gray-400 mt-2">
               The Perpetual Wealth Aggregator on Solana
@@ -28,7 +28,7 @@ export default function Home() {
               <div className="text-6xl mb-4">🦋</div>
               <h2 className="text-2xl font-bold mb-4">Connect wallet</h2>
               <p className="text-gray-400 mb-8">
-                Connect your Solana wallet to start participating in the OpenPool Protocol
+                Connect your Solana wallet to start participating in the WalaWow Protocol
               </p>
               <div className="flex justify-center">
                 <ReliableWalletConnect />
