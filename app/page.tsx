@@ -23,7 +23,7 @@ export default function Home() {
               <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
                 <Sparkles className="h-8 w-8 text-walawow-gold animate-pulse" />
                 <h1 className="notranslate title-gradient text-4xl md:text-5xl lg:text-6xl font-bold">
-                  WalaWow Protocol
+                  Walawow Protocol
                 </h1>
                 <Sparkles className="h-8 w-8 text-walawow-purple-light animate-pulse" />
               </div>
