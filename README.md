@@ -1,2 +1,2 @@
-# jackpot-frontend
-Jackpot Protocol Frontend - The Perpetual Wealth Aggregator on Solana
+# Walawow-frontend
+Walawow Protocol Frontend - The Perpetual Wealth Aggregator on Solana
