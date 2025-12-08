@@ -7,7 +7,6 @@ import { useClaimPrize } from '@/hooks/useClaimPrize'
 interface ClaimPrizeButtonProps {
   poolPda: PublicKey
 
-  // 这些数据你之后会从 snapshot + userInfo 里喂进来
   winner: PublicKey
   winnerAmount: bigint
   cumulativeWeight: bigint
@@ -16,7 +15,6 @@ interface ClaimPrizeButtonProps {
   winnerTokenAccount: PublicKey
   triggererTokenAccount: PublicKey
 
-  // 当前池子状态
   poolState: number // 0 Open | 1 WaitingForVrf | 2 ReadyToClaim
 }
 
@@ -33,19 +31,19 @@ export default function ClaimPrizeButton({
   const { publicKey } = useWallet()
   const { claimPrize, loading, error, success } = useClaimPrize()
 
-  const canClaim = publicKey && poolState === 2 // ReadyToClaim
+  const canClaim = !!publicKey && poolState === 2 // ReadyToClaim
 
   const handleClaim = async () => {
     if (!canClaim) return
 
     await claimPrize({
-      poolPda,
-      winner,
-      winnerAmount,
-      cumulativeWeight,
-      proof,
-      winnerTokenAccount,
-      triggererTokenAccount
+      poolPda: poolPda.toBase58(),                          // ✅ 转 string
+      winner: winner.toBase58(),                            // ✅ 转 string
+      winnerAmount: BigInt(winnerAmount),                  // ✅ 明确 bigint
+      cumulativeWeight: BigInt(cumulativeWeight),          // ✅ 明确 bigint
+      proof,                                                // ✅ 保持原样
+      winnerTokenAccount: winnerTokenAccount.toBase58(),   // ✅ 转 string
+      triggererTokenAccount: triggererTokenAccount.toBase58() // ✅ 转 string
     })
   }
 
