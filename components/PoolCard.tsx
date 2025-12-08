@@ -6,7 +6,6 @@ import { useDrawTrigger } from '../hooks/useDrawTrigger'
 import { useTriggerEligibility } from '../hooks/useTriggerEligibility'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { Coins, Trophy, Clock, Zap } from 'lucide-react'
-import ClaimPrizeButton from './ClaimPrizeButton'
 
 interface PoolCardProps {
   title: string
