@@ -3,7 +3,7 @@
 import { PublicKey, Connection } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
-import { JACKPOT_PROTOCOL_ADDRESSES } from '../config/addresses'
+import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 
 export function useUserBalance() {
   const { publicKey } = useWallet()
@@ -23,13 +23,13 @@ export function useUserBalance() {
 
       try {
         const connection = new Connection("https://api.devnet.solana.com", 'confirmed')
-        const jackpotMint = new PublicKey(JACKPOT_PROTOCOL_ADDRESSES.JACKPOT_MINT)
+        const walawowMint = new PublicKey(WALAWOW_PROTOCOL_ADDRESSES.WALAWOW_MINT)
         
         console.log('🔍 Fetching token accounts for:', publicKey.toString())
         
-        // 获取用户的所有 JACKPOT token 账户
+        // 获取用户的所有 WALAWOW token 账户
         const tokenAccounts = await connection.getTokenAccountsByOwner(publicKey, {
-          mint: jackpotMint
+          mint: walawowMint
         })
 
         console.log('📋 Found token accounts:', tokenAccounts.value.length)

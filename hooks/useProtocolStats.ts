@@ -1,7 +1,7 @@
 // hooks/useProtocolStats.ts
 'use client'
 import { useEffect, useState } from 'react'
-import { fetchJackpotAPI, JACKPOT_API } from '../config/api'
+import { fetchWalawowAPI, WALAWOW_API } from '../config/api'
 
 interface ProtocolStats {
   totalDistributed: number
@@ -23,7 +23,7 @@ export function useProtocolStats() {
     const fetchStats = async () => {
       try {
         // 从API获取真实数据
-        const snapshotData = await fetchJackpotAPI(JACKPOT_API.ENDPOINTS.LATEST_SNAPSHOT)
+        const snapshotData = await fetchWalawowAPI(WALAWOW_API.ENDPOINTS.LATEST_SNAPSHOT)
         
         const realStats: ProtocolStats = {
           totalDistributed: 1250000, // 暂时保持模拟

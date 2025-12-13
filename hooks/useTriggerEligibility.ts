@@ -2,7 +2,7 @@
 'use client'
 import { PublicKey, Connection } from '@solana/web3.js'
 import { useEffect, useState } from 'react'
-import { JACKPOT_PROTOCOL_ADDRESSES } from '../config/addresses'
+import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 
 interface TriggerEligibility {
   canTrigger: boolean
