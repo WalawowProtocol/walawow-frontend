@@ -1,7 +1,7 @@
 {
-  "name": "jackpot-frontend",
+  "name": "walawow_protocol",
   "version": "1.0.0",
-  "description": "Jackpot Protocol Frontend - The Perpetual Wealth Aggregator on Solana",
+  "description": "Walawow Protocol Frontend - The Perpetual Wealth Aggregator on Solana",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
