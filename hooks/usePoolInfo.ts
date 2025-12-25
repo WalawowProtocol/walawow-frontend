@@ -11,6 +11,7 @@ export interface PoolInfo {
   nextDrawTime: Date | null
   lastWinner: string | null
   lastPrizeAmount: number
+  lastPaidAmount: number
   poolState: string
   totalWeight: number
   canTrigger: boolean
@@ -35,6 +36,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
     nextDrawTime: null,
     lastWinner: null,
     lastPrizeAmount: 0,
+    lastPaidAmount: 0,
     poolState: 'unknown',
     totalWeight: 0,
     canTrigger: false,
@@ -84,6 +86,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
               ? poolAccount.lastWinner.toString() 
               : null,
             lastPrizeAmount: poolAccount.lastPrizeAmount ? poolAccount.lastPrizeAmount.toNumber() : 0,
+            lastPaidAmount: poolAccount.lastPaidAmount ? poolAccount.lastPaidAmount.toNumber() : 0,
             poolState,
             totalWeight: poolAccount.totalWeight ? Number(poolAccount.totalWeight.toString()) : 0,
             canTrigger: poolAccount.state === POOL_STATE.SnapshotLocked && !poolAccount.paused,
@@ -104,6 +107,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             nextDrawTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             lastWinner: null,
             lastPrizeAmount: 0,
+            lastPaidAmount: 0,
             poolState: 'Open',
             totalWeight: 0,
             canTrigger: false,
