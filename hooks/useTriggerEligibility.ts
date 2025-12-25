@@ -1,8 +1,7 @@
 // hooks/useTriggerEligibility.ts
 'use client'
-import { PublicKey, Connection } from '@solana/web3.js'
 import { useEffect, useState } from 'react'
-import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
+import { usePoolInfo } from './usePoolInfo'
 
 interface TriggerEligibility {
   canTrigger: boolean
@@ -12,6 +11,7 @@ interface TriggerEligibility {
 }
 
 export function useTriggerEligibility(poolType: 'weekly' | 'monthly') {
+  const { poolInfo } = usePoolInfo(poolType)
   const [eligibility, setEligibility] = useState<TriggerEligibility>({
     canTrigger: false,
     nextTriggerTime: null,
@@ -21,43 +21,44 @@ export function useTriggerEligibility(poolType: 'weekly' | 'monthly') {
 
   useEffect(() => {
     const calculateEligibility = () => {
-      const now = new Date()
-      const utcNow = new Date(now.getTime() + now.getTimezoneOffset() * 60000)
-      
-      // 计算下一次开奖时间（周五 UTC 12:00）
-      let nextDrawTime: Date
-      if (poolType === 'weekly') {
-        // 每周五 UTC 12:00
-        nextDrawTime = new Date(utcNow)
-        const daysUntilFriday = (5 - nextDrawTime.getDay() + 7) % 7
-        nextDrawTime.setDate(nextDrawTime.getDate() + (daysUntilFriday === 0 ? 7 : daysUntilFriday))
-        nextDrawTime.setHours(12, 0, 0, 0)
-      } else {
-        // 每月最后一个周五 UTC 12:00
-        const nextMonth = new Date(utcNow)
-        nextMonth.setMonth(nextMonth.getMonth() + 1)
-        nextMonth.setDate(0)
-        
-        let lastFriday = new Date(nextMonth)
-        while (lastFriday.getDay() !== 5) {
-          lastFriday.setDate(lastFriday.getDate() - 1)
-        }
-        lastFriday.setHours(12, 0, 0, 0)
-        nextDrawTime = lastFriday
+      if (!poolInfo.nextDrawTime || poolInfo.drawWindow <= 0) {
+        setEligibility({
+          canTrigger: false,
+          nextTriggerTime: null,
+          timeUntilTrigger: 'Awaiting schedule',
+          isWithinTriggerWindow: false
+        })
+        return
       }
 
-      // 触发窗口：开奖时间到开奖时间+1小时
-      const triggerWindowStart = new Date(nextDrawTime)
-      const triggerWindowEnd = new Date(nextDrawTime.getTime() + 60 * 60 * 1000) // +1小时
+      const now = new Date()
+      const triggerWindowStart = poolInfo.nextDrawTime
+      const triggerWindowEnd = new Date(
+        triggerWindowStart.getTime() + poolInfo.drawWindow * 1000
+      )
 
-      const isWithinTriggerWindow = now >= triggerWindowStart && now <= triggerWindowEnd
-      const timeUntilTrigger = now < triggerWindowStart 
-        ? getTimeUntil(triggerWindowStart)
-        : getTimeUntil(triggerWindowEnd)
+      let nextTriggerTime = triggerWindowStart
+      let timeUntilTrigger = ''
+      const withinWindow = now >= triggerWindowStart && now <= triggerWindowEnd
+      const isWithinTriggerWindow = withinWindow && poolInfo.poolState === 'SnapshotLocked' && !poolInfo.paused
+
+      if (withinWindow) {
+        timeUntilTrigger = getTimeUntil(triggerWindowEnd)
+      } else if (now < triggerWindowStart) {
+        timeUntilTrigger = getTimeUntil(triggerWindowStart)
+      } else if (poolInfo.drawPeriod > 0) {
+        nextTriggerTime = new Date(
+          triggerWindowStart.getTime() + poolInfo.drawPeriod * 1000
+        )
+        timeUntilTrigger = getTimeUntil(nextTriggerTime)
+      } else {
+        nextTriggerTime = null
+        timeUntilTrigger = 'Awaiting next round'
+      }
 
       setEligibility({
         canTrigger: isWithinTriggerWindow,
-        nextTriggerTime: nextDrawTime,
+        nextTriggerTime,
         timeUntilTrigger,
         isWithinTriggerWindow
       })
@@ -69,7 +70,7 @@ export function useTriggerEligibility(poolType: 'weekly' | 'monthly') {
     // 每秒更新一次倒计时
     const interval = setInterval(calculateEligibility, 1000)
     return () => clearInterval(interval)
-  }, [poolType])
+  }, [poolType, poolInfo.nextDrawTime, poolInfo.drawWindow, poolInfo.drawPeriod])
 
   return eligibility
 }
