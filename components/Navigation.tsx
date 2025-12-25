@@ -11,7 +11,7 @@ const navigation = [
   { name: 'Whitepaper', href: '/whitepaper' },
   { name: 'Winners', href: '/winners' },
   { name: 'Web Trigger', href: '/trigger' },
-  { name: 'Source Code', href: '/trigger-script' },
+  { name: 'Developer Docs', href: '/trigger-script' },
 ]
 
 export default function Navigation() {
