@@ -16,9 +16,9 @@ const tx = await program.methods
   .rpc();`
 
   const poolAddresses = `// Pool Addresses (Devnet)
-const WEEKLY_POOL = "FjzkKi1a4p7mHz2msiDDejzrNhsaSbEGGE72PacyRctx";
-const MONTHLY_POOL = "26x4erQyZiekCJgZpqh47ngeVhfNjUcEMBq3pEHqgKmJ";
-const WALAWOW_POOL_PROGRAM = "Ezm2E5wJjzq9k5b33knCrRgfXqy8Cxk6qufAKMPAELwr";`
+const WEEKLY_POOL = "6ZuQ8Sokhm5ovXmaiMhSG2j5jgcWzYFR1WCUK6fDAmr8";
+const MONTHLY_POOL = "PTz3PS5LWs96stMLRuQgU72HTPjGwhaaVFdHnTxmJcJ";
+const WALAWOW_POOL_PROGRAM = "DNLgTgV56ifjHpP7V1iodtUoYwrnawq1tYMEwm2yD3KA";`
 
   const errorHandling = `// Common Trigger Error Handling
 try {
@@ -221,7 +221,7 @@ pub mod trigger_client {
                 </div>
                 <div className="p-3 rounded-lg bg-walawow-gold/10 border border-walawow-gold/20">
                   <div className="text-walawow-gold-light font-semibold">RPC Endpoint</div>
-                  <div className="text-walawow-neutral-text-secondary text-sm">https://api.devnet.solana.com</div>
+                  <div className="text-walawow-neutral-text-secondary text-sm">https://devnet.helius-rpc.com/?api-key=ea4c9b26-b295-4bcb-bba4-9a1ab1007184</div>
                 </div>
               </div>
             </div>
