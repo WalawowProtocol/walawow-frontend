@@ -16,19 +16,19 @@ export default function Dashboard() {
       <div>
         <h2 className="notranslate section-title text-3xl mb-2">Surprise Pools</h2>
         <p className="text-walawow-neutral-text-secondary mb-6">
-          Participate in our periodic draws. The more you engage, the higher your chances of a <span className="text-walawow-gold font-semibold">WOW moment</span>!
+          Participate in periodic draws. The more you engage, the higher your chances of a <span className="text-walawow-gold font-semibold">WOW moment</span>!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <PoolCard 
             title="Weekly Surprise" 
             poolType="weekly"
-            nextDraw="Friday 12:00 UTC"
+            nextDraw="On-chain schedule"
             accent="purple" // 可以传递给PoolCard自定义样式
           />
           <PoolCard 
             title="Monthly Spectacular" 
             poolType="monthly"
-            nextDraw="Last Friday of Month"
+            nextDraw="On-chain schedule"
             accent="gold" // 可以传递给PoolCard自定义样式
           />
         </div>
@@ -41,7 +41,7 @@ export default function Dashboard() {
       <div className="glass-card p-6 md:p-8 rounded-3xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <div>
-            <h3 className="notranslate text-2xl font-bold text-white mb-2">Magic in Numbers</h3>
+            <h3 className="notranslate text-2xl font-bold text-white mb-2">Protocol Metrics</h3>
             <p className="text-walawow-neutral-text-secondary">
               Real-time protocol performance & community growth
             </p>
@@ -68,7 +68,7 @@ export default function Dashboard() {
             <div className="data-value mb-1">
               {statsLoading ? '...' : `$${(stats.totalDistributed / 1000000).toFixed(1)}M`}
             </div>
-            <div className="data-label">Total Magic Distributed</div>
+            <div className="data-label">Total Rewards Distributed</div>
           </div>
 
           {/* 获胜者数量 */}
