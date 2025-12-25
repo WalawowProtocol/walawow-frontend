@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata = {
   // 更新为 Walawow 品牌名称和口号
   title: 'Walawow - The Surprise Protocol on Solana',
-  description: 'Experience the thrill of decentralized surprises. Where every interaction could lead to a magical Walawow moment.',
+  description: 'Experience the thrill of decentralized surprises. Where every interaction could lead to a Walawow reward moment.',
 }
 
 export default function RootLayout({
