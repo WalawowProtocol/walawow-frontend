@@ -80,7 +80,7 @@ export function usePoolBalance(poolType: 'weekly' | 'monthly') {
     fetchPoolBalance()
 
     // 设置定时刷新
-    const interval = setInterval(fetchPoolBalance, 30000) // 30秒刷新一次
+    const interval = setInterval(fetchPoolBalance, 30 * 60 * 1000) // 30分钟刷新一次
     return () => clearInterval(interval)
   }, [poolType, connection])
 
