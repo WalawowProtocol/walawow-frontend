@@ -17,14 +17,16 @@ export interface PoolInfo {
   paused: boolean
   drawPeriod: number
   drawWindow: number
+  snapshotWindow: number
+  feeBpsTriggerer: number
 }
 
-// Pool State 枚举
+// Pool State 枚举（与合约一致）
 const POOL_STATE = {
   Open: 0,
-  WaitingForVrf: 1,
-  Processing: 2,
-  Closed: 3,
+  SnapshotLocked: 1,
+  WaitingForVrf: 2,
+  ReadyToClaim: 3,
 }
 
 export function usePoolInfo(poolType: 'weekly' | 'monthly') {
@@ -39,6 +41,8 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
     paused: false,
     drawPeriod: 0,
     drawWindow: 0,
+    snapshotWindow: 0,
+    feeBpsTriggerer: 0,
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -71,7 +75,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
           // 使用类型断言来访问账户，因为 Anchor 生成的类型可能不完全匹配
           const poolAccount = await (program.account as any).poolConfig.fetch(poolAddress) as any
           
-          const stateNames = ['Open', 'WaitingForVrf', 'Processing', 'Closed']
+          const stateNames = ['Open', 'SnapshotLocked', 'WaitingForVrf', 'ReadyToClaim']
           const poolState = stateNames[poolAccount.state] || 'unknown'
           
           const info: PoolInfo = {
@@ -82,10 +86,14 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             lastPrizeAmount: poolAccount.lastPrizeAmount ? poolAccount.lastPrizeAmount.toNumber() : 0,
             poolState,
             totalWeight: poolAccount.totalWeight ? Number(poolAccount.totalWeight.toString()) : 0,
-            canTrigger: poolAccount.state === POOL_STATE.Open && !poolAccount.paused,
+            canTrigger: poolAccount.state === POOL_STATE.SnapshotLocked && !poolAccount.paused,
             paused: poolAccount.paused,
             drawPeriod: poolAccount.drawPeriod ? poolAccount.drawPeriod.toNumber() : 0,
             drawWindow: poolAccount.drawWindow ? poolAccount.drawWindow.toNumber() : 0,
+            snapshotWindow: poolAccount.snapshotWindow ? poolAccount.snapshotWindow.toNumber() : 0,
+            feeBpsTriggerer: typeof poolAccount.feeBpsTriggerer === 'number'
+              ? poolAccount.feeBpsTriggerer
+              : poolAccount.feeBpsTriggerer?.toNumber?.() ?? 0,
           }
 
           setPoolInfo(info)
@@ -102,6 +110,8 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             paused: false,
             drawPeriod: 0,
             drawWindow: 0,
+            snapshotWindow: 0,
+            feeBpsTriggerer: 0,
           }
           setPoolInfo(mockInfo)
         }
