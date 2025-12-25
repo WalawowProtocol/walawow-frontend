@@ -1,5 +1,5 @@
 {
-  "address": "G9XaeLFJbmjrZUsEoky5YiRG4Fr7j5ZQNernvfrjfX3f",
+  "address": "Dr4qqXPEsbGt5TTuTbBcFSeqCUEAGv6ZNbZdwLTX8yTe",
   "metadata": {
     "name": "walawow_distributor",
     "version": "0.1.0",
@@ -10,7 +10,9 @@
     {
       "name": "distribute",
       "docs": [
-        "分配 USDC（核心逻辑）"
+        "分配 USDC（核心逻辑）",
+        "- weekly/monthly 先进入 staging（不直接进入 pool）",
+        "- staging 必须为空（防止跨轮累积）"
       ],
       "discriminator": [
         191,
@@ -59,34 +61,58 @@
           }
         },
         {
-          "name": "usdc_mint"
+          "name": "usdc_mint",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "distributor_vault",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
-          "name": "pool_weekly",
+          "name": "weekly_staging_vault",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
-          "name": "pool_monthly",
+          "name": "monthly_staging_vault",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
           "name": "pool_staking",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
           "name": "pool_liquidity",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
           "name": "pool_team",
+          "docs": [
+            "CHECK"
+          ],
           "writable": true
         },
         {
           "name": "distributor_authority",
+          "docs": [
+            "CHECK"
+          ],
           "pda": {
             "seeds": [
               {
@@ -123,7 +149,8 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
         }
       ],
       "args": []
@@ -181,25 +208,52 @@
           }
         },
         {
-          "name": "usdc_mint"
+          "name": "usdc_mint",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
-          "name": "distributor_vault"
+          "name": "distributor_vault",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "pool_weekly"
         },
         {
-          "name": "pool_monthly"
+          "name": "pool_monthly",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
-          "name": "pool_staking"
+          "name": "pool_staking",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
-          "name": "pool_liquidity"
+          "name": "pool_liquidity",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
-          "name": "pool_team"
+          "name": "pool_team",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "weekly_staging_vault"
+        },
+        {
+          "name": "monthly_staging_vault",
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "distributor_authority",
@@ -243,7 +297,8 @@
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "token_program"
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
         }
       ],
       "args": [
@@ -272,6 +327,279 @@
           "type": "i64"
         }
       ]
+    },
+    {
+      "name": "release_staging_funds",
+      "docs": [
+        "在 snapshot window 内：staging -> pool_vault",
+        "权限：仅 admin 或 pool.keeper"
+      ],
+      "discriminator": [
+        1,
+        22,
+        10,
+        85,
+        87,
+        25,
+        164,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "triggerer",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "staging_vault",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "pool_config"
+        },
+        {
+          "name": "usdc_mint",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "distributor_authority",
+          "docs": [
+            "CHECK"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": {
+            "defined": {
+              "name": "PoolTarget"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "update_accounts",
+      "docs": [
+        "管理员更新金库 / 各子池账户（Token-2022 only）"
+      ],
+      "discriminator": [
+        11,
+        102,
+        69,
+        115,
+        168,
+        153,
+        126,
+        154
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_distributor_vault",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_weekly",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_monthly",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_staking",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_liquidity",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_team",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_weekly_staging_vault",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_monthly_staging_vault",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "distributor_authority",
+          "docs": [
+            "CHECK"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
     },
     {
       "name": "update_ratio",
@@ -362,9 +690,35 @@
         78,
         65
       ]
+    },
+    {
+      "name": "PoolConfig",
+      "discriminator": [
+        26,
+        108,
+        14,
+        123,
+        116,
+        230,
+        129,
+        43
+      ]
     }
   ],
   "events": [
+    {
+      "name": "AccountsUpdated",
+      "discriminator": [
+        103,
+        211,
+        89,
+        135,
+        190,
+        181,
+        90,
+        238
+      ]
+    },
     {
       "name": "Distributed",
       "discriminator": [
@@ -389,6 +743,19 @@
         164,
         101,
         16
+      ]
+    },
+    {
+      "name": "StagingReleased",
+      "discriminator": [
+        6,
+        53,
+        192,
+        166,
+        46,
+        228,
+        36,
+        144
       ]
     }
   ],
@@ -415,21 +782,100 @@
     },
     {
       "code": 6004,
-      "name": "MathOverflow",
-      "msg": "Math overflow"
-    },
-    {
-      "code": 6005,
       "name": "Unauthorized",
       "msg": "Unauthorized"
     },
     {
-      "code": 6006,
+      "code": 6005,
       "name": "InvalidParam",
       "msg": "Invalid parameter"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTokenProgram",
+      "msg": "Invalid token program (must be Token-2022)"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTokenAccountOwner",
+      "msg": "Token account is not owned by Token-2022 program"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidMintOwner",
+      "msg": "Mint account is not owned by Token-2022 program"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidPoolType",
+      "msg": "Invalid pool type"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidPoolState",
+      "msg": "Pool state does not allow this operation"
+    },
+    {
+      "code": 6011,
+      "name": "NotInSnapshotWindow",
+      "msg": "Not in snapshot window for release"
+    },
+    {
+      "code": 6012,
+      "name": "Arithmetic",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6013,
+      "name": "StagingNotEmpty",
+      "msg": "Staging vault must be empty before distribute (prevent cross-round accumulation)"
     }
   ],
   "types": [
+    {
+      "name": "AccountsUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "distributor_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_weekly",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_monthly",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_staking",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_liquidity",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_team",
+            "type": "pubkey"
+          },
+          {
+            "name": "weekly_staging_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "monthly_staging_vault",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
     {
       "name": "Distributed",
       "type": {
@@ -524,6 +970,14 @@
             "type": "pubkey"
           },
           {
+            "name": "weekly_staging_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "monthly_staging_vault",
+            "type": "pubkey"
+          },
+          {
             "name": "min_distribute_interval",
             "type": "i64"
           },
@@ -547,6 +1001,183 @@
                 6
               ]
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "vault_bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_type",
+            "type": {
+              "defined": {
+                "name": "PoolType"
+              }
+            }
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "distributor_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "distributor_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "round_started_at",
+            "type": "i64"
+          },
+          {
+            "name": "state",
+            "type": "u8"
+          },
+          {
+            "name": "next_draw_time",
+            "type": "i64"
+          },
+          {
+            "name": "draw_period",
+            "type": "i64"
+          },
+          {
+            "name": "draw_window",
+            "type": "i64"
+          },
+          {
+            "name": "snapshot_window",
+            "type": "i64"
+          },
+          {
+            "name": "merkle_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "snapshot_block",
+            "type": "u64"
+          },
+          {
+            "name": "total_weight",
+            "type": "u128"
+          },
+          {
+            "name": "last_random",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "last_winning_index",
+            "type": "u128"
+          },
+          {
+            "name": "vrf_request_time",
+            "type": "i64"
+          },
+          {
+            "name": "vrf_request_id",
+            "type": "u128"
+          },
+          {
+            "name": "last_winner",
+            "type": "pubkey"
+          },
+          {
+            "name": "last_triggerer",
+            "type": "pubkey"
+          },
+          {
+            "name": "last_prize_amount",
+            "type": "u64"
+          },
+          {
+            "name": "last_paid_amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee_bps_triggerer",
+            "type": "u16"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "indexer",
+            "type": "pubkey"
+          },
+          {
+            "name": "vrf_coordinator",
+            "type": "pubkey"
+          },
+          {
+            "name": "keeper",
+            "type": "pubkey"
+          },
+          {
+            "name": "min_holder_amount",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolTarget",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Weekly"
+          },
+          {
+            "name": "Monthly"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolType",
+      "repr": {
+        "kind": "rust"
+      },
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Weekly"
+          },
+          {
+            "name": "Monthly"
           }
         ]
       }
@@ -579,6 +1210,30 @@
           {
             "name": "team",
             "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StagingReleased",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_type",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
           }
         ]
       }

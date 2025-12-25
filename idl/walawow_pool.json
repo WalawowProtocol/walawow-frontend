@@ -1,5 +1,5 @@
 {
-  "address": "FJxHKnBz1MrbAE4UB8LFMMniPcELYjvpwLpRaiEDuDjq",
+  "address": "DNLgTgV56ifjHpP7V1iodtUoYwrnawq1tYMEwm2yD3KA",
   "metadata": {
     "name": "walawow_pool",
     "version": "0.1.0",
@@ -9,12 +9,6 @@
   "instructions": [
     {
       "name": "claim_prize",
-      "docs": [
-        "领取奖励（带 Merkle 证明）",
-        "生产级语义：",
-        "- 链上只验证 proof + 区间，不依赖你链下重算快照",
-        "- claim 成功后进入下一轮，旧轮数据清空（防 replay）"
-      ],
       "discriminator": [
         157,
         233,
@@ -33,7 +27,7 @@
         {
           "name": "pool_authority",
           "docs": [
-            "pool authority PDA: [b\"pool-authority\", pool]"
+            "CHECK"
           ],
           "pda": {
             "seeds": [
@@ -65,29 +59,17 @@
         },
         {
           "name": "vault",
-          "docs": [
-            "Vault：mint & authority 均强约束到 pool"
-          ],
           "writable": true
         },
         {
-          "name": "usdc_mint_account",
-          "docs": [
-            "USDC Mint（用于 decimals + transfer_checked）"
-          ]
+          "name": "usdc_mint_account"
         },
         {
           "name": "winner_token_account",
-          "docs": [
-            "赢家的 USDC 账户（owner 必须等于 winner）"
-          ],
           "writable": true
         },
         {
           "name": "triggerer_token_account",
-          "docs": [
-            "触发者的 USDC 账户（owner 必须等于 pool.last_triggerer；若 last_triggerer=default，可传任意）"
-          ],
           "writable": true
         },
         {
@@ -122,12 +104,6 @@
     },
     {
       "name": "draw_winner",
-      "docs": [
-        "开奖触发（社区）",
-        "生产级约束：",
-        "- 必须在开奖窗口内",
-        "- 必须已经有 snapshot（SnapshotLocked）"
-      ],
       "discriminator": [
         250,
         103,
@@ -152,13 +128,6 @@
     },
     {
       "name": "fulfill_randomness",
-      "docs": [
-        "VRF 回调：只允许配置的 `vrf_coordinator`（签名者）调用",
-        "生产级约束：",
-        "- 必须 WaitingForVrf",
-        "- request_id 必须等于本轮的 vrf_request_id",
-        "- last_random 必须为 0（防重放）"
-      ],
       "discriminator": [
         235,
         105,
@@ -197,13 +166,6 @@
     },
     {
       "name": "initialize_pool",
-      "docs": [
-        "初始化奖池",
-        "",
-        "新增（生产必需）：",
-        "- snapshot_window: 允许提交快照的时间窗（秒），只能在 [next_draw_time - snapshot_window, next_draw_time) 内提交",
-        "- min_holder_amount: 防粉尘阈值（u128，按 WALAWOW 最小单位），claim 时强约束 winner_leaf_amount >= min_holder_amount"
-      ],
       "discriminator": [
         95,
         180,
@@ -222,16 +184,10 @@
         },
         {
           "name": "pool",
-          "docs": [
-            "Pool config (PDA): [b\"pool-config\", owner, pool_type]"
-          ],
           "writable": true
         },
         {
           "name": "pool_authority",
-          "docs": [
-            "pool authority PDA: [b\"pool-authority\", pool]"
-          ],
           "pda": {
             "seeds": [
               {
@@ -262,9 +218,6 @@
         },
         {
           "name": "vault",
-          "docs": [
-            "Vault token account (USDC) owned by pool_authority"
-          ],
           "writable": true,
           "pda": {
             "seeds": [
@@ -291,10 +244,16 @@
           }
         },
         {
-          "name": "usdc_mint_account",
+          "name": "distributor_vault",
           "docs": [
-            "Token-2022 或普通 token，统一用接口"
+            "distributor vault (must be owned by distributor_authority)"
           ]
+        },
+        {
+          "name": "distributor_authority"
+        },
+        {
+          "name": "usdc_mint_account"
         },
         {
           "name": "system_program",
@@ -357,12 +316,6 @@
     },
     {
       "name": "keeper_draw",
-      "docs": [
-        "Keeper 兜底开奖（超出窗口后才允许）",
-        "生产级约束：",
-        "- 必须 SnapshotLocked（已经有快照）",
-        "- 必须超出开奖窗口"
-      ],
       "discriminator": [
         18,
         43,
@@ -386,10 +339,82 @@
       "args": []
     },
     {
-      "name": "reset_pool",
+      "name": "recycle_unclaimed",
       "docs": [
-        "管理员复位（应急）"
+        "领奖窗口结束后，未领取的奖金回流到 distributor",
+        "权限：仅 keeper 或 owner"
       ],
+      "discriminator": [
+        13,
+        118,
+        231,
+        32,
+        106,
+        97,
+        119,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "signer": true
+        },
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_authority",
+          "docs": [
+            "CHECK"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  111,
+                  108,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "distributor_vault",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint_account"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reset_pool",
       "discriminator": [
         108,
         172,
@@ -414,9 +439,6 @@
     },
     {
       "name": "set_paused",
-      "docs": [
-        "管理员暂停/恢复"
-      ],
       "discriminator": [
         91,
         60,
@@ -446,13 +468,6 @@
     },
     {
       "name": "submit_snapshot",
-      "docs": [
-        "提交快照（Merkle 根、总权重、快照高度）",
-        "生产级约束：",
-        "- 仅 indexer 可提交",
-        "- 仅在 snapshot_window 内可提交： now ∈ [next_draw_time - snapshot_window, next_draw_time)",
-        "- 同一轮只能提交一次（merkle_root 必须为 0）"
-      ],
       "discriminator": [
         38,
         160,
@@ -495,9 +510,6 @@
     },
     {
       "name": "update_indexer",
-      "docs": [
-        "更新快照索引器地址"
-      ],
       "discriminator": [
         144,
         179,
@@ -527,9 +539,6 @@
     },
     {
       "name": "update_keeper",
-      "docs": [
-        "更新守护者地址"
-      ],
       "discriminator": [
         36,
         13,
@@ -559,9 +568,6 @@
     },
     {
       "name": "update_min_holder_amount",
-      "docs": [
-        "更新防粉尘阈值"
-      ],
       "discriminator": [
         223,
         49,
@@ -590,10 +596,36 @@
       ]
     },
     {
-      "name": "update_vrf_coordinator",
-      "docs": [
-        "更新 VRF coordinator"
+      "name": "update_schedule",
+      "discriminator": [
+        121,
+        160,
+        17,
+        111,
+        16,
+        230,
+        228,
+        70
       ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "owner",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_next_draw_time",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "update_vrf_coordinator",
       "discriminator": [
         139,
         76,
@@ -618,6 +650,43 @@
         {
           "name": "new_vrf",
           "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "update_windows",
+      "discriminator": [
+        196,
+        59,
+        183,
+        85,
+        91,
+        253,
+        180,
+        118
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "owner",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "draw_period",
+          "type": "i64"
+        },
+        {
+          "name": "draw_window",
+          "type": "i64"
+        },
+        {
+          "name": "snapshot_window",
+          "type": "i64"
         }
       ]
     }
@@ -769,6 +838,19 @@
       ]
     },
     {
+      "name": "ScheduleUpdated",
+      "discriminator": [
+        21,
+        219,
+        240,
+        12,
+        179,
+        107,
+        205,
+        15
+      ]
+    },
+    {
       "name": "SnapshotSubmitted",
       "discriminator": [
         254,
@@ -782,6 +864,19 @@
       ]
     },
     {
+      "name": "UnclaimedReturned",
+      "discriminator": [
+        182,
+        222,
+        4,
+        54,
+        24,
+        191,
+        48,
+        55
+      ]
+    },
+    {
       "name": "VrfCoordinatorUpdated",
       "discriminator": [
         6,
@@ -792,6 +887,19 @@
         203,
         141,
         237
+      ]
+    },
+    {
+      "name": "WindowsUpdated",
+      "discriminator": [
+        46,
+        193,
+        218,
+        1,
+        243,
+        193,
+        225,
+        113
       ]
     }
   ],
@@ -910,6 +1018,16 @@
       "code": 6022,
       "name": "BelowMinHolderAmount",
       "msg": "Winner leaf amount below min holder amount"
+    },
+    {
+      "code": 6023,
+      "name": "ClaimWindowClosed",
+      "msg": "Claim window already closed"
+    },
+    {
+      "code": 6024,
+      "name": "ClaimWindowOpen",
+      "msg": "Claim window still open"
     }
   ],
   "types": [
@@ -1063,6 +1181,14 @@
             "type": "pubkey"
           },
           {
+            "name": "distributor_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "distributor_authority",
+            "type": "pubkey"
+          },
+          {
             "name": "round_id",
             "type": "u64"
           },
@@ -1138,6 +1264,10 @@
           },
           {
             "name": "last_prize_amount",
+            "type": "u64"
+          },
+          {
+            "name": "last_paid_amount",
             "type": "u64"
           },
           {
@@ -1227,6 +1357,14 @@
           {
             "name": "min_holder_amount",
             "type": "u128"
+          },
+          {
+            "name": "distributor_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "distributor_authority",
+            "type": "pubkey"
           }
         ]
       }
@@ -1370,6 +1508,34 @@
       }
     },
     {
+      "name": "ScheduleUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_next_draw_time",
+            "type": "i64"
+          },
+          {
+            "name": "new_next_draw_time",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "round_id",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
       "name": "SnapshotSubmitted",
       "type": {
         "kind": "struct",
@@ -1407,6 +1573,42 @@
       }
     },
     {
+      "name": "UnclaimedReturned",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "triggerer",
+            "type": "pubkey"
+          },
+          {
+            "name": "returned_amount",
+            "type": "u64"
+          },
+          {
+            "name": "reclaimed_at",
+            "type": "i64"
+          },
+          {
+            "name": "next_round_id",
+            "type": "u64"
+          },
+          {
+            "name": "next_draw_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
       "name": "VrfCoordinatorUpdated",
       "type": {
         "kind": "struct",
@@ -1426,6 +1628,38 @@
           {
             "name": "timestamp",
             "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WindowsUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "draw_period",
+            "type": "i64"
+          },
+          {
+            "name": "draw_window",
+            "type": "i64"
+          },
+          {
+            "name": "snapshot_window",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "round_id",
+            "type": "u64"
           }
         ]
       }

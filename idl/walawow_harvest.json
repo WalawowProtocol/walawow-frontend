@@ -1,5 +1,5 @@
 {
-  "address": "EGgcfctL62Eaq8kG6T9gPjWSjNktx3edRVXWVm4e7R2r",
+  "address": "EpGx7THuuXZtaVg2fYL1ubgvkbzGdf4pokoB1QhA2NL8",
   "metadata": {
     "name": "walawow_harvest",
     "version": "0.1.0",
@@ -9,11 +9,6 @@
   "instructions": [
     {
       "name": "harvest_tax",
-      "docs": [
-        "收割税金（不持币）：",
-        "1) harvest_withheld_tokens_to_mint：把 remaining_accounts 的 withheld 汇总到 mint",
-        "2) withdraw_withheld_tokens_from_mint：直接提到 swap 的税金账户（WALAWOW）"
-      ],
       "discriminator": [
         65,
         8,
@@ -105,9 +100,6 @@
     },
     {
       "name": "initialize_config",
-      "docs": [
-        "初始化收割配置：记录 WALAWOW mint、公钥路由与时间节流。"
-      ],
       "discriminator": [
         208,
         127,
@@ -265,6 +257,57 @@
           "type": "i64"
         }
       ]
+    },
+    {
+      "name": "update_swap_tax_account",
+      "discriminator": [
+        127,
+        176,
+        127,
+        147,
+        201,
+        67,
+        188,
+        112
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  114,
+                  118,
+                  101,
+                  115,
+                  116,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_swap_tax_account",
+          "writable": true
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -308,6 +351,19 @@
         149,
         11
       ]
+    },
+    {
+      "name": "SwapTaxAccountUpdated",
+      "discriminator": [
+        35,
+        59,
+        74,
+        172,
+        89,
+        200,
+        51,
+        99
+      ]
     }
   ],
   "errors": [
@@ -325,6 +381,31 @@
       "code": 6002,
       "name": "InvalidParam",
       "msg": "Invalid parameter"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidTokenProgram",
+      "msg": "Invalid token program (must be Token-2022)"
+    },
+    {
+      "code": 6004,
+      "name": "TooManyRemainingAccounts",
+      "msg": "Too many remaining accounts"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidRemainingAccount",
+      "msg": "Remaining account is not a valid token account"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTokenAccountOwner",
+      "msg": "Account is not owned by Token-2022 program"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
     }
   ],
   "types": [
@@ -409,6 +490,26 @@
           {
             "name": "harvested_accounts",
             "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapTaxAccountUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "old_swap_tax_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_swap_tax_account",
+            "type": "pubkey"
           }
         ]
       }
