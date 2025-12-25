@@ -129,7 +129,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
     }
 
     fetchPoolInfo()
-    const interval = setInterval(fetchPoolInfo, 30000) // 每30秒刷新
+    const interval = setInterval(fetchPoolInfo, 30 * 60 * 1000) // 每30分钟刷新
     return () => clearInterval(interval)
   }, [poolType, connection])
 
