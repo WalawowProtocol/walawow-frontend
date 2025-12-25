@@ -14,7 +14,7 @@ export default function HowItWorks() {
           How WalaWow Works
         </h1>
         <p className="text-xl text-walawow-neutral-text-secondary max-w-3xl mx-auto leading-relaxed">
-          Experience the magic of <span className="text-walawow-gold font-semibold">provably fair surprises</span> on Solana. 
+          Experience <span className="text-walawow-gold font-semibold">provably fair surprises</span> on Solana. 
           Every interaction holds the potential for a <span className="text-walawow-purple-light font-semibold">WOW moment</span>.
         </p>
       </div>
@@ -25,7 +25,7 @@ export default function HowItWorks() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-purple-dark flex items-center justify-center">
             <Zap className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">How to Experience the Magic</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">How to Participate</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -68,7 +68,7 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* The Magic Flow */}
+      {/* The Surprise Flow */}
       <section className="glass-card p-8 md:p-10 rounded-3xl border border-walawow-neutral-border">
         <div className="flex items-center gap-3 mb-10">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-gold to-walawow-gold-dark flex items-center justify-center">
@@ -81,25 +81,26 @@ export default function HowItWorks() {
           {[
             {
               step: "1",
-              title: "Snapshot & Enchantment",
+              title: "Snapshot & Verification",
               icon: <Cpu className="h-5 w-5" />,
               items: [
-                "Every Friday UTC 11:00 - Magical snapshot of all token holders",
+                "During the snapshot window - Indexer captures holder balances",
                 "Exclusively includes genuine community explorers",
-                "Enchanted Merkle tree built with (address, balance) data",
+                "Merkle tree built with (address, balance) data",
                 "Merkle root sealed on-chain for eternal verification"
               ],
               accent: "purple"
             },
             {
               step: "2",
-              title: "Community Spellcasting",
+              title: "Community Triggering",
               icon: <Zap className="h-5 w-5" />,
               items: [
-                "Every Friday UTC 12:00 - Spellcasting window opens",
-                "Any community member can cast the trigger spell",
-                "First successful spellcaster earns 5% of the treasure",
-                "Powered by Chainlink VRF for provably random magic"
+                "During the draw window - Trigger window opens",
+                "Any community member can submit the trigger",
+                "First successful triggerer earns the configured reward share",
+                "If no trigger occurs, keeper_draw provides a fallback",
+                "Powered by Switchboard VRF for verifiable randomness"
               ],
               accent: "gold"
             },
@@ -108,8 +109,8 @@ export default function HowItWorks() {
               title: "Random Revelation",
               icon: <Target className="h-5 w-5" />,
               items: [
-                "Chainlink VRF conjures cryptographically secure randomness",
-                "Weighted selection based on your magical contribution",
+                "Switchboard VRF provides cryptographically secure randomness",
+                "Weighted selection based on your token balance",
                 "Your chance = Your tokens ÷ Total community tokens",
                 "Completely transparent and independently verifiable"
               ],
@@ -120,10 +121,11 @@ export default function HowItWorks() {
               title: "Treasure Distribution",
               icon: <Coins className="h-5 w-5" />,
               items: [
-                "Lucky explorer receives 95% of the treasure pool",
-                "Spellcaster rewarded with 5% bonus treasure",
+                "Winner receives the remaining prize pool after triggerer reward",
+                "Triggerer rewarded with the configured bonus share",
                 "Automatic USDC transfer to the winner's wallet",
-                "Complete magical transaction history preserved on-chain"
+                "Unclaimed rewards return to the distributor after the claim window",
+                "Complete on-chain transaction history preserved"
               ],
               accent: "gold"
             }
@@ -167,7 +169,7 @@ export default function HowItWorks() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-gold flex items-center justify-center">
             <Shield className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Magical Foundations</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Technical Foundations</h2>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -180,9 +182,9 @@ export default function HowItWorks() {
                 <span className="title-gradient text-lg">Fairness Guarantees</span>
               </h3>
               <ul className="space-y-3">
-                {["Chainlink VRF - Provably random magic", "Merkle Proofs - Verifiable participation", 
-                  "Weighted Selection - Proportional chances", "Open Source - Fully transparent spells", 
-                  "On-chain Verification - No dark arts"].map((item, i) => (
+                {["Switchboard VRF - Verifiable randomness", "Merkle Proofs - Verifiable participation", 
+                  "Weighted Selection - Proportional chances", "Open Source - Fully transparent logic", 
+                  "On-chain Verification - No hidden logic"].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-walawow-gold"></div>
                     <span className="text-walawow-neutral-text-secondary text-sm">{item}</span>
@@ -198,12 +200,12 @@ export default function HowItWorks() {
                 <div className="h-8 w-8 rounded-lg bg-walawow-gold/20 flex items-center justify-center">
                   <Lock className="h-4 w-4 text-walawow-gold" />
                 </div>
-                <span className="title-gradient text-lg">Security Enchantments</span>
+                <span className="title-gradient text-lg">Security Measures</span>
               </h3>
               <ul className="space-y-3">
                 {["Solana Program Derived Addresses", "Multi-signature treasury guardians", 
-                  "Time-locked administrative spells", "Comprehensive error wards", 
-                  "Regular security scroll reviews"].map((item, i) => (
+                  "Time-locked administrative actions", "Comprehensive error handling", 
+                  "Regular security reviews"].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-walawow-purple-light"></div>
                     <span className="text-walawow-neutral-text-secondary text-sm">{item}</span>
@@ -215,13 +217,13 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* Magic Distribution */}
+      {/* Distribution Breakdown */}
       <section className="glass-card p-8 md:p-10 rounded-3xl border border-walawow-neutral-border">
         <div className="flex items-center gap-3 mb-8">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple-light to-walawow-gold flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Spell Component Distribution</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Distribution Breakdown</h2>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -231,15 +233,15 @@ export default function HowItWorks() {
                 <div className="h-8 w-8 rounded-lg bg-walawow-purple/30 flex items-center justify-center">
                   <span className="text-walawow-purple-light text-sm font-bold">V1</span>
                 </div>
-                <span className="text-walawow-purple-light">Current Incantation</span>
+                <span className="text-walawow-purple-light">Current Allocation</span>
               </h3>
               <div className="space-y-4">
                 {[
                   { label: "Weekly Surprise Pool", value: "35%", color: "bg-walawow-purple" },
                   { label: "Monthly Spectacular", value: "25%", color: "bg-walawow-purple-light" },
-                  { label: "Liquidity Enchantment", value: "25%", color: "bg-walawow-purple/70" },
-                  { label: "V2 Development Scroll", value: "5%", color: "bg-walawow-gold/80" },
-                  { label: "Ecosystem Grimoire", value: "10%", color: "bg-walawow-gold" }
+                  { label: "Liquidity Allocation", value: "25%", color: "bg-walawow-purple/70" },
+                  { label: "V2 Development", value: "5%", color: "bg-walawow-gold/80" },
+                  { label: "Ecosystem Fund", value: "10%", color: "bg-walawow-gold" }
                 ].map((item, index) => (
                   <div key={index} className="space-y-2">
                     <div className="flex justify-between">
@@ -270,9 +272,9 @@ export default function HowItWorks() {
                 {[
                   { label: "Weekly Surprise Pool", value: "30%", color: "bg-walawow-purple" },
                   { label: "Monthly Spectacular", value: "20%", color: "bg-walawow-purple-light" },
-                  { label: "Liquidity Enchantment", value: "20%", color: "bg-walawow-purple/70" },
+                  { label: "Liquidity Allocation", value: "20%", color: "bg-walawow-purple/70" },
                   { label: "Staking Rewards", value: "20%", color: "bg-walawow-gold" },
-                  { label: "Ecosystem Grimoire", value: "10%", color: "bg-walawow-gold/80" }
+                  { label: "Ecosystem Fund", value: "10%", color: "bg-walawow-gold/80" }
                 ].map((item, index) => (
                   <div key={index} className="space-y-2">
                     <div className="flex justify-between">
@@ -301,7 +303,7 @@ export default function HowItWorks() {
           <div className="text-5xl animate-float">🎁</div>
           <h3 className="text-2xl font-bold text-white">Ready for Your WOW Moment?</h3>
           <p className="text-walawow-neutral-text-secondary">
-            Join thousands of explorers already experiencing the magic
+            Join thousands of community members already participating
           </p>
           <button className="btn-gold px-8 py-3 mt-4">
             Start Exploring Now →
