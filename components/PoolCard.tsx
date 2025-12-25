@@ -44,30 +44,33 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
   }[accent]
 
   const formatNextDrawTime = (date: Date | null) => {
-    if (!date) return poolType === 'weekly' ? 'Friday 12:00 UTC' : 'Last Friday of Month'
-    
+    if (!date) return 'Schedule not available'
+
     const now = new Date()
-    const timeDiff = date.getTime() - now.getTime()
-    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-    
-    if (daysDiff < 0) {
-      return 'Drawing in progress...'
-    } else if (daysDiff === 0) {
-      return 'Today 12:00 UTC'
-    } else if (daysDiff === 1) {
-      return 'Tomorrow 12:00 UTC'
-    } else if (daysDiff <= 7) {
-      return `${date.toLocaleDateString('en-US', { weekday: 'long' })} 12:00 UTC`
-    } else {
-      return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} 12:00 UTC`
-    }
+    const windowEnd = new Date(date.getTime() + poolInfo.drawWindow * 1000)
+
+    if (now >= date && now <= windowEnd) return 'In draw window'
+    if (now > windowEnd) return 'Awaiting next round'
+
+    const label = date.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'UTC',
+    })
+    return `${label} UTC`
   }
 
   const getTriggerButtonText = () => {
     if (!publicKey) return 'Connect Wallet to Trigger'
     if (triggering) return 'Triggering Draw...'
-    if (!isWithinTriggerWindow) return `Opens in ${timeUntilTrigger}`
-    return 'Trigger Draw & Earn 5%'
+    if (!isWithinTriggerWindow) {
+      return timeUntilTrigger.includes('Awaiting') ? 'Awaiting next round' : `Opens in ${timeUntilTrigger}`
+    }
+    const rewardPct = (poolInfo.feeBpsTriggerer / 100).toFixed(2)
+    return `Trigger Draw & Earn ${rewardPct}%`
   }
 
   const getTriggerButtonStyle = () => {
@@ -140,7 +143,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
         <div className="bg-gradient-to-r from-green-500/20 to-emerald-600/20 border border-green-500/30 rounded-xl p-3 mb-4">
           <p className="text-green-300 text-sm flex items-center gap-2">
             <span className="text-xl">🎉</span>
-            Draw triggered successfully! You may receive 5% reward if you're first.
+            Draw triggered successfully! You may receive {(poolInfo.feeBpsTriggerer / 100).toFixed(2)}% if you're first.
           </p>
         </div>
       )}
@@ -191,7 +194,11 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
               <span className="data-label">Trigger Window</span>
             </div>
             <span className={`font-bold ${isWithinTriggerWindow ? 'text-walawow-gold animate-pulse' : 'text-walawow-purple-light'}`}>
-              {isWithinTriggerWindow ? '⚡ OPEN NOW' : `in ${timeUntilTrigger}`}
+              {isWithinTriggerWindow
+                ? '⚡ OPEN NOW'
+                : timeUntilTrigger.includes('Awaiting')
+                ? 'Awaiting next round'
+                : `in ${timeUntilTrigger}`}
             </span>
           </div>
         </div>
@@ -208,16 +215,12 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
 
           {/* 触发奖励信息 */}
           <div className="text-xs text-center mt-3">
-            {isWithinTriggerWindow ? (
-              <p className="text-walawow-neutral-text-secondary">
-                First trigger gets <span className="text-walawow-gold font-bold">5% reward</span> 
-                <span className="block text-walawow-gold-light">(${(poolBalance * 0.05).toLocaleString()})</span>
-              </p>
-            ) : (
-              <p className="text-walawow-neutral-text-secondary">
-                Trigger window: <span className="text-walawow-purple-light">Friday 12:00-13:00 UTC</span>
-              </p>
-            )}
+            <p className="text-walawow-neutral-text-secondary">
+              Trigger reward: <span className="text-walawow-gold font-bold">{(poolInfo.feeBpsTriggerer / 100).toFixed(2)}%</span>
+              <span className="block text-walawow-gold-light">
+                (${(poolBalance * (poolInfo.feeBpsTriggerer / 10000)).toLocaleString()})
+              </span>
+            </p>
           </div>
 
           {/* 上次获胜者 */}
