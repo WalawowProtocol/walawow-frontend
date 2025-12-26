@@ -1,5 +1,5 @@
 export const WALAWOW_API = {
-    BASE_URL: 'https://api.walawow.xyz',
+    BASE_URL: 'https://api.walawow.fun',
     
     ENDPOINTS: {
         HEALTH: '/health',
