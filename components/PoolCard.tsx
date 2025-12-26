@@ -133,8 +133,19 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
     try {
       const url = `${WALAWOW_API.BASE_URL}${WALAWOW_API.ENDPOINTS.CLAIM_PROOF}?pool=${poolType}&winner=${publicKey.toBase58()}`
       const response = await fetch(url)
-      if (!response.ok) throw new Error('Claim data not available. Please try again later.')
-      const payload = await response.json()
+      const raw = await response.text()
+      let payload: any = null
+      if (raw) {
+        try {
+          payload = JSON.parse(raw)
+        } catch {
+          payload = null
+        }
+      }
+      if (!response.ok) {
+        const message = payload?.error || payload?.message || 'Claim data not available. Please try again later.'
+        throw new Error(message)
+      }
       const claimData = payload?.data ?? payload
       const winnerLeafAmount = claimData?.winnerLeafAmount ?? claimData?.winner_leaf_amount
       const cumulativeWeightUntil = claimData?.cumulativeWeightUntil ?? claimData?.cumulative_weight_until
