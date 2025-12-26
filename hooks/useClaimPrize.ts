@@ -1,7 +1,7 @@
 // hooks/useClaimPrize.ts
 'use client'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { PublicKey, Transaction } from '@solana/web3.js'
+import { PublicKey } from '@solana/web3.js'
 import { useConnection } from '@solana/wallet-adapter-react'
 import { useState } from 'react'
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
@@ -92,23 +92,6 @@ export function useClaimPrize() {
           triggererTokenAccount: triggererTokenAccount,
           tokenProgram: TOKEN_PROGRAM_ID,
         })
-
-      // 先做一次模拟，避免明显失败导致钱包报警
-      const instruction = await claimBuilder.instruction()
-      const latest = await connection.getLatestBlockhash('confirmed')
-      const simulationTx = new Transaction({
-        feePayer: publicKey,
-        recentBlockhash: latest.blockhash,
-      }).add(instruction)
-
-      const simulation = await connection.simulateTransaction(simulationTx, {
-        sigVerify: false,
-        commitment: 'confirmed',
-      })
-
-      if (simulation.value.err) {
-        throw new Error('Simulation failed. Please try again later.')
-      }
 
       // 使用 Anchor 调用 claim_prize 指令
       const signature = await claimBuilder.rpc()
