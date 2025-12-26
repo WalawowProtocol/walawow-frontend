@@ -73,7 +73,10 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
       const amount = BigInt(raw)
       if (amount === BigInt(0)) return '0'
 
-      const base = BigInt(10) ** BigInt(decimals)
+      let base = BigInt(1)
+      for (let i = 0; i < decimals; i += 1) {
+        base *= BigInt(10)
+      }
       const whole = amount / base
       const fraction = amount % base
       const wholeText = whole.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
