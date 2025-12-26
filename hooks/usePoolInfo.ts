@@ -13,7 +13,7 @@ export interface PoolInfo {
   lastPrizeAmount: number
   lastPaidAmount: number
   poolState: string
-  totalWeight: number
+  totalWeight: string
   canTrigger: boolean
   paused: boolean
   drawPeriod: number
@@ -38,7 +38,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
     lastPrizeAmount: 0,
     lastPaidAmount: 0,
     poolState: 'unknown',
-    totalWeight: 0,
+    totalWeight: '0',
     canTrigger: false,
     paused: false,
     drawPeriod: 0,
@@ -88,7 +88,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             lastPrizeAmount: poolAccount.lastPrizeAmount ? poolAccount.lastPrizeAmount.toNumber() : 0,
             lastPaidAmount: poolAccount.lastPaidAmount ? poolAccount.lastPaidAmount.toNumber() : 0,
             poolState,
-            totalWeight: poolAccount.totalWeight ? Number(poolAccount.totalWeight.toString()) : 0,
+            totalWeight: poolAccount.totalWeight ? poolAccount.totalWeight.toString() : '0',
             canTrigger: poolAccount.state === POOL_STATE.SnapshotLocked && !poolAccount.paused,
             paused: poolAccount.paused,
             drawPeriod: poolAccount.drawPeriod ? poolAccount.drawPeriod.toNumber() : 0,
@@ -109,7 +109,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             lastPrizeAmount: 0,
             lastPaidAmount: 0,
             poolState: 'Open',
-            totalWeight: 0,
+            totalWeight: '0',
             canTrigger: false,
             paused: false,
             drawPeriod: 0,
