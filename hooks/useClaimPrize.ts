@@ -125,7 +125,7 @@ export function useClaimPrize() {
               errorMessage = 'Vault is empty. No prize available.'
               break
             case 6012:
-              errorMessage = 'You are not the winner of this draw.'
+              errorMessage = 'Sorry, you are not the winner for this round.'
               break
             case 6010:
               errorMessage = 'Unauthorized to claim this prize.'
@@ -142,7 +142,7 @@ export function useClaimPrize() {
       } else if (err.message?.includes('EmptyVault')) {
         errorMessage = 'Vault is empty. No prize available.'
       } else if (err.message?.includes('NotWinner')) {
-        errorMessage = 'You are not the winner of this draw.'
+        errorMessage = 'Sorry, you are not the winner for this round.'
       } else if (err.message?.includes('Unauthorized')) {
         errorMessage = 'Unauthorized to claim this prize.'
       }
