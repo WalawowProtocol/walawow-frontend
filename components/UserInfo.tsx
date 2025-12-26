@@ -4,6 +4,7 @@ import { PublicKey } from '@solana/web3.js'
 import { useEffect, useState } from 'react'
 import { useUserBalance } from '../hooks/useUserBalance'
 import { User, Coins, Scale, Target, AlertCircle } from 'lucide-react'
+import { WALAWOW_API } from '../config/api'
 
 interface UserInfoProps {
   publicKey: PublicKey
@@ -11,7 +12,7 @@ interface UserInfoProps {
 
 export default function UserInfo({ publicKey }: UserInfoProps) {
   const { userBalance, loading: balanceLoading, error: balanceError } = useUserBalance()
-  const [totalSupply, setTotalSupply] = useState(1000000000) // 默认总供应量
+  const [totalSupply, setTotalSupply] = useState(0)
   const [loadingSupply, setLoadingSupply] = useState(true)
 
   // 计算权重和概率
@@ -24,10 +25,18 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
   useEffect(() => {
     const fetchTotalSupply = async () => {
       try {
-        // 这里可以添加获取真实总供应量的逻辑
-        setTotalSupply(1000000000) // 10亿
+        const response = await fetch(`${WALAWOW_API.BASE_URL}${WALAWOW_API.ENDPOINTS.LATEST_SNAPSHOT}`)
+        if (!response.ok) throw new Error('Failed to fetch snapshot')
+        const payload = await response.json()
+        const totalWeightRaw = payload?.data?.total_weight
+        if (totalWeightRaw == null) throw new Error('Snapshot total weight missing')
+
+        const totalWeight = Number(totalWeightRaw)
+        const totalWeightUi = Number.isFinite(totalWeight) ? totalWeight / 1e9 : 0
+        setTotalSupply(totalWeightUi)
       } catch (err) {
         console.error('Error fetching total supply:', err)
+        setTotalSupply(0)
       } finally {
         setLoadingSupply(false)
       }
@@ -160,7 +169,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
         <div className="flex justify-between items-center mb-2">
           <span className="data-label">Your Surprise Potential</span>
           <span className="text-walawow-purple-light text-sm font-medium">
-            Top {((userWeight / totalSupply) * 100).toFixed(2)}% holder
+            Top {totalSupply > 0 ? ((userWeight / totalSupply) * 100).toFixed(2) : '0.00'}% holder
           </span>
         </div>
         <div className="h-3 bg-walawow-neutral-card rounded-full overflow-hidden">
@@ -217,7 +226,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
       {/* 统计小字 */}
       <div className="text-center mt-6 pt-4 border-t border-walawow-neutral-border/50">
         <p className="text-xs text-walawow-neutral-text-secondary">
-          Data updates in real-time • Based on {totalSupply.toLocaleString()} total supply
+          Data updates in real-time • Based on snapshot total {totalSupply.toLocaleString()}
         </p>
       </div>
     </div>
