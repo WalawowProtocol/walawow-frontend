@@ -185,6 +185,9 @@ export function useClaimPrize() {
             case 6010:
               errorMessage = 'Unauthorized to claim this prize.'
               break
+            case 6023:
+              errorMessage = 'Prize already claimed — the claim window is now closed.'
+              break
             default:
               errorMessage = err.error.errorMessage || errorMessage
           }
@@ -198,6 +201,8 @@ export function useClaimPrize() {
         errorMessage = 'Vault is empty. No prize available.'
       } else if (err.message?.includes('NotWinner')) {
         errorMessage = 'Sorry, you are not the winner for this round.'
+      } else if (err.message?.includes('ClaimWindowClosed')) {
+        errorMessage = 'Prize already claimed — the claim window is now closed.'
       } else if (err.message?.includes('Unauthorized')) {
         errorMessage = 'Unauthorized to claim this prize.'
       }
