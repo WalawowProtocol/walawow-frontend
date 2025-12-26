@@ -68,6 +68,30 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
     return `${label} UTC`
   }
 
+  const formatTokenAmount = (raw: string, decimals = 9) => {
+    try {
+      const amount = BigInt(raw)
+      if (amount === 0n) return '0'
+
+      const base = 10n ** BigInt(decimals)
+      const whole = amount / base
+      const fraction = amount % base
+      const wholeText = whole.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+      if (fraction === 0n) return wholeText
+
+      const fractionText = fraction
+        .toString()
+        .padStart(decimals, '0')
+        .slice(0, 2)
+        .replace(/0+$/, '')
+
+      return fractionText ? `${wholeText}.${fractionText}` : wholeText
+    } catch {
+      return '--'
+    }
+  }
+
   const getTriggerButtonText = () => {
     if (!publicKey) return 'Connect Wallet to Trigger'
     if (triggering) return 'Triggering Draw...'
@@ -262,7 +286,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
         <div className="grid grid-cols-2 gap-4">
           <div className="glass-card p-4 text-center border border-walawow-neutral-border/50">
             <div className="data-value text-lg">
-              {poolInfo.totalWeight > 0 ? (poolInfo.totalWeight / 1000).toLocaleString() + 'K' : '--'}
+              {poolInfo.totalWeight !== '0' ? formatTokenAmount(poolInfo.totalWeight) : '--'}
             </div>
             <div className="data-label mt-1">Total Weight</div>
           </div>
