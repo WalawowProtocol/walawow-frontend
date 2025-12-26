@@ -6,6 +6,7 @@ import { useConnection } from '@solana/wallet-adapter-react'
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 import { getPoolPDA, getPoolProgram, getProvider } from '../utils/programs'
 import { AnchorProvider } from '@coral-xyz/anchor'
+import { WALAWOW_API } from '../config/api'
 
 export interface PoolInfo {
   nextDrawTime: Date | null
@@ -100,6 +101,23 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
           }
 
           setPoolInfo(info)
+
+          if (!info.lastWinner) {
+            try {
+              const response = await fetch(
+                `${WALAWOW_API.BASE_URL}${WALAWOW_API.ENDPOINTS.LATEST_WINNER}?pool=${poolType}`
+              )
+              if (response.ok) {
+                const payload = await response.json()
+                const winner = payload?.data?.winner
+                if (winner) {
+                  setPoolInfo((prev) => ({ ...prev, lastWinner: winner }))
+                }
+              }
+            } catch (winnerError) {
+              console.warn('⚠️ Could not fetch latest winner:', winnerError)
+            }
+          }
         } catch (fetchError: any) {
           // 如果账户不存在或读取失败，使用模拟数据作为降级
           console.warn(`⚠️ Could not fetch pool info from chain, using fallback:`, fetchError.message)
