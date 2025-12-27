@@ -347,17 +347,17 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
 
           {(poolInfo.lastWinner || poolInfo.lastTriggerer) && (
             <div className="text-xs text-center mt-3 pt-3 border-t border-walawow-neutral-border/50 space-y-1">
+              {poolInfo.lastWinner && (
+                <p className="text-walawow-neutral-text-secondary">
+                  Winner: <span className="text-walawow-gold-light font-mono font-semibold">
+                    {poolInfo.lastWinner.slice(0, 4)}...{poolInfo.lastWinner.slice(-4)}
+                  </span>
+                </p>
+              )}
               {poolInfo.lastTriggerer && (
                 <p className="text-walawow-neutral-text-secondary">
                   Triggerer: <span className="text-walawow-gold-light font-mono">
                     {poolInfo.lastTriggerer.slice(0, 4)}...{poolInfo.lastTriggerer.slice(-4)}
-                  </span>
-                </p>
-              )}
-              {poolInfo.lastWinner && (
-                <p className="text-walawow-neutral-text-secondary">
-                  Winner: <span className="text-walawow-gold-light font-mono">
-                    {poolInfo.lastWinner.slice(0, 4)}...{poolInfo.lastWinner.slice(-4)}
                   </span>
                 </p>
               )}
