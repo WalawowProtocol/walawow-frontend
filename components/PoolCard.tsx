@@ -380,6 +380,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
           </button>
           <p className="text-xs text-walawow-neutral-text-secondary text-center mt-2">
             Claim data is fetched automatically for the connected wallet.
+            Triggerer rewards are paid together when the winner claims.
           </p>
 
           {(claimFormError || claimError) && (
