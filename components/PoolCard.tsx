@@ -95,6 +95,17 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
     }
   }
 
+  const formatUsdcAmount = (raw: number) => {
+    if (!raw) return '--'
+    const amount = raw / 1_000_000
+    return amount.toLocaleString(undefined, { maximumFractionDigits: 2 })
+  }
+
+  const formatAddress = (value: string | null) => {
+    if (!value) return '--'
+    return `${value.slice(0, 4)}...${value.slice(-4)}`
+  }
+
   const getTriggerButtonText = () => {
     if (!publicKey) return 'Connect Wallet to Trigger'
     if (triggering) return 'Triggering Draw...'
@@ -329,22 +340,41 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
             </p>
           </div>
 
-          {(poolInfo.lastWinner || poolInfo.lastTriggerer) && (
+          {(poolInfo.lastWinner || poolInfo.lastTriggerer || poolInfo.lastPrizeAmount > 0) && (
             <div className="text-xs text-center mt-3 pt-3 border-t border-walawow-neutral-border/50 space-y-1">
-              {poolInfo.lastWinner && (
-                <p className="text-walawow-neutral-text-secondary">
-                  Winner: <span className="text-walawow-gold-light font-mono font-semibold">
-                    {poolInfo.lastWinner.slice(0, 4)}...{poolInfo.lastWinner.slice(-4)}
-                  </span>
-                </p>
-              )}
-              {poolInfo.lastTriggerer && (
-                <p className="text-walawow-neutral-text-secondary">
-                  Triggerer: <span className="text-walawow-gold-light font-mono">
-                    {poolInfo.lastTriggerer.slice(0, 4)}...{poolInfo.lastTriggerer.slice(-4)}
-                  </span>
-                </p>
-              )}
+              <p className="text-walawow-neutral-text-secondary">
+                Current Winner:{' '}
+                <span className="text-walawow-gold-light font-mono font-semibold">
+                  {poolInfo.poolState === 'ReadyToClaim' ? formatAddress(poolInfo.lastWinner) : 'Pending'}
+                </span>
+              </p>
+              <p className="text-walawow-neutral-text-secondary">
+                Last Round Winner:{' '}
+                <span className="text-walawow-gold-light font-mono">
+                  {formatAddress(poolInfo.lastWinner)}
+                </span>
+              </p>
+              <p className="text-walawow-neutral-text-secondary">
+                Last Round Prize:{' '}
+                <span className="text-walawow-gold-light font-semibold">
+                  ${formatUsdcAmount(poolInfo.lastPrizeAmount)}
+                </span>
+              </p>
+              <p className="text-walawow-neutral-text-secondary">
+                Last Round Triggerer:{' '}
+                <span className="text-walawow-gold-light font-mono">
+                  {formatAddress(poolInfo.lastTriggerer)}
+                </span>
+              </p>
+              <p className="text-walawow-neutral-text-secondary">
+                Last Round Trigger Reward:{' '}
+                <span className="text-walawow-gold-light font-semibold">
+                  $
+                  {formatUsdcAmount(
+                    Math.floor((poolInfo.lastPrizeAmount * poolInfo.feeBpsTriggerer) / 10000)
+                  )}
+                </span>
+              </p>
             </div>
           )}
         </div>
