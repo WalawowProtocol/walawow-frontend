@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 import { usePoolProgram } from '../utils/programs'
 
-export function useDrawTrigger() {
+export function useDrawTrigger(poolType?: 'weekly' | 'monthly') {
   const { connection } = useConnection()
   const { publicKey, wallet } = useWallet()
   const program = usePoolProgram()
@@ -15,9 +15,14 @@ export function useDrawTrigger() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  const triggerDraw = async (poolType: 'weekly' | 'monthly') => {
+  const triggerDraw = async (overridePoolType?: 'weekly' | 'monthly') => {
+    const targetPool = overridePoolType ?? poolType
     if (!publicKey || !wallet || !program) {
       setError('Wallet not connected or program not initialized')
+      return
+    }
+    if (!targetPool) {
+      setError('Pool type is required to trigger draw')
       return
     }
 
@@ -26,11 +31,11 @@ export function useDrawTrigger() {
     setSuccess(false)
 
     try {
-      console.log(`🎯 Triggering ${poolType} draw...`)
+      console.log(`🎯 Triggering ${targetPool} draw...`)
 
       // 获取奖池地址
       const poolAddress = new PublicKey(
-        poolType === 'weekly' 
+        targetPool === 'weekly' 
           ? WALAWOW_PROTOCOL_ADDRESSES.POOL_WEEKLY
           : WALAWOW_PROTOCOL_ADDRESSES.POOL_MONTHLY
       )
@@ -53,14 +58,14 @@ export function useDrawTrigger() {
       // 等待确认
       await connection.confirmTransaction(signature, 'confirmed')
 
-      console.log(`✅ ${poolType} draw triggered successfully!`, signature)
+      console.log(`✅ ${targetPool} draw triggered successfully!`, signature)
       setSuccess(true)
 
       // 5秒后重置成功状态
       setTimeout(() => setSuccess(false), 5000)
 
     } catch (err: any) {
-      console.error(`❌ Error triggering ${poolType} draw:`, err)
+      console.error(`❌ Error triggering ${targetPool} draw:`, err)
       
       // 提供更友好的错误信息
       let errorMessage = err.message || 'Failed to trigger draw'
