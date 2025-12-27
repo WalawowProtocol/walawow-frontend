@@ -11,6 +11,7 @@ import { WALAWOW_API } from '../config/api'
 export interface PoolInfo {
   nextDrawTime: Date | null
   lastWinner: string | null
+  lastTriggerer: string | null
   lastPrizeAmount: number
   lastPaidAmount: number
   poolState: string
@@ -36,6 +37,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
   const [poolInfo, setPoolInfo] = useState<PoolInfo>({
     nextDrawTime: null,
     lastWinner: null,
+    lastTriggerer: null,
     lastPrizeAmount: 0,
     lastPaidAmount: 0,
     poolState: 'unknown',
@@ -86,6 +88,9 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
             lastWinner: poolAccount.lastWinner && !poolAccount.lastWinner.equals(PublicKey.default) 
               ? poolAccount.lastWinner.toString() 
               : null,
+            lastTriggerer: poolAccount.lastTriggerer && !poolAccount.lastTriggerer.equals(PublicKey.default)
+              ? poolAccount.lastTriggerer.toString()
+              : null,
             lastPrizeAmount: poolAccount.lastPrizeAmount ? poolAccount.lastPrizeAmount.toNumber() : 0,
             lastPaidAmount: poolAccount.lastPaidAmount ? poolAccount.lastPaidAmount.toNumber() : 0,
             poolState,
@@ -124,6 +129,7 @@ export function usePoolInfo(poolType: 'weekly' | 'monthly') {
           const mockInfo: PoolInfo = {
             nextDrawTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             lastWinner: null,
+            lastTriggerer: null,
             lastPrizeAmount: 0,
             lastPaidAmount: 0,
             poolState: 'Open',
