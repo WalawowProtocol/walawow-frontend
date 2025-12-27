@@ -1,5 +1,6 @@
 // app/trigger/page.tsx
 'use client'
+import Link from 'next/link'
 import { useTriggerEligibility } from '../../hooks/useTriggerEligibility'
 import { usePoolInfo } from '../../hooks/usePoolInfo'
 import { Zap, Trophy, Clock, Target, Sparkles, Timer, Award } from 'lucide-react'
@@ -28,250 +29,219 @@ export default function TriggerPage() {
     return formatUtcDate(end)
   }
 
-  const formatWindowStatus = (isOpen: boolean, timeUntil: string) => {
-    if (isOpen) return 'The trigger window is open. Submit your trigger now.'
-    if (timeUntil.includes('Awaiting')) return 'Awaiting the next round.'
-    return `The window opens in ${timeUntil}`
+  const getWindowStatus = (isOpen: boolean, timeUntil: string) => {
+    if (isOpen) {
+      return {
+        label: 'OPEN NOW',
+        detail: 'Triggering is live on the Dashboard.',
+        tone: 'text-walawow-gold',
+        bg: 'from-walawow-gold/20 to-walawow-gold/5',
+        border: 'border-walawow-gold/30',
+      }
+    }
+    if (timeUntil.includes('Awaiting')) {
+      return {
+        label: 'CLOSED',
+        detail: 'Awaiting the next round.',
+        tone: 'text-walawow-purple-light',
+        bg: 'from-walawow-purple/15 to-walawow-purple/5',
+        border: 'border-walawow-purple/30',
+      }
+    }
+    return {
+      label: 'OPENS SOON',
+      detail: `Opens in ${timeUntil}`,
+      tone: 'text-walawow-purple-light',
+      bg: 'from-walawow-purple/15 to-walawow-gold/10',
+      border: 'border-walawow-purple/30',
+    }
   }
 
+  const weeklyStatus = getWindowStatus(weeklyEligibility.isWithinTriggerWindow, weeklyEligibility.timeUntilTrigger)
+  const monthlyStatus = getWindowStatus(monthlyEligibility.isWithinTriggerWindow, monthlyEligibility.timeUntilTrigger)
+
   return (
-    <div className="max-w-6xl mx-auto space-y-12 px-4 py-8">
-      {/* Trigger Header */}
-      <div className="text-center relative">
-        <div className="absolute -top-10 left-1/4 h-40 w-40 bg-walawow-purple/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-10 right-1/4 h-32 w-32 bg-walawow-gold/5 rounded-full blur-3xl"></div>
-        
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Zap className="h-10 w-10 text-walawow-purple-light animate-pulse" />
-          <h1 className="title-gradient text-4xl md:text-5xl font-bold">
-            Trigger the Surprise Draw
-          </h1>
-          <Zap className="h-10 w-10 text-walawow-gold animate-pulse" />
-        </div>
-        <p className="text-xl text-walawow-neutral-text-secondary max-w-3xl mx-auto">
-          Be the first to trigger the draw and earn <span className="text-walawow-gold font-semibold">5% of the prize pool</span> as your reward!
-        </p>
-      </div>
+    <div className="max-w-6xl mx-auto space-y-12 px-4 py-10">
+      <section className="relative overflow-hidden glass-card rounded-3xl border border-walawow-neutral-border p-8 md:p-10">
+        <div className="absolute -top-8 right-16 h-40 w-40 bg-walawow-gold/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-10 left-10 h-48 w-48 bg-walawow-purple/10 rounded-full blur-3xl"></div>
 
-      {/* How Triggering Works */}
-      <div className="glass-card p-8 rounded-3xl border border-walawow-neutral-border">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-purple-dark flex items-center justify-center">
-            <Target className="h-5 w-5 text-white" />
-          </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">How Triggering Works</h2>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 text-center">
-          {[
-            {
-              icon: <Clock className="h-8 w-8" />,
-              title: "Trigger Window",
-              description: "Trigger window follows the pool schedule",
-              color: "from-walawow-purple/20 to-walawow-purple/5",
-              iconColor: "text-walawow-purple-light"
-            },
-            {
-              icon: <Trophy className="h-8 w-8" />,
-              title: "Trigger Reward",
-              description: "Configured share of the prize pool to the first triggerer",
-              color: "from-walawow-gold/20 to-walawow-gold/5",
-              iconColor: "text-walawow-gold"
-            },
-            {
-              icon: <Zap className="h-8 w-8" />,
-              title: "First Confirmation Wins",
-              description: "Fastest valid trigger wins the reward",
-              color: "from-walawow-purple/15 to-walawow-gold/10",
-              iconColor: "text-walawow-purple-light"
-            }
-          ].map((item, index) => (
-            <div key={index} className="group">
-              <div className={`w-20 h-20 ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-6 
-                group-hover:scale-110 transition-all duration-300 border ${item.iconColor.replace('text', 'border')}/30`}>
-                <div className={item.iconColor}>
-                  {item.icon}
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-3">{item.title}</h3>
-              <p className="text-walawow-neutral-text-secondary text-sm leading-relaxed">
-                {item.description}
-              </p>
+        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center">
+          <div className="space-y-5">
+            <div className="flex items-center gap-3">
+              <Zap className="h-9 w-9 text-walawow-purple-light animate-pulse" />
+              <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Trigger Overview</span>
             </div>
-          ))}
-        </div>
-      </div>
+            <h1 className="title-gradient text-4xl md:text-5xl font-bold">
+              Trigger the Surprise Draw
+            </h1>
+            <p className="text-lg text-walawow-neutral-text-secondary">
+              First confirmed trigger earns <span className="text-walawow-gold font-semibold">5% of the prize pool</span>. Triggering
+              happens on the Dashboard during the open window.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/"
+                className="btn-gold px-5 py-3 rounded-xl font-semibold inline-flex items-center gap-2"
+              >
+                <Sparkles className="h-5 w-5" />
+                Go to Dashboard
+              </Link>
+              <div className="px-4 py-3 rounded-xl border border-walawow-neutral-border text-sm text-walawow-neutral-text-secondary">
+                Status updates refresh automatically.
+              </div>
+            </div>
+          </div>
 
-      {/* Trigger Cards */}
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Weekly Pool */}
-        <div className={`glass-card p-8 rounded-3xl border ${weeklyEligibility.isWithinTriggerWindow ? 'border-walawow-gold/50 glow-gold' : 'border-walawow-neutral-border'}`}>
-          <div className="flex items-center justify-between mb-6">
+          <div className="space-y-4">
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/60">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-sm text-walawow-neutral-text-secondary">Weekly Window</div>
+                <span className={`text-xs font-semibold ${weeklyStatus.tone}`}>{weeklyStatus.label}</span>
+              </div>
+              <div className="text-white font-semibold">
+                {formatUtcDate(weeklyEligibility.nextTriggerTime)}
+              </div>
+              <div className="text-xs text-walawow-neutral-text-secondary mt-1">{weeklyStatus.detail}</div>
+            </div>
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/60">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-sm text-walawow-neutral-text-secondary">Monthly Window</div>
+                <span className={`text-xs font-semibold ${monthlyStatus.tone}`}>{monthlyStatus.label}</span>
+              </div>
+              <div className="text-white font-semibold">
+                {formatUtcDate(monthlyEligibility.nextTriggerTime)}
+              </div>
+              <div className="text-xs text-walawow-neutral-text-secondary mt-1">{monthlyStatus.detail}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid md:grid-cols-2 gap-8">
+        <div className="glass-card p-7 rounded-3xl border border-walawow-neutral-border">
+          <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="text-2xl font-bold text-white mb-1 notranslate" translate="no">Weekly Surprise</h3>
-              <p className="text-walawow-neutral-text-secondary text-sm">Trigger the weekly draw</p>
+              <p className="text-sm text-walawow-neutral-text-secondary">Weekly trigger cadence</p>
             </div>
-            <span className="bg-gradient-to-r from-walawow-purple to-walawow-purple-dark text-white px-4 py-2 rounded-full text-sm font-bold">
+            <span className="bg-gradient-to-r from-walawow-purple to-walawow-purple-dark text-white px-3 py-1.5 rounded-full text-xs font-bold">
               Weekly Draw
             </span>
           </div>
-          
-          <div className="space-y-6">
-            {/* Status Display */}
-            <div className={`text-center p-5 rounded-2xl ${weeklyEligibility.isWithinTriggerWindow ? 'bg-walawow-gold/10 border border-walawow-gold/30' : 'bg-walawow-purple/10 border border-walawow-purple/30'}`}>
-              <div className={`text-3xl font-bold mb-2 ${weeklyEligibility.isWithinTriggerWindow ? 'text-walawow-gold animate-pulse' : 'text-walawow-purple-light'}`}>
-                {weeklyEligibility.isWithinTriggerWindow
-                  ? '⚡ TRIGGER WINDOW OPEN'
-                  : weeklyEligibility.timeUntilTrigger.includes('Awaiting')
-                  ? '🌀 WINDOW CLOSED'
-                  : '🕒 WINDOW OPENS SOON'}
-              </div>
-              <div className="text-walawow-neutral-text-secondary">
-                {weeklyEligibility.isWithinTriggerWindow 
-                  ? 'The trigger window is open. Submit your trigger now.' 
-                  : formatWindowStatus(false, weeklyEligibility.timeUntilTrigger)
-                }
-              </div>
+          <div className={`p-4 rounded-2xl border bg-gradient-to-r ${weeklyStatus.bg} ${weeklyStatus.border}`}>
+            <div className={`text-2xl font-bold ${weeklyStatus.tone}`}>{weeklyStatus.label}</div>
+            <div className="text-sm text-walawow-neutral-text-secondary mt-1">{weeklyStatus.detail}</div>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50">
+              <div className="text-walawow-neutral-text-secondary">Next Trigger Window</div>
+              <div className="text-white font-medium mt-1">{formatUtcDate(weeklyEligibility.nextTriggerTime)}</div>
             </div>
-
-            {/* Timing Info */}
-            <div className="glass-card p-5 rounded-2xl border border-walawow-neutral-border/50">
-              <div className="flex items-center gap-3 mb-4">
-                <Timer className="h-5 w-5 text-walawow-neutral-text-secondary" />
-                <h4 className="font-semibold text-white">Draw Schedule</h4>
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50">
+              <div className="text-walawow-neutral-text-secondary">Window Closes</div>
+              <div className="text-white font-medium mt-1">
+                {formatWindowEnd(weeklyEligibility.nextTriggerTime, weeklyPoolInfo.drawWindow)}
               </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-walawow-neutral-text-secondary">Next Trigger Window:</span>
-                  <span className="text-white font-medium">{formatUtcDate(weeklyEligibility.nextTriggerTime)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-walawow-neutral-text-secondary">Window Closes:</span>
-                  <span className="text-white font-medium">{formatWindowEnd(weeklyEligibility.nextTriggerTime, weeklyPoolInfo.drawWindow)}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50 text-center">
-              <p className="text-sm text-walawow-neutral-text-secondary">
-                Triggering is available on the Dashboard during the open window.
-              </p>
             </div>
           </div>
         </div>
 
-        {/* Monthly Pool */}
-        <div className={`glass-card p-8 rounded-3xl border ${monthlyEligibility.isWithinTriggerWindow ? 'border-walawow-gold/50 glow-gold' : 'border-walawow-neutral-border'} hover:glow-gold`}>
-          <div className="flex items-center justify-between mb-6">
+        <div className="glass-card p-7 rounded-3xl border border-walawow-neutral-border hover:glow-gold">
+          <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="text-2xl font-bold text-white mb-1 notranslate" translate="no">Monthly Spectacular</h3>
-              <p className="text-walawow-neutral-text-secondary text-sm">Trigger the monthly draw</p>
+              <p className="text-sm text-walawow-neutral-text-secondary">Monthly trigger cadence</p>
             </div>
-            <span className="bg-gradient-to-r from-walawow-gold to-walawow-gold-dark text-walawow-neutral-bg px-4 py-2 rounded-full text-sm font-bold">
+            <span className="bg-gradient-to-r from-walawow-gold to-walawow-gold-dark text-walawow-neutral-bg px-3 py-1.5 rounded-full text-xs font-bold">
               Monthly Draw
             </span>
           </div>
-          
-          <div className="space-y-6">
-            {/* Status Display */}
-            <div className={`text-center p-5 rounded-2xl ${monthlyEligibility.isWithinTriggerWindow ? 'bg-walawow-gold/10 border border-walawow-gold/30' : 'bg-walawow-purple/10 border border-walawow-purple/30'}`}>
-              <div className={`text-3xl font-bold mb-2 ${monthlyEligibility.isWithinTriggerWindow ? 'text-walawow-gold animate-pulse' : 'text-walawow-purple-light'}`}>
-                {monthlyEligibility.isWithinTriggerWindow
-                  ? '⚡ TRIGGER WINDOW OPEN'
-                  : monthlyEligibility.timeUntilTrigger.includes('Awaiting')
-                  ? '🌀 WINDOW CLOSED'
-                  : '🕒 WINDOW OPENS SOON'}
-              </div>
-              <div className="text-walawow-neutral-text-secondary">
-                {monthlyEligibility.isWithinTriggerWindow 
-                  ? 'The monthly trigger window is open. Submit your trigger now.' 
-                  : formatWindowStatus(false, monthlyEligibility.timeUntilTrigger)
-                }
-              </div>
+          <div className={`p-4 rounded-2xl border bg-gradient-to-r ${monthlyStatus.bg} ${monthlyStatus.border}`}>
+            <div className={`text-2xl font-bold ${monthlyStatus.tone}`}>{monthlyStatus.label}</div>
+            <div className="text-sm text-walawow-neutral-text-secondary mt-1">{monthlyStatus.detail}</div>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50">
+              <div className="text-walawow-neutral-text-secondary">Next Trigger Window</div>
+              <div className="text-white font-medium mt-1">{formatUtcDate(monthlyEligibility.nextTriggerTime)}</div>
             </div>
-
-            {/* Timing Info */}
-            <div className="glass-card p-5 rounded-2xl border border-walawow-neutral-border/50">
-              <div className="flex items-center gap-3 mb-4">
-                <Timer className="h-5 w-5 text-walawow-neutral-text-secondary" />
-                <h4 className="font-semibold text-white">Grand Schedule</h4>
+            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50">
+              <div className="text-walawow-neutral-text-secondary">Window Closes</div>
+              <div className="text-white font-medium mt-1">
+                {formatWindowEnd(monthlyEligibility.nextTriggerTime, monthlyPoolInfo.drawWindow)}
               </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-walawow-neutral-text-secondary">Next Trigger Window:</span>
-                  <span className="text-white font-medium">{formatUtcDate(monthlyEligibility.nextTriggerTime)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-walawow-neutral-text-secondary">Window Closes:</span>
-                  <span className="text-white font-medium">{formatWindowEnd(monthlyEligibility.nextTriggerTime, monthlyPoolInfo.drawWindow)}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/50 text-center">
-              <p className="text-sm text-walawow-neutral-text-secondary">
-                Triggering is available on the Dashboard during the open window.
-              </p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Trigger Instructions */}
-      <div className="glass-card p-8 rounded-3xl border border-walawow-gold/30 bg-gradient-to-br from-walawow-gold/5 to-walawow-gold/10">
+      <section className="glass-card p-8 rounded-3xl border border-walawow-neutral-border">
         <div className="flex items-center gap-3 mb-6">
-          <Award className="h-8 w-8 text-walawow-gold" />
-          <h3 className="text-2xl font-bold text-white">Trigger Guide</h3>
-        </div>
-        
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-lg font-semibold text-walawow-gold mb-4">Preparation Steps</h4>
-            <ul className="space-y-3">
-              {[
-                "Connect your wallet before the window opens",
-                "Be ready right when the trigger window opens",
-                "Use a wallet with a low-latency connection",
-                "Consider setting a higher priority fee for faster confirmation"
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <div className="h-2 w-2 rounded-full bg-walawow-gold mt-2 flex-shrink-0"></div>
-                  <span className="text-walawow-neutral-text-secondary">{item}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-purple-dark flex items-center justify-center">
+            <Target className="h-5 w-5 text-white" />
           </div>
-          
-          <div>
-            <h4 className="text-lg font-semibold text-walawow-purple-light mb-4">Winning Conditions</h4>
-            <ul className="space-y-3">
-              {[
-                "Only the first confirmed trigger wins the configured reward share",
-                "Multiple trigger attempts are allowed but only one can succeed",
-                "Network conditions affect confirmation speed",
-                "Monitor transaction status on the explorer"
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <div className="h-2 w-2 rounded-full bg-walawow-purple-light mt-2 flex-shrink-0"></div>
-                  <span className="text-walawow-neutral-text-secondary">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Trigger Flow</h2>
         </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: <Clock className="h-6 w-6" />,
+              title: 'Watch the Window',
+              description: 'Triggering only counts during the open window for each pool.',
+              color: 'from-walawow-purple/20 to-walawow-purple/5',
+              iconColor: 'text-walawow-purple-light',
+            },
+            {
+              icon: <Zap className="h-6 w-6" />,
+              title: 'Submit Fast',
+              description: 'The first confirmed trigger locks the reward share.',
+              color: 'from-walawow-gold/20 to-walawow-gold/5',
+              iconColor: 'text-walawow-gold',
+            },
+            {
+              icon: <Trophy className="h-6 w-6" />,
+              title: 'Reward Distribution',
+              description: 'Trigger reward is paid together when the winner claims.',
+              color: 'from-walawow-purple/15 to-walawow-gold/10',
+              iconColor: 'text-walawow-purple-light',
+            },
+          ].map((item) => (
+            <div key={item.title} className="glass-card p-5 rounded-2xl border border-walawow-neutral-border/50">
+              <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4`}>
+                <div className={item.iconColor}>{item.icon}</div>
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
+              <p className="text-sm text-walawow-neutral-text-secondary">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* Final Call to Action */}
-        <div className="mt-8 pt-6 border-t border-walawow-gold/20 text-center">
-          <p className="text-walawow-neutral-text-secondary mb-4">
-            Ready to become a top triggerer?
-          </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-walawow-purple/20 to-walawow-gold/20 border border-walawow-purple/30">
-            <Zap className="h-5 w-5 text-walawow-gold" />
-            <span className="text-white font-semibold">Join the Weekly Trigger Competition</span>
-            <Sparkles className="h-5 w-5 text-walawow-purple-light" />
+      <section className="grid md:grid-cols-2 gap-6">
+        <div className="glass-card p-6 rounded-3xl border border-walawow-gold/30 bg-gradient-to-br from-walawow-gold/5 to-walawow-gold/10">
+          <div className="flex items-center gap-3 mb-4">
+            <Award className="h-6 w-6 text-walawow-gold" />
+            <h3 className="text-xl font-bold text-white">Winning Conditions</h3>
           </div>
+          <ul className="space-y-3 text-sm text-walawow-neutral-text-secondary">
+            <li>Only the first confirmed trigger earns the reward share.</li>
+            <li>Multiple attempts are allowed but only one can succeed.</li>
+            <li>Network congestion affects confirmation speed.</li>
+          </ul>
         </div>
-      </div>
+        <div className="glass-card p-6 rounded-3xl border border-walawow-neutral-border">
+          <div className="flex items-center gap-3 mb-4">
+            <Timer className="h-6 w-6 text-walawow-purple-light" />
+            <h3 className="text-xl font-bold text-white">Preparation Tips</h3>
+          </div>
+          <ul className="space-y-3 text-sm text-walawow-neutral-text-secondary">
+            <li>Keep your wallet connected before the window opens.</li>
+            <li>Use a low-latency connection for quicker confirmation.</li>
+            <li>Monitor the Dashboard for the live trigger button.</li>
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }
