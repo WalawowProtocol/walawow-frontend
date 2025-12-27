@@ -9,7 +9,6 @@ import { useClaimPrize } from '../hooks/useClaimPrize'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { Coins, Trophy, Clock, Zap } from 'lucide-react'
 import { WALAWOW_API } from '../config/api'
-import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 
 interface PoolCardProps {
   title: string
@@ -284,20 +283,6 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
               ${poolVaultBalance.toLocaleString()}
             </div>
           </div>
-        </div>
-
-        {/* 兑换入口 */}
-        <div className="glass-card p-4 text-center border border-walawow-neutral-border/50">
-          <div className="data-value text-lg">Swap WALAWOW</div>
-          <div className="data-label mt-1">Open Jupiter to get WALAWOW</div>
-          <a
-            href={`https://jup.ag/swap/USDC-${WALAWOW_PROTOCOL_ADDRESSES.WALAWOW_MINT}`}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-outline mt-3 inline-flex px-6 py-2 text-sm"
-          >
-            Swap on Jupiter →
-          </a>
         </div>
 
         {/* 开奖信息 */}
