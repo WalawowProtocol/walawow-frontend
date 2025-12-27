@@ -125,7 +125,11 @@ export default function TriggerPage() {
             {/* Status Display */}
             <div className={`text-center p-5 rounded-2xl ${weeklyEligibility.isWithinTriggerWindow ? 'bg-walawow-gold/10 border border-walawow-gold/30' : 'bg-walawow-purple/10 border border-walawow-purple/30'}`}>
               <div className={`text-3xl font-bold mb-2 ${weeklyEligibility.isWithinTriggerWindow ? 'text-walawow-gold animate-pulse' : 'text-walawow-purple-light'}`}>
-                {weeklyEligibility.isWithinTriggerWindow ? '⚡ TRIGGER WINDOW OPEN' : '🌀 WINDOW CLOSED'}
+                {weeklyEligibility.isWithinTriggerWindow
+                  ? '⚡ TRIGGER WINDOW OPEN'
+                  : weeklyEligibility.timeUntilTrigger.includes('Awaiting')
+                  ? '🌀 WINDOW CLOSED'
+                  : '🕒 WINDOW OPENS SOON'}
               </div>
               <div className="text-walawow-neutral-text-secondary">
                 {weeklyEligibility.isWithinTriggerWindow 
@@ -206,7 +210,11 @@ export default function TriggerPage() {
             {/* Status Display */}
             <div className={`text-center p-5 rounded-2xl ${monthlyEligibility.isWithinTriggerWindow ? 'bg-walawow-gold/10 border border-walawow-gold/30' : 'bg-walawow-purple/10 border border-walawow-purple/30'}`}>
               <div className={`text-3xl font-bold mb-2 ${monthlyEligibility.isWithinTriggerWindow ? 'text-walawow-gold animate-pulse' : 'text-walawow-purple-light'}`}>
-                {monthlyEligibility.isWithinTriggerWindow ? '⚡ TRIGGER WINDOW OPEN' : '🌀 WINDOW CLOSED'}
+                {monthlyEligibility.isWithinTriggerWindow
+                  ? '⚡ TRIGGER WINDOW OPEN'
+                  : monthlyEligibility.timeUntilTrigger.includes('Awaiting')
+                  ? '🌀 WINDOW CLOSED'
+                  : '🕒 WINDOW OPENS SOON'}
               </div>
               <div className="text-walawow-neutral-text-secondary">
                 {monthlyEligibility.isWithinTriggerWindow 
