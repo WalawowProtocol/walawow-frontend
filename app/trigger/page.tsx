@@ -144,11 +144,11 @@ export default function TriggerPage() {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-walawow-neutral-text-secondary">Next Trigger Window:</span>
-                  <span className="text-white font-medium">{formatUtcDate(weeklyPoolInfo.nextDrawTime)}</span>
+                  <span className="text-white font-medium">{formatUtcDate(weeklyEligibility.nextTriggerTime)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-walawow-neutral-text-secondary">Window Closes:</span>
-                  <span className="text-white font-medium">{formatWindowEnd(weeklyPoolInfo.nextDrawTime, weeklyPoolInfo.drawWindow)}</span>
+                  <span className="text-white font-medium">{formatWindowEnd(weeklyEligibility.nextTriggerTime, weeklyPoolInfo.drawWindow)}</span>
                 </div>
               </div>
             </div>
@@ -225,11 +225,11 @@ export default function TriggerPage() {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-walawow-neutral-text-secondary">Next Trigger Window:</span>
-                  <span className="text-white font-medium">{formatUtcDate(monthlyPoolInfo.nextDrawTime)}</span>
+                  <span className="text-white font-medium">{formatUtcDate(monthlyEligibility.nextTriggerTime)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-walawow-neutral-text-secondary">Window Closes:</span>
-                  <span className="text-white font-medium">{formatWindowEnd(monthlyPoolInfo.nextDrawTime, monthlyPoolInfo.drawWindow)}</span>
+                  <span className="text-white font-medium">{formatWindowEnd(monthlyEligibility.nextTriggerTime, monthlyPoolInfo.drawWindow)}</span>
                 </div>
               </div>
             </div>
