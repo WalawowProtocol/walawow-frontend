@@ -27,7 +27,13 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
     const fetchTotalSupply = async () => {
       try {
         const response = await fetch(`${WALAWOW_API.BASE_URL}${WALAWOW_API.ENDPOINTS.LATEST_SNAPSHOT}`)
-        if (!response.ok) throw new Error('Failed to fetch snapshot')
+        if (!response.ok) {
+          if (response.status === 404) {
+            setTotalSupply(0)
+            return
+          }
+          throw new Error('Failed to fetch snapshot')
+        }
         const payload = await response.json()
         const totalWeightRaw = payload?.data?.total_weight
         if (totalWeightRaw == null) throw new Error('Snapshot total weight missing')
@@ -53,7 +59,13 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
         const response = await fetch(
           `${WALAWOW_API.BASE_URL}${WALAWOW_API.ENDPOINTS.SNAPSHOT_HOLDER}?owner=${publicKey.toBase58()}`
         )
-        if (!response.ok) throw new Error('Failed to fetch holder snapshot weight')
+        if (!response.ok) {
+          if (response.status === 404) {
+            setSnapshotWeight(0)
+            return
+          }
+          throw new Error('Failed to fetch holder snapshot weight')
+        }
         const payload = await response.json()
         const weightRaw = payload?.data?.weight ?? '0'
         const weight = Number(weightRaw)
