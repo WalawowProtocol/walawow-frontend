@@ -22,26 +22,23 @@ export function useProtocolStats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // 从API获取真实数据
-        const snapshotData = await fetchWalawowAPI(WALAWOW_API.ENDPOINTS.LATEST_SNAPSHOT)
-        
+        const statsData = await fetchWalawowAPI(WALAWOW_API.ENDPOINTS.STATS)
+
         const realStats: ProtocolStats = {
-          totalDistributed: 1250000, // 暂时保持模拟
-          totalWinners: 15, // 暂时保持模拟
-          activeHolders: snapshotData.data?.total_holders || 0, // 真实数据
-          transactionTax: 10
+          totalDistributed: Number(statsData.data?.total_distributed || 0),
+          totalWinners: Number(statsData.data?.total_winners || 0),
+          activeHolders: Number(statsData.data?.active_holders || 0),
+          transactionTax: Number(statsData.data?.transaction_tax || 10)
         }
         setStats(realStats)
       } catch (err) {
         console.error('Error fetching protocol stats:', err)
-        // API失败时用模拟数据
-        const mockStats: ProtocolStats = {
-          totalDistributed: 1250000,
-          totalWinners: 15,
-          activeHolders: 2840,
+        setStats({
+          totalDistributed: 0,
+          totalWinners: 0,
+          activeHolders: 0,
           transactionTax: 10
-        }
-        setStats(mockStats)
+        })
       } finally {
         setLoading(false)
       }
