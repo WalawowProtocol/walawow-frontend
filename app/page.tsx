@@ -2,10 +2,12 @@
 import { useWallet } from '@solana/wallet-adapter-react'
 import ReliableWalletConnect from '../components/ReliableWalletConnect'
 import Dashboard from '../components/Dashboard'
+import { useProtocolStats } from '../hooks/useProtocolStats'
 import { Sparkles } from 'lucide-react' // 可选：安装 lucide-react 获得更多图标
 
 export default function Home() {
   const { connected } = useWallet()
+  const { stats, loading: statsLoading } = useProtocolStats()
 
   return (
     <main className="min-h-screen">
@@ -51,17 +53,19 @@ export default function Home() {
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">+5.2% today</div>
             </div>
             <div className="glass-card p-6 text-center hover:glow-purple transition-all duration-300">
-              <div className="data-label">Surprises Distributed</div>
-              <div className="data-value text-walawow-purple-light">42,069</div>
-              <div className="text-xs text-walawow-neutral-text-secondary mt-2">Lifetime WOWs</div>
+              <div className="data-label">WALAWOW Winners (Completed Rounds)</div>
+              <div className="data-value text-walawow-purple-light">
+                {statsLoading ? '...' : stats.totalWinners.toLocaleString()}
+              </div>
+              <div className="text-xs text-walawow-neutral-text-secondary mt-2">Latest on-chain totals</div>
             </div>
             <div className="glass-card p-6 text-center hover:glow-purple transition-all duration-300">
-              <div className="data-label">Biggest WOW</div>
+              <div className="data-label">Latest Rewards Paid</div>
               <div className="data-value flex items-center justify-center gap-2">
                 <span className="text-walawow-gold">$</span>
-                250,000
+                {statsLoading ? '...' : (stats.totalDistributed / 1000000).toFixed(2)}M
               </div>
-              <div className="text-xs text-walawow-neutral-text-secondary mt-2">Last week</div>
+              <div className="text-xs text-walawow-neutral-text-secondary mt-2">Latest round (weekly + monthly)</div>
             </div>
           </div>
         </div>
