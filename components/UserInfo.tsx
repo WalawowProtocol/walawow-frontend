@@ -157,7 +157,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
             </span>
           </div>
           <div className="data-value mb-1">{winProbability.toFixed(6)}%</div>
-          <div className="data-label">WOW Probability</div>
+          <div className="data-label">WALAWOW Probability</div>
           <div className="text-xs text-walawow-neutral-text-secondary mt-2">
             Chance per draw cycle
           </div>
