@@ -82,19 +82,19 @@ export default function Home() {
               <div className="glass-card p-8 md:p-12 rounded-3xl mb-10 border-2 border-dashed border-walawow-purple/30 hover:border-walawow-gold/50 transition-all duration-500">
                 <div className="text-8xl mb-6 animate-float">🎁</div>
                 <h2 className="section-title text-3xl md:text-4xl !border-0 !pl-0 mb-4">
-                  Your <span className="text-walawow-gold">WOW Moment</span> Awaits
+                  Your <span className="text-walawow-gold">WALAWOW Moment</span> Awaits
                 </h2>
                 <p className="text-lg text-walawow-neutral-text-secondary mb-10 max-w-md mx-auto">
-                  Connect your wallet to unlock access. Discover surprises, participate in draws, 
-                  and experience transparent on-chain rewards.
+                  Connect your wallet to unlock access. Join the draw cycles, track results,
+                  and claim transparent on-chain rewards.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <div className="transform transition-all hover:scale-110 active:scale-95">
                     <ReliableWalletConnect />
                   </div>
-                  <button className="btn-outline px-8 py-3 text-base">
+                  <a href="/how-it-works" className="btn-outline px-8 py-3 text-base">
                     Learn How It Works →
-                  </button>
+                  </a>
                 </div>
               </div>
 
