@@ -54,7 +54,7 @@ export default function TriggerPage() {
           <Zap className="h-10 w-10 text-walawow-gold animate-pulse" />
         </div>
         <p className="text-xl text-walawow-neutral-text-secondary max-w-3xl mx-auto">
-          Be the first to trigger the draw and earn <span className="text-walawow-gold font-semibold">the configured share of the prize pool</span> as your reward!
+          Be the first to trigger the draw and earn <span className="text-walawow-gold font-semibold">5% of the prize pool</span> as your reward!
         </p>
       </div>
 
