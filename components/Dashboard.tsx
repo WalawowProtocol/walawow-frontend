@@ -5,13 +5,31 @@ import PoolCard from './PoolCard'
 import UserInfo from './UserInfo'
 import { useProtocolStats } from '../hooks/useProtocolStats'
 import { Trophy, Users, Coins, Percent } from 'lucide-react' // 引入图标
+import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 
 export default function Dashboard() {
   const { publicKey } = useWallet()
   const { stats, loading: statsLoading } = useProtocolStats()
+  const swapUrl = `https://jup.ag/swap/USDC-${WALAWOW_PROTOCOL_ADDRESSES.WALAWOW_MINT}`
 
   return (
     <div className="space-y-8">
+      {/* 兑换入口 */}
+      <div className="glass-card p-6 text-center hover:glow-purple transition-all duration-300">
+        <div className="data-value text-2xl mb-2">Swap WALAWOW</div>
+        <div className="text-sm text-walawow-neutral-text-secondary">
+          Open Jupiter to swap USDC → WALAWOW
+        </div>
+        <a
+          href={swapUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-outline mt-4 inline-flex px-8 py-3"
+        >
+          Swap on Jupiter →
+        </a>
+      </div>
+
       {/* 资金池信息 - 添加了标题和描述 */}
       <div>
         <h2 className="notranslate section-title text-3xl mb-2">Surprise Pools</h2>
@@ -32,6 +50,22 @@ export default function Dashboard() {
             accent="gold" // 可以传递给PoolCard自定义样式
           />
         </div>
+      </div>
+
+      {/* 兑换入口 */}
+      <div className="glass-card p-6 text-center hover:glow-purple transition-all duration-300">
+        <div className="data-value text-2xl mb-2">Swap WALAWOW</div>
+        <div className="text-sm text-walawow-neutral-text-secondary">
+          Open Jupiter to swap USDC → WALAWOW
+        </div>
+        <a
+          href={swapUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-outline mt-4 inline-flex px-8 py-3"
+        >
+          Swap on Jupiter →
+        </a>
       </div>
 
       {/* 用户信息 */}
