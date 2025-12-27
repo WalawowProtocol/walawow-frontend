@@ -68,7 +68,7 @@ export default function Dashboard() {
             <div className="data-value mb-1">
               {statsLoading ? '...' : `$${(stats.totalDistributed / 1000000).toFixed(1)}M`}
             </div>
-            <div className="data-label">Total Rewards Distributed</div>
+            <div className="data-label">Total Rewards Paid (Last Round Only)</div>
           </div>
 
           {/* 获胜者数量 */}
@@ -84,7 +84,7 @@ export default function Dashboard() {
             <div className="data-value mb-1">
               {statsLoading ? '...' : stats.totalWinners.toLocaleString()}
             </div>
-            <div className="data-label">WOW Winners</div>
+            <div className="data-label">WALAWOW Winners (Completed Rounds)</div>
           </div>
 
           {/* 活跃持有者 */}
