@@ -1,5 +1,5 @@
 {
-  "address": "Dr4qqXPEsbGt5TTuTbBcFSeqCUEAGv6ZNbZdwLTX8yTe",
+  "address": "HSZfznuyUAZYXdNxmhsZRmT4xwpuUpkJq9XwdNkQJR3e",
   "metadata": {
     "name": "walawow_distributor",
     "version": "0.1.0",
@@ -12,7 +12,7 @@
       "docs": [
         "分配 USDC（核心逻辑）",
         "- weekly/monthly 先进入 staging（不直接进入 pool）",
-        "- staging 必须为空（防止跨轮累积）"
+        "- staging 允许累积（用于“下一轮预告金额”）；跨轮隔离由 release_staging_funds 的窗口与 pool state 保证"
       ],
       "discriminator": [
         191,
@@ -102,6 +102,13 @@
           "writable": true
         },
         {
+          "name": "pool_v2_fund",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
           "name": "pool_team",
           "docs": [
             "CHECK"
@@ -149,8 +156,7 @@
           }
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": []
@@ -241,6 +247,12 @@
           ]
         },
         {
+          "name": "pool_v2_fund",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
           "name": "pool_team",
           "docs": [
             "CHECK"
@@ -297,8 +309,7 @@
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": [
@@ -319,7 +330,19 @@
           "type": "u16"
         },
         {
+          "name": "bps_v2_fund",
+          "type": "u16"
+        },
+        {
           "name": "bps_team",
+          "type": "u16"
+        },
+        {
+          "name": "liquidity_executor",
+          "type": "pubkey"
+        },
+        {
+          "name": "liquidity_reward_bps",
           "type": "u16"
         },
         {
@@ -444,8 +467,7 @@
           }
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": [
@@ -462,7 +484,7 @@
     {
       "name": "update_accounts",
       "docs": [
-        "管理员更新金库 / 各子池账户（Token-2022 only）"
+        "管理员更新金库 / 各子池账户"
       ],
       "discriminator": [
         11,
@@ -511,6 +533,12 @@
           }
         },
         {
+          "name": "usdc_mint",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
           "name": "new_distributor_vault",
           "docs": [
             "CHECK"
@@ -536,6 +564,12 @@
         },
         {
           "name": "new_pool_liquidity",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "new_pool_v2_fund",
           "docs": [
             "CHECK"
           ]
@@ -600,6 +634,69 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "update_liquidity_settings",
+      "docs": [
+        "管理员更新流动性执行参数"
+      ],
+      "discriminator": [
+        178,
+        229,
+        65,
+        255,
+        157,
+        143,
+        18,
+        197
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "liquidity_executor",
+          "type": "pubkey"
+        },
+        {
+          "name": "liquidity_reward_bps",
+          "type": "u16"
+        }
+      ]
     },
     {
       "name": "update_ratio",
@@ -671,8 +768,142 @@
           "type": "u16"
         },
         {
+          "name": "v",
+          "type": "u16"
+        },
+        {
           "name": "t",
           "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_liquidity_fund",
+      "docs": [
+        "提取流动性资金（pool_liquidity -> executor + reward）",
+        "权限：任何人可触发，但资金只能转给 config.liquidity_executor"
+      ],
+      "discriminator": [
+        228,
+        119,
+        160,
+        127,
+        72,
+        189,
+        208,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "triggerer",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "pool_liquidity",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "liquidity_destination",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "triggerer_reward_vault",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "distributor_authority",
+          "docs": [
+            "CHECK"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  105,
+                  115,
+                  116,
+                  114,
+                  105,
+                  98,
+                  117,
+                  116,
+                  111,
+                  114,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -733,6 +964,32 @@
       ]
     },
     {
+      "name": "LiquiditySettingsUpdated",
+      "discriminator": [
+        70,
+        11,
+        78,
+        49,
+        163,
+        235,
+        156,
+        126
+      ]
+    },
+    {
+      "name": "LiquidityWithdrawn",
+      "discriminator": [
+        240,
+        120,
+        73,
+        139,
+        154,
+        31,
+        218,
+        68
+      ]
+    },
+    {
       "name": "RatioUpdated",
       "discriminator": [
         166,
@@ -782,53 +1039,58 @@
     },
     {
       "code": 6004,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds"
+    },
+    {
+      "code": 6005,
       "name": "Unauthorized",
       "msg": "Unauthorized"
     },
     {
-      "code": 6005,
+      "code": 6006,
       "name": "InvalidParam",
       "msg": "Invalid parameter"
     },
     {
-      "code": 6006,
-      "name": "InvalidTokenProgram",
-      "msg": "Invalid token program (must be Token-2022)"
-    },
-    {
       "code": 6007,
-      "name": "InvalidTokenAccountOwner",
-      "msg": "Token account is not owned by Token-2022 program"
+      "name": "InvalidTokenProgram",
+      "msg": "Invalid token program"
     },
     {
       "code": 6008,
-      "name": "InvalidMintOwner",
-      "msg": "Mint account is not owned by Token-2022 program"
+      "name": "InvalidTokenAccountOwner",
+      "msg": "Token account is not owned by allowed token program"
     },
     {
       "code": 6009,
+      "name": "InvalidMintOwner",
+      "msg": "Mint account is not owned by allowed token program"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidLiquidityExecutor",
+      "msg": "Invalid liquidity executor"
+    },
+    {
+      "code": 6011,
       "name": "InvalidPoolType",
       "msg": "Invalid pool type"
     },
     {
-      "code": 6010,
+      "code": 6012,
       "name": "InvalidPoolState",
       "msg": "Pool state does not allow this operation"
     },
     {
-      "code": 6011,
+      "code": 6013,
       "name": "NotInSnapshotWindow",
       "msg": "Not in snapshot window for release"
     },
     {
-      "code": 6012,
+      "code": 6014,
       "name": "Arithmetic",
       "msg": "Arithmetic overflow"
-    },
-    {
-      "code": 6013,
-      "name": "StagingNotEmpty",
-      "msg": "Staging vault must be empty before distribute (prevent cross-round accumulation)"
     }
   ],
   "types": [
@@ -859,6 +1121,10 @@
           },
           {
             "name": "pool_liquidity",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_v2_fund",
             "type": "pubkey"
           },
           {
@@ -906,6 +1172,10 @@
             "type": "u64"
           },
           {
+            "name": "v2_fund",
+            "type": "u64"
+          },
+          {
             "name": "team",
             "type": "u64"
           }
@@ -946,6 +1216,10 @@
             "type": "u16"
           },
           {
+            "name": "bps_v2_fund",
+            "type": "u16"
+          },
+          {
             "name": "bps_team",
             "type": "u16"
           },
@@ -966,6 +1240,10 @@
             "type": "pubkey"
           },
           {
+            "name": "pool_v2_fund",
+            "type": "pubkey"
+          },
+          {
             "name": "pool_team",
             "type": "pubkey"
           },
@@ -976,6 +1254,14 @@
           {
             "name": "monthly_staging_vault",
             "type": "pubkey"
+          },
+          {
+            "name": "liquidity_executor",
+            "type": "pubkey"
+          },
+          {
+            "name": "liquidity_reward_bps",
+            "type": "u16"
           },
           {
             "name": "min_distribute_interval",
@@ -1001,6 +1287,58 @@
                 6
               ]
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquiditySettingsUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "executor",
+            "type": "pubkey"
+          },
+          {
+            "name": "reward_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidityWithdrawn",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "reward",
+            "type": "u64"
+          },
+          {
+            "name": "to_executor",
+            "type": "u64"
+          },
+          {
+            "name": "triggerer",
+            "type": "pubkey"
+          },
+          {
+            "name": "executor",
+            "type": "pubkey"
           }
         ]
       }
@@ -1205,6 +1543,10 @@
           },
           {
             "name": "liquidity",
+            "type": "u16"
+          },
+          {
+            "name": "v2_fund",
             "type": "u16"
           },
           {

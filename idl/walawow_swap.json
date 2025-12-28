@@ -1,5 +1,5 @@
 {
-  "address": "FdDez6x3vnrrS35dAcQbVLAVxNgQT8unqs4NzWXLT2wE",
+  "address": "EPfjEbGLq5d6PTfUL7uM6aqLfHggudUSfDYyBKr7Xw61",
   "metadata": {
     "name": "walawow_swap",
     "version": "0.1.0",
@@ -10,7 +10,7 @@
     {
       "name": "execute_swap_cpi",
       "docs": [
-        "（可选占位）链上 DEX CPI 版本"
+        "Raydium CLMM CPI 版本（WALAWOW -> USDC）"
       ],
       "discriminator": [
         237,
@@ -22,11 +22,140 @@
         137,
         90
       ],
-      "accounts": [],
+      "accounts": [
+        {
+          "name": "triggerer",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  119,
+                  97,
+                  112,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "swap_authority",
+          "docs": [
+            "PDA signer"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  119,
+                  97,
+                  112,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "walawow_mint",
+          "docs": [
+            "WALAWOW / USDC mints"
+          ]
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "swap_tax_vault",
+          "docs": [
+            "WALAWOW 输入（swap_tax_vault）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "swap_usdc_vault",
+          "docs": [
+            "USDC 输出（swap_usdc_vault）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "clmm_program",
+          "docs": [
+            "Raydium CLMM accounts"
+          ]
+        },
+        {
+          "name": "amm_config"
+        },
+        {
+          "name": "pool_id",
+          "writable": true
+        },
+        {
+          "name": "observation",
+          "writable": true
+        },
+        {
+          "name": "input_vault",
+          "writable": true
+        },
+        {
+          "name": "output_vault",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_program_2022",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "memo_program"
+        }
+      ],
       "args": [
         {
-          "name": "_min_out",
+          "name": "amount_in",
           "type": "u64"
+        },
+        {
+          "name": "min_out",
+          "type": "u64"
+        },
+        {
+          "name": "sqrt_price_limit_x64",
+          "type": "u128"
         }
       ]
     },
@@ -123,8 +252,7 @@
           }
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": []
@@ -239,8 +367,7 @@
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": [
@@ -303,11 +430,13 @@
           }
         },
         {
+          "name": "usdc_mint"
+        },
+        {
           "name": "new_distributor_vault"
         },
         {
-          "name": "token_program",
-          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+          "name": "token_program"
         }
       ],
       "args": [
@@ -473,7 +602,7 @@
     {
       "code": 6007,
       "name": "InvalidTokenProgram",
-      "msg": "Invalid token program (must be Token-2022)"
+      "msg": "Invalid token program"
     },
     {
       "code": 6008,
@@ -483,7 +612,12 @@
     {
       "code": 6009,
       "name": "InvalidMintOwner",
-      "msg": "Mint account is not owned by Token-2022 program"
+      "msg": "Mint account is not owned by allowed token program"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidMemoProgram",
+      "msg": "Invalid memo program"
     }
   ],
   "types": [
