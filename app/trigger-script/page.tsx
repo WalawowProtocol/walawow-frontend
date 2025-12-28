@@ -16,9 +16,9 @@ const tx = await program.methods
   .rpc();`
 
   const poolAddresses = `// Pool Addresses (Devnet)
-const WEEKLY_POOL = "6ZuQ8Sokhm5ovXmaiMhSG2j5jgcWzYFR1WCUK6fDAmr8";
-const MONTHLY_POOL = "PTz3PS5LWs96stMLRuQgU72HTPjGwhaaVFdHnTxmJcJ";
-const WALAWOW_POOL_PROGRAM = "DNLgTgV56ifjHpP7V1iodtUoYwrnawq1tYMEwm2yD3KA";`
+const WEEKLY_POOL = "DmgcHCeHL1rd3JsdeDU2e24P4Pq6g4Dw4fpDG5k5Vunf";
+const MONTHLY_POOL = "6oPC8nYGoSmReDwesB9if7Sohd7yyUowTkwiQEaGGDLo";
+const WALAWOW_POOL_PROGRAM = "DBEDzWftZsCRFFuTywbd16YAMsbSKvrUUeQWn6FFTKxc";`
 
   const errorHandling = `// Common Trigger Error Handling
 try {
