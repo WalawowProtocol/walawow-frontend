@@ -79,17 +79,8 @@ export function useClaimPrize() {
         ASSOCIATED_TOKEN_PROGRAM_ID
       )
 
-      // 获取或创建 triggerer 的 USDC token account (如果 last_triggerer 不是 default)
-      let triggererTokenAccount = winnerTokenAccount
-      if (lastTriggerer && !lastTriggerer.equals(PublicKey.default)) {
-        triggererTokenAccount = getAssociatedTokenAddressSync(
-          usdcMint,
-          lastTriggerer,
-          true,
-          tokenProgramId,
-          ASSOCIATED_TOKEN_PROGRAM_ID
-        )
-      }
+      const hasTriggerer =
+        lastTriggerer && !lastTriggerer.equals(PublicKey.default)
 
       console.log('📝 Preparing claim transaction...')
       console.log('Pool:', poolAddress.toString())
@@ -115,14 +106,22 @@ export function useClaimPrize() {
         )
       }
 
-      if (lastTriggerer && !lastTriggerer.equals(PublicKey.default)) {
+      let triggererTokenAccount: PublicKey | null = null
+      if (hasTriggerer) {
+        triggererTokenAccount = getAssociatedTokenAddressSync(
+          usdcMint,
+          lastTriggerer!,
+          true,
+          tokenProgramId,
+          ASSOCIATED_TOKEN_PROGRAM_ID
+        )
         const triggererAccountInfo = await connection.getAccountInfo(triggererTokenAccount)
         if (!triggererAccountInfo) {
           preInstructions.push(
             createAssociatedTokenAccountInstruction(
               publicKey,
               triggererTokenAccount,
-              lastTriggerer,
+              lastTriggerer!,
               usdcMint,
               tokenProgramId,
               ASSOCIATED_TOKEN_PROGRAM_ID
@@ -131,23 +130,35 @@ export function useClaimPrize() {
         }
       }
 
-      const signature = await program.methods
-        .claimPrize(
-          params.winner,
-          winnerLeafAmount,
-          cumulativeWeightUntil,
-          params.proof
-        )
+      const methodBuilder = hasTriggerer
+        ? program.methods.claimPrize(
+            params.winner,
+            winnerLeafAmount,
+            cumulativeWeightUntil,
+            params.proof
+          )
+        : program.methods.claimPrizeNoTriggerer(
+            params.winner,
+            winnerLeafAmount,
+            cumulativeWeightUntil,
+            params.proof
+          )
+
+      const accounts: any = {
+        pool: poolAddress,
+        poolAuthority: poolAuthorityPDA,
+        vault: vaultPDA,
+        usdcMintAccount: usdcMint,
+        winnerTokenAccount: winnerTokenAccount,
+        tokenProgram: tokenProgramId,
+      }
+      if (hasTriggerer) {
+        accounts.triggererTokenAccount = triggererTokenAccount
+      }
+
+      const signature = await methodBuilder
         .preInstructions(preInstructions)
-        .accounts({
-          pool: poolAddress,
-          poolAuthority: poolAuthorityPDA,
-          vault: vaultPDA,
-          usdcMintAccount: usdcMint,
-          winnerTokenAccount: winnerTokenAccount,
-          triggererTokenAccount: triggererTokenAccount,
-          tokenProgram: tokenProgramId,
-        })
+        .accounts(accounts)
         .rpc()
 
       console.log('⏳ Confirming transaction...', signature)
