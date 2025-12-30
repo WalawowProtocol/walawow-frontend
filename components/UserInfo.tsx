@@ -17,8 +17,8 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
   const [loadingSupply, setLoadingSupply] = useState(true)
 
   // 计算权重和概率
-  const userWeight = snapshotWeight
-  const winProbability = totalSupply > 0 ? (snapshotWeight / totalSupply) * 100 : 0
+  const userSnapshotWeight = snapshotWeight
+  const winProbability = totalSupply > 0 ? (userSnapshotWeight / totalSupply) * 100 : 0
   
   // 生成用户头像颜色
   const userColor = `#${publicKey.toString().slice(0, 6)}`
@@ -143,20 +143,20 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
 
       {/* 核心数据卡片 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Snapshot 权重 */}
+        {/* Snapshot 总权重 */}
         <div className="glass-card p-5 hover:scale-[1.02] transition-all duration-300 border border-walawow-neutral-border/50">
           <div className="flex items-center justify-between mb-4">
             <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-walawow-gold/30 to-walawow-gold/10 flex items-center justify-center">
               <Scale className="h-6 w-6 text-walawow-gold" />
             </div>
             <span className="text-xs font-medium px-2 py-1 rounded bg-walawow-gold/10 text-walawow-gold">
-              {userWeight > 10000 ? 'Whale' : userWeight > 1000 ? 'Dolphin' : 'Minnow'}
+              Total
             </span>
           </div>
-          <div className="data-value mb-1">{userWeight.toLocaleString()}</div>
-          <div className="data-label">Snapshot Weight</div>
+          <div className="data-value mb-1">{totalSupply.toLocaleString()}</div>
+          <div className="data-label">Snapshot Total Weight</div>
           <div className="text-xs text-walawow-neutral-text-secondary mt-2">
-            Your eligible weight for draws
+            Total eligible weight this snapshot
           </div>
         </div>
 
@@ -204,7 +204,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
         <div className="flex justify-between items-center mb-2">
           <span className="data-label">Your Surprise Potential</span>
           <span className="text-walawow-purple-light text-sm font-medium">
-            Top {totalSupply > 0 ? ((userWeight / totalSupply) * 100).toFixed(2) : '0.00'}% holder
+            Top {totalSupply > 0 ? ((userSnapshotWeight / totalSupply) * 100).toFixed(2) : '0.00'}% holder
           </span>
         </div>
         <div className="h-3 bg-walawow-neutral-card rounded-full overflow-hidden">
