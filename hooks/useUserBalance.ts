@@ -22,7 +22,10 @@ export function useUserBalance() {
       setError(null)
 
       try {
-        const connection = new Connection("https://api.devnet.solana.com", 'confirmed')
+        const connection = new Connection(
+          WALAWOW_PROTOCOL_ADDRESSES.RPC_URL,
+          'confirmed'
+        )
         const walawowMint = new PublicKey(WALAWOW_PROTOCOL_ADDRESSES.WALAWOW_MINT)
         
         console.log('🔍 Fetching token accounts for:', publicKey.toString())
