@@ -156,6 +156,10 @@
         {
           "name": "sqrt_price_limit_x64",
           "type": "u128"
+        },
+        {
+          "name": "is_base_input",
+          "type": "bool"
         }
       ]
     },
