@@ -8,12 +8,15 @@ import swapIdl from '../idl/walawow_swap.json'
  * Walawow Protocol 地址配置
  * ✅ 与当前 devnet 实际部署状态完全一致
  */
+const DEFAULT_RPC_URL =
+  process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.devnet.solana.com'
+
 export const WALAWOW_PROTOCOL_ADDRESSES = {
   // ==================== 程序 ID ====================
-  HARVEST_PROGRAM: harvestIdl.address,        // J8eLvawkkDtSsaLBz5A1SboQotYaeLBrJY8ZkrnHh82q
-  SWAP_PROGRAM: swapIdl.address,              // EPfjEbGLq5d6PTfUL7uM6aqLfHggudUSfDYyBKr7Xw61
-  DISTRIBUTOR_PROGRAM: "HSZfznuyUAZYXdNxmhsZRmT4xwpuUpkJq9XwdNkQJR3e",
-  POOL_PROGRAM: "DBEDzWftZsCRFFuTywbd16YAMsbSKvrUUeQWn6FFTKxc",
+  HARVEST_PROGRAM: harvestIdl.address,
+  SWAP_PROGRAM: swapIdl.address,
+  DISTRIBUTOR_PROGRAM: distributorIdl.address,
+  POOL_PROGRAM: poolIdl.address,
 
   // ==================== Token Mint ====================
   WALAWOW_MINT: "DAWDZfiYQAEoJMtQGaHw4NLXZypL7gCpe2ehqpLLLRzm", // Token-2022 (taxed)
@@ -53,7 +56,7 @@ export const WALAWOW_PROTOCOL_ADDRESSES = {
   VRF_COORDINATOR: "HifRke4NrpDcget6FRwW2aryZDWgdiURVh8ewduaoepx",
 
   // ==================== RPC ====================
-  RPC_URL: "RL=https://api.devnet.solana.c",
+  RPC_URL: DEFAULT_RPC_URL,
 } as const;
 
 // 向后兼容
