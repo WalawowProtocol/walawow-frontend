@@ -210,7 +210,7 @@ export default function UserInfo({ publicKey }: UserInfoProps) {
         <div className="h-3 bg-walawow-neutral-card rounded-full overflow-hidden">
           <div 
             className="h-full bg-gradient-to-r from-walawow-purple to-walawow-gold rounded-full transition-all duration-1000 ease-out"
-            style={{ width: `${Math.min(winProbability * 10, 100)}%` }}
+            style={{ width: `${Math.min(winProbability, 100)}%` }}
           ></div>
         </div>
         <div className="flex justify-between text-xs text-walawow-neutral-text-secondary mt-1">
