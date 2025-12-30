@@ -54,7 +54,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
     const now = new Date()
     const windowEnd = new Date(date.getTime() + poolInfo.drawWindow * 1000)
 
-    if (now >= date && now <= windowEnd) return 'In draw window'
+    if (now >= date && now <= windowEnd) return 'Drawing...'
     if (now > windowEnd) return 'Awaiting next round'
 
     const label = date.toLocaleString('en-US', {
@@ -123,6 +123,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
   const getTriggerButtonText = () => {
     if (!publicKey) return 'Connect Wallet to Trigger'
     if (triggering) return 'Triggering Draw...'
+    if (hasTriggeredThisWindow) return 'Draw Triggered'
     if (!isWithinTriggerWindow) {
       if (poolInfo.poolState !== 'SnapshotLocked') return 'Awaiting next round'
       return timeUntilTrigger.includes('Awaiting') ? 'Awaiting next round' : `Opens in ${timeUntilTrigger}`
@@ -137,6 +138,9 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
     }
     if (triggering) {
       return 'bg-walawow-neutral-card border border-walawow-neutral-border text-walawow-neutral-text-secondary cursor-wait'
+    }
+    if (hasTriggeredThisWindow) {
+      return 'bg-gradient-to-r from-green-500 to-emerald-600 text-white cursor-not-allowed animate-pulse-glow'
     }
     if (!isWithinTriggerWindow) {
       return 'bg-walawow-neutral-card border border-walawow-neutral-border text-walawow-neutral-text-secondary cursor-not-allowed'
@@ -222,6 +226,13 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
   }
 
   const canAttemptClaim = poolInfo.poolState === 'ReadyToClaim' && poolVaultBalance > 0
+  const now = new Date()
+  const drawWindowEnd = poolInfo.nextDrawTime
+    ? new Date(poolInfo.nextDrawTime.getTime() + poolInfo.drawWindow * 1000)
+    : null
+  const isDrawWindow =
+    !!poolInfo.nextDrawTime && !!drawWindowEnd && now >= poolInfo.nextDrawTime && now <= drawWindowEnd
+  const hasTriggeredThisWindow = isDrawWindow && poolInfo.poolState !== 'SnapshotLocked'
 
   // 骨架屏加载状态
   if (loading) {
@@ -318,7 +329,9 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
               <Clock className="h-4 w-4 text-walawow-neutral-text-secondary" />
               <span className="data-label">Next Draw Time (UTC)</span>
             </div>
-            <span className="text-white font-medium">{formatUtcDate(nextTriggerTime)}</span>
+            <span className="text-white font-medium">
+              {isDrawWindow ? 'Drawing...' : formatUtcDate(nextTriggerTime)}
+            </span>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
@@ -342,7 +355,7 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
           <button 
             className={`w-full py-3.5 rounded-xl font-semibold transition-all ${getTriggerButtonStyle()}`}
             onClick={() => triggerDraw()}
-            disabled={!publicKey || triggering || !isWithinTriggerWindow}
+            disabled={!publicKey || triggering || !isWithinTriggerWindow || hasTriggeredThisWindow}
           >
             {getTriggerButtonText()}
           </button>
@@ -389,12 +402,14 @@ export default function PoolCard({ title, poolType, nextDraw, accent = 'purple' 
         <div className="pt-4 border-t border-walawow-neutral-border/50">
           <button
             className={`w-full py-3 rounded-xl font-semibold transition-all ${
-              !publicKey || claiming || !canAttemptClaim
+              claimSuccess
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white cursor-not-allowed'
+                : !publicKey || claiming || !canAttemptClaim
                 ? 'bg-walawow-neutral-card border border-walawow-neutral-border text-walawow-neutral-text-secondary cursor-not-allowed'
                 : 'btn-gold hover:shadow-lg hover:scale-[1.01]'
             }`}
             onClick={handleClaim}
-            disabled={!publicKey || claiming || !canAttemptClaim}
+            disabled={!publicKey || claiming || !canAttemptClaim || claimSuccess}
           >
             {claiming ? 'Claiming Prize...' : claimSuccess ? 'Prize Claimed' : 'Claim Prize'}
           </button>
