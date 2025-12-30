@@ -5,6 +5,13 @@ import Dashboard from '../components/Dashboard'
 import { useProtocolStats } from '../hooks/useProtocolStats'
 import { Sparkles } from 'lucide-react' // 可选：安装 lucide-react 获得更多图标
 
+function formatUsdc(amountRaw: number) {
+  const amount = Number.isFinite(amountRaw) ? amountRaw / 1e6 : 0
+  if (amount >= 1e6) return `$${(amount / 1e6).toFixed(2)}M`
+  if (amount >= 1e3) return `$${(amount / 1e3).toFixed(2)}K`
+  return `$${amount.toFixed(2)}`
+}
+
 export default function Home() {
   const { connected } = useWallet()
   const { stats, loading: statsLoading } = useProtocolStats()
@@ -62,8 +69,7 @@ export default function Home() {
             <div className="glass-card p-6 text-center hover:glow-purple transition-all duration-300">
               <div className="data-label">Latest Rewards Paid</div>
               <div className="data-value flex items-center justify-center gap-2">
-                <span className="text-walawow-gold">$</span>
-                {statsLoading ? '...' : (stats.totalDistributed / 1000000).toFixed(2)}M
+                {statsLoading ? '...' : formatUsdc(stats.totalDistributed)}
               </div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">Latest round (weekly + monthly)</div>
             </div>
