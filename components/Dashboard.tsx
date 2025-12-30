@@ -7,6 +7,13 @@ import { useProtocolStats } from '../hooks/useProtocolStats'
 import { Trophy, Users, Coins, Percent } from 'lucide-react' // 引入图标
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../config/addresses'
 
+function formatUsdc(amountRaw: number) {
+  const amount = Number.isFinite(amountRaw) ? amountRaw / 1e6 : 0
+  if (amount >= 1e6) return `$${(amount / 1e6).toFixed(2)}M`
+  if (amount >= 1e3) return `$${(amount / 1e3).toFixed(2)}K`
+  return `$${amount.toFixed(2)}`
+}
+
 export default function Dashboard() {
   const { publicKey } = useWallet()
   const { stats, loading: statsLoading } = useProtocolStats()
@@ -100,7 +107,7 @@ export default function Dashboard() {
               </span>
             </div>
             <div className="data-value mb-1">
-              {statsLoading ? '...' : `$${(stats.totalDistributed / 1000000).toFixed(1)}M`}
+              {statsLoading ? '...' : formatUsdc(stats.totalDistributed)}
             </div>
             <div className="data-label">Total Rewards Paid (Last Round Only)</div>
           </div>
