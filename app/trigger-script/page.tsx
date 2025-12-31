@@ -1,7 +1,8 @@
 // app/trigger-script/page.tsx
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Code2, Cpu, Zap, Target, BookOpen, Search, Trophy, Globe, Timer, Shield, Rocket } from 'lucide-react'
+import { WALAWOW_PROTOCOL_ADDRESSES } from '../../config/addresses'
 
 export default function TriggerScriptPage() {
   const [activeTab, setActiveTab] = useState('instruction')
@@ -15,10 +16,10 @@ const tx = await program.methods
   })
   .rpc();`
 
-  const poolAddresses = `// Pool Addresses (Devnet)
-const WEEKLY_POOL = "DmgcHCeHL1rd3JsdeDU2e24P4Pq6g4Dw4fpDG5k5Vunf";
-const MONTHLY_POOL = "6oPC8nYGoSmReDwesB9if7Sohd7yyUowTkwiQEaGGDLo";
-const WALAWOW_POOL_PROGRAM = "DBEDzWftZsCRFFuTywbd16YAMsbSKvrUUeQWn6FFTKxc";`
+  const poolAddresses = useMemo(() => `// Pool Addresses (Devnet)
+const WEEKLY_POOL = "${WALAWOW_PROTOCOL_ADDRESSES.POOL_WEEKLY}";
+const MONTHLY_POOL = "${WALAWOW_PROTOCOL_ADDRESSES.POOL_MONTHLY}";
+const WALAWOW_POOL_PROGRAM = "${WALAWOW_PROTOCOL_ADDRESSES.POOL_PROGRAM}";`, [])
 
   const errorHandling = `// Common Trigger Error Handling
 try {
