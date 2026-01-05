@@ -96,9 +96,6 @@
         },
         {
           "name": "pool_liquidity",
-          "docs": [
-            "CHECK"
-          ],
           "writable": true
         },
         {
@@ -241,10 +238,7 @@
           ]
         },
         {
-          "name": "pool_liquidity",
-          "docs": [
-            "CHECK"
-          ]
+          "name": "pool_liquidity"
         },
         {
           "name": "pool_v2_fund",
@@ -303,6 +297,9 @@
               }
             ]
           }
+        },
+        {
+          "name": "lp_authority_pda"
         },
         {
           "name": "system_program",
@@ -563,10 +560,7 @@
           ]
         },
         {
-          "name": "new_pool_liquidity",
-          "docs": [
-            "CHECK"
-          ]
+          "name": "new_pool_liquidity"
         },
         {
           "name": "new_pool_v2_fund",
@@ -631,6 +625,9 @@
               }
             ]
           }
+        },
+        {
+          "name": "lp_authority_pda"
         }
       ],
       "args": []

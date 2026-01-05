@@ -1,0 +1,697 @@
+{
+  "address": "CrDmGQrRDWApxJaApS96uxSVkTnHBirSRWf56VADxHGi",
+  "metadata": {
+    "name": "walawow_lp_manager",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "lp_manager program for walawow_protocol"
+  },
+  "instructions": [
+    {
+      "name": "add_liquidity_cpmm",
+      "docs": [
+        "由 keeper 触发：让 PDA 直接往 Raydium CPMM 池里注入流动性",
+        "",
+        "参数：",
+        "- lp_token_amount：希望获得的 LP 数量",
+        "- max_walawow_in / max_usdc_in：两边最大可消耗数量（slippage 保护）"
+      ],
+      "discriminator": [
+        86,
+        116,
+        139,
+        135,
+        144,
+        150,
+        56,
+        38
+      ],
+      "accounts": [
+        {
+          "name": "triggerer",
+          "docs": [
+            "keeper / 触发者，只负责发交易，不持有资金"
+          ],
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "lp_authority",
+          "docs": [
+            "lp_authority PDA：作为 Raydium deposit 的 owner signer"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "walawow_mint"
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "treasury_walawow_vault",
+          "writable": true
+        },
+        {
+          "name": "lp_usdc_vault",
+          "writable": true
+        },
+        {
+          "name": "owner_lp_token",
+          "docs": [
+            "Raydium LP token 接收账户（owner = lp_authority）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "cpmm_program",
+          "docs": [
+            "CPMM 程序 + 池子账户",
+            "CHECK"
+          ]
+        },
+        {
+          "name": "pool_state",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "pool_authority",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "token_0_vault",
+          "writable": true
+        },
+        {
+          "name": "token_1_vault",
+          "writable": true
+        },
+        {
+          "name": "vault_0_mint",
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "vault_1_mint"
+        },
+        {
+          "name": "lp_mint",
+          "docs": [
+            "CHECK"
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "Token programs 供 cp-swap 使用"
+          ],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_program_2022",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": [
+        {
+          "name": "lp_token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "max_walawow_in",
+          "type": "u64"
+        },
+        {
+          "name": "max_usdc_in",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_config",
+      "docs": [
+        "初始化 LP 管理：",
+        "- 锁定 WALAWOW 国库 vault（owner = lp_authority PDA）",
+        "- 锁定 LP USDC vault（owner = lp_authority PDA）",
+        "- 绑定 Raydium CPMM 池（cp-swap `deposit`）"
+      ],
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "walawow_mint"
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "lp_authority",
+          "docs": [
+            "PDA signer: LP 资金管理者"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_walawow_vault",
+          "docs": [
+            "国库 WALAWOW vault（owner = lp_authority）"
+          ]
+        },
+        {
+          "name": "lp_usdc_vault",
+          "docs": [
+            "LP USDC vault（owner = lp_authority）"
+          ]
+        },
+        {
+          "name": "cpmm_program",
+          "docs": [
+            "Raydium CPMM 相关账户（初始化时做一次校验）"
+          ]
+        },
+        {
+          "name": "pool_state",
+          "writable": true
+        },
+        {
+          "name": "pool_authority"
+        },
+        {
+          "name": "token_0_vault",
+          "writable": true
+        },
+        {
+          "name": "token_1_vault",
+          "writable": true
+        },
+        {
+          "name": "vault_0_mint"
+        },
+        {
+          "name": "vault_1_mint"
+        },
+        {
+          "name": "lp_mint",
+          "writable": true
+        },
+        {
+          "name": "owner_lp_token",
+          "docs": [
+            "owner_lp_token：LP token 接收账户（owner = lp_authority）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "Token programs（用来和 cp-swap 对齐）"
+          ],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_program_2022",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_admin",
+      "docs": [
+        "Admin 更换 admin（方便未来迁移到多签 / DAO）"
+      ],
+      "discriminator": [
+        161,
+        176,
+        40,
+        213,
+        60,
+        184,
+        179,
+        228
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "update_cpmm_pool",
+      "docs": [
+        "Admin 更新 CPMM 池绑定（比如迁移到新池）"
+      ],
+      "discriminator": [
+        114,
+        97,
+        175,
+        181,
+        188,
+        213,
+        213,
+        131
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  112,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "new_cpmm_program",
+          "type": "pubkey"
+        },
+        {
+          "name": "new_pool_state",
+          "type": "pubkey"
+        },
+        {
+          "name": "new_pool_authority",
+          "type": "pubkey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "LpConfig",
+      "discriminator": [
+        60,
+        40,
+        30,
+        162,
+        141,
+        180,
+        6,
+        73
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ConfigInitialized",
+      "discriminator": [
+        181,
+        49,
+        200,
+        156,
+        19,
+        167,
+        178,
+        91
+      ]
+    },
+    {
+      "name": "CpmmPoolUpdated",
+      "discriminator": [
+        18,
+        184,
+        244,
+        231,
+        137,
+        124,
+        79,
+        26
+      ]
+    },
+    {
+      "name": "LiquidityAdded",
+      "discriminator": [
+        154,
+        26,
+        221,
+        108,
+        238,
+        64,
+        217,
+        161
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidOwner",
+      "msg": "Invalid vault owner"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidParam",
+      "msg": "Invalid parameter"
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientTreasury",
+      "msg": "Insufficient treasury balance"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidTokenAccountOwner",
+      "msg": "Token account is not owned by expected token program"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMintOwner",
+      "msg": "Mint account is not owned by allowed token program"
+    },
+    {
+      "code": 6007,
+      "name": "CpmmProgramMismatch",
+      "msg": "Invalid CPMM program"
+    },
+    {
+      "code": 6008,
+      "name": "CpmmAccountMismatch",
+      "msg": "Invalid CPMM pool accounts"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidMintMapping",
+      "msg": "Invalid WALAWOW/USDC mint mapping in pool"
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfigInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_usdc_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_token_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_state",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CpmmPoolUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "cpmm_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_authority",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidityAdded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "lp_token_amount",
+            "type": "u64"
+          },
+          {
+            "name": "walawow_max_in",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_max_in",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LpConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "walawow_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_walawow_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_usdc_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_token_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "cpmm_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mapping",
+            "type": "u8"
+          },
+          {
+            "name": "bump_config",
+            "type": "u8"
+          },
+          {
+            "name": "bump_auth",
+            "type": "u8"
+          },
+          {
+            "name": "_reserved",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
