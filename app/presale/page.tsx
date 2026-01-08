@@ -233,11 +233,13 @@ export default function PresalePage() {
                 </span>
               </div>
               {config?.endTs && Number(config.endTs) > 0 && (
-                <div className="mt-4 text-sm text-walawow-neutral-text-secondary">
-                  Presale ends in{' '}
-                  <span className="text-walawow-gold-light font-semibold">
+                <div className="mt-6">
+                  <div className="text-sm text-walawow-neutral-text-secondary">
+                    Presale ends in
+                  </div>
+                  <div className="mt-1 text-2xl md:text-3xl font-semibold text-walawow-gold-light tracking-wide">
                     {formatCountdown(Number(config.endTs), now)}
-                  </span>
+                  </div>
                 </div>
               )}
             </div>
