@@ -16,6 +16,7 @@ import {
   getPresaleConfigPDA,
   getPresaleMintAuthorityPDA,
   usePresaleProgram,
+  usePresaleReadOnlyProgram,
 } from '../../utils/programs'
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../../config/addresses'
 
@@ -60,6 +61,7 @@ export default function PresalePage() {
   const { connected, publicKey } = useWallet()
   const { connection } = useConnection()
   const program = usePresaleProgram()
+  const readOnlyProgram = usePresaleReadOnlyProgram()
   const [usdcAmount, setUsdcAmount] = useState('100')
   const [status, setStatus] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -85,14 +87,14 @@ export default function PresalePage() {
   }, [])
 
   useEffect(() => {
-    if (!program) return
+    if (!readOnlyProgram) return
     const [configPda] = getPresaleConfigPDA()
-    const account = (program as any).account
+    const account = (readOnlyProgram as any).account
     account?.presaleConfig
       ?.fetch(configPda)
       .then(setConfig)
       .catch(() => setConfig(null))
-  }, [program])
+  }, [readOnlyProgram])
 
   useEffect(() => {
     if (!program || !publicKey) {
@@ -252,7 +254,7 @@ export default function PresalePage() {
                       <div className="text-sm text-walawow-neutral-text-secondary">
                         Presale ends in
                       </div>
-                      <div className="mt-2 text-3xl md:text-6xl font-semibold text-walawow-gold-light tracking-wide">
+                      <div className="mt-2 text-3xl md:text-4xl font-semibold text-walawow-gold-light tracking-wide">
                         {formatCountdown(Number(config.endTs), now)}
                       </div>
                     </div>
