@@ -12,6 +12,7 @@ import poolIdl from '../idl/walawow_pool.json'
 import distributorIdl from '../idl/walawow_distributor.json'
 import harvestIdl from '../idl/walawow_harvest.json'
 import swapIdl from '../idl/walawow_swap.json'
+import presaleIdl from '../idl/walawow_presale.json'
 
 // 程序地址
 export const PROGRAM_IDS = {
@@ -19,6 +20,7 @@ export const PROGRAM_IDS = {
   DISTRIBUTOR: new PublicKey(distributorIdl.address),
   HARVEST: new PublicKey(harvestIdl.address),
   SWAP: new PublicKey(swapIdl.address),
+  PRESALE: new PublicKey(presaleIdl.address),
 }
 
 // 获取 Anchor Provider
@@ -60,6 +62,29 @@ export function getHarvestProgram(provider: AnchorProvider): Program {
 // 获取 Swap 程序实例
 export function getSwapProgram(provider: AnchorProvider): Program {
   return new Program(swapIdl as Idl, provider)
+}
+
+export function getPresaleProgram(provider: AnchorProvider): Program {
+  return new Program(presaleIdl as Idl, provider)
+}
+
+export function usePresaleProgram() {
+  const { connection } = useConnection()
+  const wallet = useWallet()
+
+  return useMemo(() => {
+    if (!wallet.publicKey || !wallet.signTransaction || !wallet.signAllTransactions) {
+      return null
+    }
+
+    try {
+      const provider = getProvider(connection, wallet)
+      return getPresaleProgram(provider)
+    } catch (error) {
+      console.error('Error creating presale program:', error)
+      return null
+    }
+  }, [connection, wallet])
 }
 
 // React Hook: 获取 Pool 程序
@@ -149,3 +174,23 @@ export function getDistributorAuthorityPDA(config: PublicKey): [PublicKey, numbe
   )
 }
 
+export function getPresaleConfigPDA(): [PublicKey, number] {
+  const configSeed = new TextEncoder().encode('presale-config')
+  return PublicKey.findProgramAddressSync([configSeed], PROGRAM_IDS.PRESALE)
+}
+
+export function getPresaleMintAuthorityPDA(config: PublicKey): [PublicKey, number] {
+  const seed = new TextEncoder().encode('presale-mint-authority')
+  return PublicKey.findProgramAddressSync([seed, config.toBuffer()], PROGRAM_IDS.PRESALE)
+}
+
+export function getPresaleBuyerRecordPDA(
+  config: PublicKey,
+  buyer: PublicKey
+): [PublicKey, number] {
+  const seed = new TextEncoder().encode('buyer')
+  return PublicKey.findProgramAddressSync(
+    [seed, config.toBuffer(), buyer.toBuffer()],
+    PROGRAM_IDS.PRESALE
+  )
+}
