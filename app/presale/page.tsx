@@ -232,16 +232,6 @@ export default function PresalePage() {
                   Devnet preview
                 </span>
               </div>
-              {config?.endTs && Number(config.endTs) > 0 && (
-                <div className="mt-6 w-full md:w-[70%] glass-card px-4 py-3">
-                  <div className="text-sm text-walawow-neutral-text-secondary">
-                    Presale ends in
-                  </div>
-                  <div className="mt-1 text-2xl md:text-3xl font-semibold text-walawow-gold-light tracking-wide">
-                    {formatCountdown(Number(config.endTs), now)}
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="glass-card p-6 w-full lg:w-[380px]">
@@ -328,7 +318,17 @@ export default function PresalePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="glass-card p-6">
+            {config?.endTs && Number(config.endTs) > 0 && (
+              <div className="glass-card p-6 md:col-span-2 md:row-start-1 flex flex-col items-center justify-center text-center min-h-[140px]">
+                <div className="text-sm text-walawow-neutral-text-secondary">
+                  Presale ends in
+                </div>
+                <div className="mt-2 text-3xl md:text-4xl font-semibold text-walawow-gold-light tracking-wide">
+                  {formatCountdown(Number(config.endTs), now)}
+                </div>
+              </div>
+            )}
+            <div className="glass-card p-6 md:col-start-1 md:row-start-2">
               <div className="data-label">Presale Supply</div>
               <div className="data-value">
                 {config
@@ -357,14 +357,14 @@ export default function PresalePage() {
                   : 'Fixed allocation for community early access.'}
               </div>
             </div>
-            <div className="glass-card p-6">
+            <div className="glass-card p-6 md:col-start-2 md:row-start-2">
               <div className="data-label">Delivery</div>
               <div className="data-value text-walawow-gold-light">Instant</div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
                 Tokens are minted directly to your wallet.
               </div>
             </div>
-            <div className="glass-card p-6">
+            <div className="glass-card p-6 md:col-start-3 md:row-start-2">
               <div className="data-label">Transfer Status</div>
               <div className="data-value text-walawow-purple-light">Locked</div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
