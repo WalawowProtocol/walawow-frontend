@@ -249,7 +249,7 @@ export default function PresalePage() {
               )}
             </div>
 
-            <div className="glass-card p-6 w-full lg:w-[380px] self-stretch">
+            <div className="glass-card p-6 w-full self-stretch">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-sm text-walawow-neutral-text-secondary">Wallet</div>
