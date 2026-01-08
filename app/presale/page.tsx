@@ -1,5 +1,5 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react'
 import { PublicKey, SystemProgram } from '@solana/web3.js'
 import { BN } from '@coral-xyz/anchor'
@@ -20,6 +20,7 @@ import {
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../../config/addresses'
 
 const USDC_DECIMALS = 6
+const TOKEN_DECIMALS = 9
 
 const PRICE_NUMERATOR = Number(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_PRICE_NUMERATOR)
 const PRICE_DENOMINATOR = Number(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_PRICE_DENOMINATOR)
@@ -36,6 +37,25 @@ function formatNumber(value: number, digits = 2) {
   })
 }
 
+function formatUnits(value: bigint, decimals: number, digits = 2) {
+  const base = 10n ** BigInt(decimals)
+  const whole = value / base
+  const fraction = value % base
+  if (digits <= 0) return whole.toString()
+  const fracStr = fraction.toString().padStart(decimals, '0').slice(0, digits)
+  return `${whole.toString()}.${fracStr}`.replace(/\.?0+$/, '')
+}
+
+function formatCountdown(endTs: number, now: number) {
+  const diff = Math.max(endTs - now, 0)
+  const days = Math.floor(diff / 86400)
+  const hours = Math.floor((diff % 86400) / 3600)
+  const mins = Math.floor((diff % 3600) / 60)
+  const secs = diff % 60
+  if (diff === 0) return 'Ended'
+  return `${days}d ${hours}h ${mins}m ${secs}s`
+}
+
 export default function PresalePage() {
   const { connected, publicKey } = useWallet()
   const { connection } = useConnection()
@@ -43,6 +63,9 @@ export default function PresalePage() {
   const [usdcAmount, setUsdcAmount] = useState('100')
   const [status, setStatus] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [config, setConfig] = useState<any>(null)
+  const [buyerRecord, setBuyerRecord] = useState<any>(null)
+  const [now, setNow] = useState(() => Math.floor(Date.now() / 1000))
 
   const parsedUsdc = useMemo(() => {
     const value = Number(usdcAmount)
@@ -55,6 +78,33 @@ export default function PresalePage() {
   }, [parsedUsdc])
 
   const capProgress = Math.min(parsedUsdc / MAX_USDC, 1)
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if (!program) return
+    const [configPda] = getPresaleConfigPDA()
+    program.account.presaleConfig
+      .fetch(configPda)
+      .then(setConfig)
+      .catch(() => setConfig(null))
+  }, [program])
+
+  useEffect(() => {
+    if (!program || !publicKey) {
+      setBuyerRecord(null)
+      return
+    }
+    const [configPda] = getPresaleConfigPDA()
+    const [buyerRecordPda] = getPresaleBuyerRecordPDA(configPda, publicKey)
+    program.account.buyerRecord
+      .fetch(buyerRecordPda)
+      .then(setBuyerRecord)
+      .catch(() => setBuyerRecord(null))
+  }, [program, publicKey])
 
   const handleBuy = async () => {
     if (!program || !publicKey) {
@@ -180,6 +230,14 @@ export default function PresalePage() {
                   Devnet preview
                 </span>
               </div>
+              {config?.endTs && Number(config.endTs) > 0 && (
+                <div className="mt-4 text-sm text-walawow-neutral-text-secondary">
+                  Presale ends in{' '}
+                  <span className="text-walawow-gold-light font-semibold">
+                    {formatCountdown(Number(config.endTs), now)}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="glass-card p-6 w-full lg:w-[380px]">
@@ -221,6 +279,23 @@ export default function PresalePage() {
                   <span>Cap used</span>
                   <span>{formatNumber(parsedUsdc, 0)} / {MAX_USDC} USDC</span>
                 </div>
+                {buyerRecord && (
+                  <div className="flex justify-between text-sm text-walawow-neutral-text-secondary mt-2">
+                    <span>Already purchased</span>
+                    <span>
+                      {formatUnits(
+                        BigInt(
+                          buyerRecord.totalUsdc?.toString?.() ??
+                            buyerRecord.totalUsdc ??
+                            0
+                        ),
+                        USDC_DECIMALS,
+                        2
+                      )}{' '}
+                      USDC
+                    </span>
+                  </div>
+                )}
                 <div className="mt-3 h-2 rounded-full bg-walawow-neutral-border overflow-hidden">
                   <div
                     className="h-2 rounded-full bg-gradient-to-r from-walawow-gold to-walawow-purple"
@@ -251,9 +326,31 @@ export default function PresalePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             <div className="glass-card p-6">
               <div className="data-label">Presale Supply</div>
-              <div className="data-value">100,000,000 WOW</div>
+              <div className="data-value">
+                {config
+                  ? `${formatUnits(
+                      BigInt(
+                        config.totalCapTokens?.toString?.() ??
+                          config.totalCapTokens ??
+                          0
+                      ),
+                      TOKEN_DECIMALS,
+                      0
+                    )} WOW`
+                  : '...'}
+              </div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
-                Fixed allocation for community early access.
+                {config
+                  ? `Sold: ${formatUnits(
+                      BigInt(
+                        config.totalSoldTokens?.toString?.() ??
+                          config.totalSoldTokens ??
+                          0
+                      ),
+                      TOKEN_DECIMALS,
+                      0
+                    )} WOW`
+                  : 'Fixed allocation for community early access.'}
               </div>
             </div>
             <div className="glass-card p-6">
