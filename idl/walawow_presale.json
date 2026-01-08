@@ -6,6 +6,41 @@
     "spec": "0.1.0",
     "description": "presale program for walawow_protocol"
   },
+  "accounts": [
+    {
+      "name": "PresaleConfig",
+      "discriminator": [115, 71, 85, 233, 246, 108, 30, 3],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "pubkey" },
+          { "name": "usdc_mint", "type": "pubkey" },
+          { "name": "walawow_mint", "type": "pubkey" },
+          { "name": "treasury_usdc", "type": "pubkey" },
+          { "name": "price_numerator", "type": "u64" },
+          { "name": "price_denominator", "type": "u64" },
+          { "name": "per_address_cap_usdc", "type": "u64" },
+          { "name": "total_cap_tokens", "type": "u64" },
+          { "name": "total_sold_tokens", "type": "u64" },
+          { "name": "end_ts", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "BuyerRecord",
+      "discriminator": [107, 122, 54, 31, 4, 54, 209, 38],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "buyer", "type": "pubkey" },
+          { "name": "config", "type": "pubkey" },
+          { "name": "total_usdc", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
   "instructions": [
     {
       "name": "buy",
