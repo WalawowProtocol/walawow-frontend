@@ -237,7 +237,7 @@ export default function PresalePage() {
 
               {config?.endTs && Number(config.endTs) > 0 && (
                 <div className="mt-auto pt-6">
-                  <div className="glass-card px-6 py-5 flex flex-col items-center justify-center text-center min-h-[120px]">
+                  <div className="glass-card px-6 py-10 flex flex-col items-center justify-center text-center min-h-[360px]">
                     <div className="text-sm text-walawow-neutral-text-secondary">
                       Presale ends in
                     </div>
