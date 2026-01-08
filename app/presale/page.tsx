@@ -273,9 +273,9 @@ export default function PresalePage() {
                 <>
                   <div className="mt-6 lg:hidden">
                     <div className="glass-card px-5 py-4 text-center">
-                      <div className="text-sm text-walawow-neutral-text-secondary">
-                        Presale ends in
-                      </div>
+                    <div className="text-lg text-walawow-neutral-text-secondary">
+                      Presale ends in
+                    </div>
                       <div className="mt-2 text-2xl font-semibold text-walawow-gold-light tracking-wide">
                         {formatCountdown(Number(config.endTs), now)}
                       </div>
