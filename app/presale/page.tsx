@@ -87,8 +87,9 @@ export default function PresalePage() {
   useEffect(() => {
     if (!program) return
     const [configPda] = getPresaleConfigPDA()
-    program.account.presaleConfig
-      .fetch(configPda)
+    const account = (program as any).account
+    account?.presaleConfig
+      ?.fetch(configPda)
       .then(setConfig)
       .catch(() => setConfig(null))
   }, [program])
@@ -100,8 +101,9 @@ export default function PresalePage() {
     }
     const [configPda] = getPresaleConfigPDA()
     const [buyerRecordPda] = getPresaleBuyerRecordPDA(configPda, publicKey)
-    program.account.buyerRecord
-      .fetch(buyerRecordPda)
+    const account = (program as any).account
+    account?.buyerRecord
+      ?.fetch(buyerRecordPda)
       .then(setBuyerRecord)
       .catch(() => setBuyerRecord(null))
   }, [program, publicKey])
