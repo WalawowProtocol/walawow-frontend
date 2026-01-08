@@ -1,0 +1,78 @@
+{
+  "address": "JpFLNF1RzqwTqV5WorMKy7wuXA24teosHVhSKWMGm8a",
+  "metadata": {
+    "name": "walawow_presale",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "presale program for walawow_protocol"
+  },
+  "instructions": [
+    {
+      "name": "initialize_config",
+      "discriminator": [208, 127, 21, 1, 194, 190, 196, 70],
+      "accounts": [
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "config", "writable": true },
+        { "name": "walawow_mint" },
+        { "name": "usdc_mint" },
+        { "name": "treasury_usdc", "writable": true },
+        { "name": "system_program" }
+      ],
+      "args": [
+        { "name": "price_numerator", "type": "u64" },
+        { "name": "price_denominator", "type": "u64" },
+        { "name": "per_address_cap_usdc", "type": "u64" },
+        { "name": "total_cap_tokens", "type": "u64" },
+        { "name": "end_ts", "type": "i64" }
+      ]
+    },
+    {
+      "name": "update_params",
+      "discriminator": [108, 178, 190, 95, 94, 203, 116, 20],
+      "accounts": [
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "config", "writable": true }
+      ],
+      "args": [
+        { "name": "price_numerator", "type": "u64" },
+        { "name": "price_denominator", "type": "u64" },
+        { "name": "per_address_cap_usdc", "type": "u64" },
+        { "name": "total_cap_tokens", "type": "u64" },
+        { "name": "end_ts", "type": "i64" },
+        { "name": "treasury_usdc", "type": "pubkey" }
+      ]
+    },
+    {
+      "name": "set_admin",
+      "discriminator": [251, 163, 0, 52, 91, 194, 187, 92],
+      "accounts": [
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "config", "writable": true }
+      ],
+      "args": [
+        { "name": "new_admin", "type": "pubkey" }
+      ]
+    },
+    {
+      "name": "buy",
+      "discriminator": [102, 6, 61, 18, 1, 218, 235, 234],
+      "accounts": [
+        { "name": "buyer", "writable": true, "signer": true },
+        { "name": "config", "writable": true },
+        { "name": "buyer_record", "writable": true },
+        { "name": "walawow_mint" },
+        { "name": "usdc_mint" },
+        { "name": "buyer_usdc", "writable": true },
+        { "name": "treasury_usdc", "writable": true },
+        { "name": "buyer_token", "writable": true },
+        { "name": "mint_authority" },
+        { "name": "token_program" },
+        { "name": "token_2022_program" },
+        { "name": "system_program" }
+      ],
+      "args": [
+        { "name": "usdc_amount", "type": "u64" }
+      ]
+    }
+  ]
+}
