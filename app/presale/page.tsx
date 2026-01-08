@@ -80,6 +80,38 @@ export default function PresalePage() {
   }, [parsedUsdc])
 
   const capProgress = Math.min(parsedUsdc / MAX_USDC, 1)
+  const totalCapTokens = useMemo(() => {
+    if (!config) return 0n
+    const raw = config.totalCapTokens?.toString?.() ?? config.totalCapTokens ?? 0
+    return BigInt(raw)
+  }, [config])
+  const totalSoldTokens = useMemo(() => {
+    if (!config) return 0n
+    const raw = config.totalSoldTokens?.toString?.() ?? config.totalSoldTokens ?? 0
+    return BigInt(raw)
+  }, [config])
+  const remainingTokens = totalCapTokens > totalSoldTokens ? totalCapTokens - totalSoldTokens : 0n
+  const soldPercent = useMemo(() => {
+    if (!totalCapTokens || totalCapTokens === 0n) return 0
+    const ratio = Number(totalSoldTokens) / Number(totalCapTokens)
+    if (!Number.isFinite(ratio)) return 0
+    return Math.max(0, Math.min(1, ratio))
+  }, [totalCapTokens, totalSoldTokens])
+
+  const buyerTotalUsdc = useMemo(() => {
+    if (!buyerRecord) return 0n
+    const raw = buyerRecord.totalUsdc?.toString?.() ?? buyerRecord.totalUsdc ?? 0
+    return BigInt(raw)
+  }, [buyerRecord])
+  const remainingUsdc = useMemo(() => {
+    const max = BigInt(MAX_USDC_BASE)
+    return max > buyerTotalUsdc ? max - buyerTotalUsdc : 0n
+  }, [buyerTotalUsdc])
+  const isEnded = useMemo(() => {
+    if (!config?.endTs) return false
+    return Number(config.endTs) > 0 && Number(config.endTs) <= now
+  }, [config, now])
+  const isSoldOut = totalCapTokens > 0n && totalSoldTokens >= totalCapTokens
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000)
@@ -319,6 +351,10 @@ export default function PresalePage() {
                     </span>
                   </div>
                 )}
+                <div className="flex justify-between text-sm text-walawow-neutral-text-secondary mt-2">
+                  <span>Remaining cap</span>
+                  <span>{formatUnits(remainingUsdc, USDC_DECIMALS, 2)} USDC</span>
+                </div>
                 <div className="mt-3 h-2 rounded-full bg-walawow-neutral-border overflow-hidden">
                   <div
                     className="h-2 rounded-full bg-gradient-to-r from-walawow-gold to-walawow-purple"
@@ -329,10 +365,16 @@ export default function PresalePage() {
 
               <button
                 className="btn-gold w-full mt-5 disabled:opacity-60 disabled:cursor-not-allowed"
-                disabled={!connected || parsedUsdc <= 0 || submitting}
+                disabled={!connected || parsedUsdc <= 0 || submitting || isEnded || isSoldOut}
                 onClick={handleBuy}
               >
-                {submitting ? 'Processing...' : 'Buy WALAWOW'}
+                {submitting
+                  ? 'Processing...'
+                  : isSoldOut
+                    ? 'Sold Out'
+                    : isEnded
+                      ? 'Presale Ended'
+                      : 'Buy WALAWOW'}
               </button>
               {status && (
                 <p className="text-xs text-walawow-neutral-text-secondary mt-3 break-all">
@@ -364,15 +406,7 @@ export default function PresalePage() {
               </div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
                 {config
-                  ? `Sold: ${formatUnits(
-                      BigInt(
-                        config.totalSoldTokens?.toString?.() ??
-                          config.totalSoldTokens ??
-                          0
-                      ),
-                      TOKEN_DECIMALS,
-                      0
-                    )} WOW`
+                  ? `Sold: ${formatUnits(totalSoldTokens, TOKEN_DECIMALS, 0)} WOW`
                   : 'Fixed allocation for community early access.'}
               </div>
             </div>
@@ -391,6 +425,24 @@ export default function PresalePage() {
               </div>
             </div>
           </div>
+
+          {config && (
+            <div className="mt-6 glass-card px-6 py-4">
+              <div className="flex justify-between text-sm text-walawow-neutral-text-secondary">
+                <span>Presale progress</span>
+                <span>{Math.floor(soldPercent * 100)}%</span>
+              </div>
+              <div className="mt-3 h-2 rounded-full bg-walawow-neutral-border overflow-hidden">
+                <div
+                  className="h-2 rounded-full bg-gradient-to-r from-walawow-gold to-walawow-purple"
+                  style={{ width: `${soldPercent * 100}%` }}
+                />
+              </div>
+              <div className="mt-2 text-xs text-walawow-neutral-text-secondary">
+                Remaining: {formatUnits(remainingTokens, TOKEN_DECIMALS, 0)} WOW
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
