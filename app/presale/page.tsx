@@ -81,37 +81,37 @@ export default function PresalePage() {
 
   const capProgress = Math.min(parsedUsdc / MAX_USDC, 1)
   const totalCapTokens = useMemo(() => {
-    if (!config) return 0n
+    if (!config) return BigInt(0)
     const raw = config.totalCapTokens?.toString?.() ?? config.totalCapTokens ?? 0
     return BigInt(raw)
   }, [config])
   const totalSoldTokens = useMemo(() => {
-    if (!config) return 0n
+    if (!config) return BigInt(0)
     const raw = config.totalSoldTokens?.toString?.() ?? config.totalSoldTokens ?? 0
     return BigInt(raw)
   }, [config])
-  const remainingTokens = totalCapTokens > totalSoldTokens ? totalCapTokens - totalSoldTokens : 0n
+  const remainingTokens = totalCapTokens > totalSoldTokens ? totalCapTokens - totalSoldTokens : BigInt(0)
   const soldPercent = useMemo(() => {
-    if (!totalCapTokens || totalCapTokens === 0n) return 0
+    if (!totalCapTokens || totalCapTokens === BigInt(0)) return 0
     const ratio = Number(totalSoldTokens) / Number(totalCapTokens)
     if (!Number.isFinite(ratio)) return 0
     return Math.max(0, Math.min(1, ratio))
   }, [totalCapTokens, totalSoldTokens])
 
   const buyerTotalUsdc = useMemo(() => {
-    if (!buyerRecord) return 0n
+    if (!buyerRecord) return BigInt(0)
     const raw = buyerRecord.totalUsdc?.toString?.() ?? buyerRecord.totalUsdc ?? 0
     return BigInt(raw)
   }, [buyerRecord])
   const remainingUsdc = useMemo(() => {
     const max = BigInt(MAX_USDC_BASE)
-    return max > buyerTotalUsdc ? max - buyerTotalUsdc : 0n
+    return max > buyerTotalUsdc ? max - buyerTotalUsdc : BigInt(0)
   }, [buyerTotalUsdc])
   const isEnded = useMemo(() => {
     if (!config?.endTs) return false
     return Number(config.endTs) > 0 && Number(config.endTs) <= now
   }, [config, now])
-  const isSoldOut = totalCapTokens > 0n && totalSoldTokens >= totalCapTokens
+  const isSoldOut = totalCapTokens > BigInt(0) && totalSoldTokens >= totalCapTokens
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000)
