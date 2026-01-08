@@ -8,71 +8,514 @@
   },
   "instructions": [
     {
-      "name": "initialize_config",
-      "discriminator": [208, 127, 21, 1, 194, 190, 196, 70],
+      "name": "buy",
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
       "accounts": [
-        { "name": "admin", "writable": true, "signer": true },
-        { "name": "config", "writable": true },
-        { "name": "walawow_mint" },
-        { "name": "usdc_mint" },
-        { "name": "treasury_usdc", "writable": true },
-        { "name": "system_program" }
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  115,
+                  97,
+                  108,
+                  101,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              },
+              {
+                "kind": "account",
+                "path": "buyer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "walawow_mint"
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "buyer_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "buyer_token",
+          "writable": true
+        },
+        {
+          "name": "mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  115,
+                  97,
+                  108,
+                  101,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_2022_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "price_numerator", "type": "u64" },
-        { "name": "price_denominator", "type": "u64" },
-        { "name": "per_address_cap_usdc", "type": "u64" },
-        { "name": "total_cap_tokens", "type": "u64" },
-        { "name": "end_ts", "type": "i64" }
+        {
+          "name": "usdc_amount",
+          "type": "u64"
+        }
       ]
     },
     {
-      "name": "update_params",
-      "discriminator": [108, 178, 190, 95, 94, 203, 116, 20],
+      "name": "initialize_config",
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
       "accounts": [
-        { "name": "admin", "writable": true, "signer": true },
-        { "name": "config", "writable": true }
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  115,
+                  97,
+                  108,
+                  101,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "walawow_mint",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "price_numerator", "type": "u64" },
-        { "name": "price_denominator", "type": "u64" },
-        { "name": "per_address_cap_usdc", "type": "u64" },
-        { "name": "total_cap_tokens", "type": "u64" },
-        { "name": "end_ts", "type": "i64" },
-        { "name": "treasury_usdc", "type": "pubkey" }
+        {
+          "name": "price_numerator",
+          "type": "u64"
+        },
+        {
+          "name": "price_denominator",
+          "type": "u64"
+        },
+        {
+          "name": "per_address_cap_usdc",
+          "type": "u64"
+        },
+        {
+          "name": "total_cap_tokens",
+          "type": "u64"
+        },
+        {
+          "name": "end_ts",
+          "type": "i64"
+        }
       ]
     },
     {
       "name": "set_admin",
-      "discriminator": [251, 163, 0, 52, 91, 194, 187, 92],
+      "discriminator": [
+        251,
+        163,
+        0,
+        52,
+        91,
+        194,
+        187,
+        92
+      ],
       "accounts": [
-        { "name": "admin", "writable": true, "signer": true },
-        { "name": "config", "writable": true }
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  115,
+                  97,
+                  108,
+                  101,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
       ],
       "args": [
-        { "name": "new_admin", "type": "pubkey" }
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
       ]
     },
     {
-      "name": "buy",
-      "discriminator": [102, 6, 61, 18, 1, 218, 235, 234],
+      "name": "update_params",
+      "discriminator": [
+        108,
+        178,
+        190,
+        95,
+        94,
+        203,
+        116,
+        20
+      ],
       "accounts": [
-        { "name": "buyer", "writable": true, "signer": true },
-        { "name": "config", "writable": true },
-        { "name": "buyer_record", "writable": true },
-        { "name": "walawow_mint" },
-        { "name": "usdc_mint" },
-        { "name": "buyer_usdc", "writable": true },
-        { "name": "treasury_usdc", "writable": true },
-        { "name": "buyer_token", "writable": true },
-        { "name": "mint_authority" },
-        { "name": "token_program" },
-        { "name": "token_2022_program" },
-        { "name": "system_program" }
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  115,
+                  97,
+                  108,
+                  101,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
       ],
       "args": [
-        { "name": "usdc_amount", "type": "u64" }
+        {
+          "name": "price_numerator",
+          "type": "u64"
+        },
+        {
+          "name": "price_denominator",
+          "type": "u64"
+        },
+        {
+          "name": "per_address_cap_usdc",
+          "type": "u64"
+        },
+        {
+          "name": "total_cap_tokens",
+          "type": "u64"
+        },
+        {
+          "name": "end_ts",
+          "type": "i64"
+        },
+        {
+          "name": "treasury_usdc",
+          "type": "pubkey"
+        }
       ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BuyerRecord",
+      "discriminator": [
+        107,
+        122,
+        54,
+        31,
+        4,
+        54,
+        209,
+        38
+      ]
+    },
+    {
+      "name": "PresaleConfig",
+      "discriminator": [
+        115,
+        71,
+        85,
+        233,
+        246,
+        108,
+        30,
+        3
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidParam",
+      "msg": "Invalid parameter"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidMintOwner",
+      "msg": "Invalid mint owner"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6005,
+      "name": "AddressCapExceeded",
+      "msg": "Address cap exceeded"
+    },
+    {
+      "code": 6006,
+      "name": "TotalCapExceeded",
+      "msg": "Total cap exceeded"
+    },
+    {
+      "code": 6007,
+      "name": "SaleEnded",
+      "msg": "Sale has ended"
+    },
+    {
+      "code": 6008,
+      "name": "MathOverflow",
+      "msg": "Math overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "BuyerRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "config",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PresaleConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "walawow_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_usdc",
+            "type": "pubkey"
+          },
+          {
+            "name": "price_numerator",
+            "type": "u64"
+          },
+          {
+            "name": "price_denominator",
+            "type": "u64"
+          },
+          {
+            "name": "per_address_cap_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "total_cap_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "total_sold_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "end_ts",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
     }
   ]
 }
