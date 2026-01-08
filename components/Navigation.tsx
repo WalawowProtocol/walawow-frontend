@@ -6,7 +6,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useState } from 'react'
 
 const navigation = [
-  { name: 'home', href: '/' },
+  { name: 'Home', href: '/' },
   { name: 'Presale', href: '/presale' },
   { name: 'Web Trigger', href: '/trigger' },
   { name: 'Winners', href: '/winners' },
