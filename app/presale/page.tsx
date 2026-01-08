@@ -252,7 +252,7 @@ export default function PresalePage() {
                       <div className="text-sm text-walawow-neutral-text-secondary">
                         Presale ends in
                       </div>
-                      <div className="mt-2 text-3xl md:text-9xl font-semibold text-walawow-gold-light tracking-wide">
+                      <div className="mt-2 text-3xl md:text-6xl font-semibold text-walawow-gold-light tracking-wide">
                         {formatCountdown(Number(config.endTs), now)}
                       </div>
                     </div>
