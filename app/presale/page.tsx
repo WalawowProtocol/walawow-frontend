@@ -236,16 +236,28 @@ export default function PresalePage() {
               </div>
 
               {config?.endTs && Number(config.endTs) > 0 && (
-                <div className="mt-auto pt-6">
-                  <div className="glass-card px-6 py-10 flex flex-col items-center justify-center text-center min-h-[360px]">
-                    <div className="text-sm text-walawow-neutral-text-secondary">
-                      Presale ends in
-                    </div>
-                    <div className="mt-2 text-3xl md:text-4xl font-semibold text-walawow-gold-light tracking-wide">
-                      {formatCountdown(Number(config.endTs), now)}
+                <>
+                  <div className="mt-6 lg:hidden">
+                    <div className="glass-card px-5 py-4 text-center">
+                      <div className="text-sm text-walawow-neutral-text-secondary">
+                        Presale ends in
+                      </div>
+                      <div className="mt-2 text-2xl font-semibold text-walawow-gold-light tracking-wide">
+                        {formatCountdown(Number(config.endTs), now)}
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div className="mt-auto pt-6 hidden lg:block">
+                    <div className="glass-card px-6 py-10 flex flex-col items-center justify-center text-center min-h-[360px]">
+                      <div className="text-sm text-walawow-neutral-text-secondary">
+                        Presale ends in
+                      </div>
+                      <div className="mt-2 text-3xl md:text-9xl font-semibold text-walawow-gold-light tracking-wide">
+                        {formatCountdown(Number(config.endTs), now)}
+                      </div>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
 
