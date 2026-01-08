@@ -1,10 +1,32 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { useWallet } from '@solana/wallet-adapter-react'
+import { useWallet, useConnection } from '@solana/wallet-adapter-react'
+import { PublicKey, SystemProgram } from '@solana/web3.js'
+import { BN } from '@coral-xyz/anchor'
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  getAssociatedTokenAddress,
+} from '@solana/spl-token'
 import ReliableWalletConnect from '../../components/ReliableWalletConnect'
+import {
+  getPresaleBuyerRecordPDA,
+  getPresaleConfigPDA,
+  getPresaleMintAuthorityPDA,
+  usePresaleProgram,
+} from '../../utils/programs'
+import { WALAWOW_PROTOCOL_ADDRESSES } from '../../config/addresses'
 
-const PRICE_USDC = 0.001
-const MAX_USDC = 1000
+const USDC_DECIMALS = 6
+
+const PRICE_NUMERATOR = Number(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_PRICE_NUMERATOR)
+const PRICE_DENOMINATOR = Number(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_PRICE_DENOMINATOR)
+const MAX_USDC_BASE = Number(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_ADDRESS_CAP_USDC)
+
+const PRICE_USDC = PRICE_NUMERATOR / PRICE_DENOMINATOR
+const MAX_USDC = MAX_USDC_BASE / 10 ** USDC_DECIMALS
 
 function formatNumber(value: number, digits = 2) {
   if (!Number.isFinite(value)) return '0'
@@ -16,7 +38,11 @@ function formatNumber(value: number, digits = 2) {
 
 export default function PresalePage() {
   const { connected, publicKey } = useWallet()
+  const { connection } = useConnection()
+  const program = usePresaleProgram()
   const [usdcAmount, setUsdcAmount] = useState('100')
+  const [status, setStatus] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
 
   const parsedUsdc = useMemo(() => {
     const value = Number(usdcAmount)
@@ -29,6 +55,102 @@ export default function PresalePage() {
   }, [parsedUsdc])
 
   const capProgress = Math.min(parsedUsdc / MAX_USDC, 1)
+
+  const handleBuy = async () => {
+    if (!program || !publicKey) {
+      setStatus('请先连接钱包')
+      return
+    }
+    if (parsedUsdc <= 0) {
+      setStatus('请输入有效的 USDC 金额')
+      return
+    }
+
+    const usdcBase = Math.floor(parsedUsdc * 10 ** USDC_DECIMALS)
+    if (usdcBase <= 0) {
+      setStatus('USDC 金额过小')
+      return
+    }
+    if (usdcBase > MAX_USDC_BASE) {
+      setStatus('超过单地址限购上限')
+      return
+    }
+
+    try {
+      setSubmitting(true)
+      setStatus('准备交易...')
+
+      const walawowMint = new PublicKey(WALAWOW_PROTOCOL_ADDRESSES.WALAWOW_MINT)
+      const usdcMint = new PublicKey(WALAWOW_PROTOCOL_ADDRESSES.USDC_MINT)
+      const treasuryUsdc = new PublicKey(WALAWOW_PROTOCOL_ADDRESSES.PRESALE_TREASURY_USDC)
+
+      const [configPda] = getPresaleConfigPDA()
+      const [mintAuthorityPda] = getPresaleMintAuthorityPDA(configPda)
+      const [buyerRecordPda] = getPresaleBuyerRecordPDA(configPda, publicKey)
+
+      const buyerUsdcAta = await getAssociatedTokenAddress(
+        usdcMint,
+        publicKey,
+        false,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+      const buyerTokenAta = await getAssociatedTokenAddress(
+        walawowMint,
+        publicKey,
+        false,
+        TOKEN_2022_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+
+      const instructions = []
+      const buyerTokenInfo = await connection.getAccountInfo(buyerTokenAta)
+      if (!buyerTokenInfo) {
+        instructions.push(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            buyerTokenAta,
+            publicKey,
+            walawowMint,
+            TOKEN_2022_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        )
+      }
+
+      const buyerUsdcInfo = await connection.getAccountInfo(buyerUsdcAta)
+      if (!buyerUsdcInfo) {
+        setStatus('未找到 USDC 账户，请先获取 USDC')
+        return
+      }
+
+      setStatus('发送购买交易...')
+      const tx = await program.methods
+        .buy(new BN(usdcBase))
+        .accounts({
+          buyer: publicKey,
+          config: configPda,
+          buyerRecord: buyerRecordPda,
+          walawowMint,
+          usdcMint,
+          buyerUsdc: buyerUsdcAta,
+          treasuryUsdc,
+          buyerToken: buyerTokenAta,
+          mintAuthority: mintAuthorityPda,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          token2022Program: TOKEN_2022_PROGRAM_ID,
+          systemProgram: SystemProgram.programId,
+        })
+        .preInstructions(instructions)
+        .rpc()
+
+      setStatus(`购买成功: ${tx}`)
+    } catch (error: any) {
+      setStatus(error?.message ?? '交易失败')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <main className="min-h-screen">
@@ -109,10 +231,16 @@ export default function PresalePage() {
 
               <button
                 className="btn-gold w-full mt-5 disabled:opacity-60 disabled:cursor-not-allowed"
-                disabled={!connected || parsedUsdc <= 0}
+                disabled={!connected || parsedUsdc <= 0 || submitting}
+                onClick={handleBuy}
               >
-                Buy WALAWOW
+                {submitting ? 'Processing...' : 'Buy WALAWOW'}
               </button>
+              {status && (
+                <p className="text-xs text-walawow-neutral-text-secondary mt-3 break-all">
+                  {status}
+                </p>
+              )}
               <p className="text-xs text-walawow-neutral-text-secondary mt-3">
                 Transfers are locked until liquidity is live. Buying confirms your
                 acceptance of presale terms.
