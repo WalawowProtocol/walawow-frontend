@@ -38,7 +38,7 @@ function formatNumber(value: number, digits = 2) {
 }
 
 function formatUnits(value: bigint, decimals: number, digits = 2) {
-  const base = 10n ** BigInt(decimals)
+  const base = BigInt(10) ** BigInt(decimals)
   const whole = value / base
   const fraction = value % base
   if (digits <= 0) return whole.toString()
