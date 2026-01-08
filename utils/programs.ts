@@ -44,6 +44,24 @@ export function getProvider(connection: Connection, wallet: any): AnchorProvider
   return provider
 }
 
+// 获取只读 Provider（不依赖钱包连接）
+export function getReadOnlyProvider(connection: Connection): AnchorProvider {
+  const readOnlyWallet = {
+    publicKey: null,
+    signTransaction: async () => {
+      throw new Error('Read-only wallet')
+    },
+    signAllTransactions: async () => {
+      throw new Error('Read-only wallet')
+    },
+  }
+
+  return new AnchorProvider(connection, readOnlyWallet as any, {
+    preflightCommitment: 'confirmed',
+    commitment: 'confirmed',
+  })
+}
+
 // 获取 Pool 程序实例
 export function getPoolProgram(provider: AnchorProvider): Program {
   return new Program(poolIdl as Idl, provider)
@@ -68,6 +86,11 @@ export function getPresaleProgram(provider: AnchorProvider): Program {
   return new Program(presaleIdl as Idl, provider)
 }
 
+export function getPresaleReadOnlyProgram(connection: Connection): Program {
+  const provider = getReadOnlyProvider(connection)
+  return getPresaleProgram(provider)
+}
+
 export function usePresaleProgram() {
   const { connection } = useConnection()
   const wallet = useWallet()
@@ -85,6 +108,19 @@ export function usePresaleProgram() {
       return null
     }
   }, [connection, wallet])
+}
+
+export function usePresaleReadOnlyProgram() {
+  const { connection } = useConnection()
+
+  return useMemo(() => {
+    try {
+      return getPresaleReadOnlyProgram(connection)
+    } catch (error) {
+      console.error('Error creating presale read-only program:', error)
+      return null
+    }
+  }, [connection])
 }
 
 // React Hook: 获取 Pool 程序
