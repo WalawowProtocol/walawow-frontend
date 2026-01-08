@@ -3,7 +3,7 @@ import poolIdl from '../idl/walawow_pool.json'
 import distributorIdl from '../idl/walawow_distributor.json'
 import harvestIdl from '../idl/walawow_harvest.json'
 import swapIdl from '../idl/walawow_swap.json'
-
+import presaleIdl from '../idl/walawow_presale.json'
 /**
  * Walawow Protocol 地址配置
  * ✅ 与当前 devnet 实际部署状态完全一致
@@ -26,6 +26,7 @@ export const WALAWOW_PROTOCOL_ADDRESSES = {
   SWAP_PROGRAM: swapIdl.address,
   DISTRIBUTOR_PROGRAM: distributorIdl.address,
   POOL_PROGRAM: poolIdl.address,
+  PRESALE_PROGRAM: presaleIdl.address,
 
   // ==================== Token Mint ====================
   WALAWOW_MINT: requireEnv(process.env.NEXT_PUBLIC_WALAWOW_MINT, 'NEXT_PUBLIC_WALAWOW_MINT'), // Token-2022 (taxed)
@@ -63,6 +64,12 @@ export const WALAWOW_PROTOCOL_ADDRESSES = {
 
   // ==================== VRF / Keeper ====================
   VRF_COORDINATOR: requireEnv(process.env.NEXT_PUBLIC_VRF_COORDINATOR, 'NEXT_PUBLIC_VRF_COORDINATOR'),
+  
+  // ==================== Presale ====================
+  PRESALE_TREASURY_USDC: requireEnv(process.env.NEXT_PUBLIC_PRESALE_TREASURY_USDC, 'NEXT_PUBLIC_PRESALE_TREASURY_USDC'),
+  PRESALE_PRICE_NUMERATOR: requireEnv(process.env.NEXT_PUBLIC_PRESALE_PRICE_NUMERATOR, 'NEXT_PUBLIC_PRESALE_PRICE_NUMERATOR'),
+  PRESALE_PRICE_DENOMINATOR: requireEnv(process.env.NEXT_PUBLIC_PRESALE_PRICE_DENOMINATOR, 'NEXT_PUBLIC_PRESALE_PRICE_DENOMINATOR'),
+  PRESALE_ADDRESS_CAP_USDC: requireEnv(process.env.NEXT_PUBLIC_PRESALE_ADDRESS_CAP_USDC, 'NEXT_PUBLIC_PRESALE_ADDRESS_CAP_USDC'),
 
   // ==================== RPC ====================
   RPC_URL: DEFAULT_RPC_URL,
