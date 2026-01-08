@@ -283,7 +283,7 @@ export default function PresalePage() {
                   </div>
                   <div className="mt-auto pt-6 hidden lg:block">
                     <div className="glass-card px-6 py-10 flex flex-col items-center justify-center text-center min-h-[360px]">
-                      <div className="text-sm text-walawow-neutral-text-secondary">
+                      <div className="text-lg text-walawow-neutral-text-secondary">
                         Presale ends in
                       </div>
                       <div className="mt-2 text-3xl md:text-6xl font-semibold text-walawow-gold-light tracking-wide">
