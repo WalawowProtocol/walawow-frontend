@@ -2,7 +2,7 @@
 'use client'
 import dynamic from 'next/dynamic'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { Wallet, CheckCircle, Sparkles } from 'lucide-react'
+import { CheckCircle, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 // 动态导入官方钱包按钮，确保只在客户端渲染
@@ -25,7 +25,7 @@ const WalletMultiButton = dynamic(
 )
 
 export default function ReliableWalletConnect() {
-  const { connected, publicKey, connect } = useWallet()
+  const { connected, publicKey } = useWallet()
   const [isHovered, setIsHovered] = useState(false)
   const [showSparkle, setShowSparkle] = useState(false)
 
@@ -38,29 +38,13 @@ export default function ReliableWalletConnect() {
     }
   }, [connected])
 
-  const handleConnect = async () => {
-    try {
-      await connect()
-    } catch (error) {
-      console.error('Wallet connection error:', error)
-      // 可以使用更优雅的toast替代alert
-      alert('Connection failed! Please disable browser translation (like Chrome Google Translate) and try again.')
-    }
-  }
-
-  // 自定义按钮内容
-  const buttonContent = connected ? (
+  const statusBadge = connected ? (
     <div className="flex items-center gap-2">
       {showSparkle && <Sparkles className="h-4 w-4 text-walawow-gold animate-pulse" />}
       <CheckCircle className="h-4 w-4 text-green-400" />
       <span>Connected</span>
     </div>
-  ) : (
-    <div className="flex items-center gap-2">
-      <Wallet className="h-4 w-4" />
-      <span>Connect Wallet</span>
-    </div>
-  )
+  ) : null
 
   return (
     <div className="flex flex-col items-center space-y-3 relative z-50">
@@ -86,7 +70,6 @@ export default function ReliableWalletConnect() {
         onMouseLeave={() => setIsHovered(false)}
       >
         <WalletMultiButton
-          onClick={handleConnect}
           style={{
             // 动态渐变背景
             background: connected 
@@ -111,11 +94,14 @@ export default function ReliableWalletConnect() {
             
             // 悬停效果
             transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+            whiteSpace: 'nowrap',
+            lineHeight: '1',
+            minWidth: '180px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        >
-          {/* 自定义按钮内容 */}
-          {buttonContent}
-        </WalletMultiButton>
+        />
       </div>
 
       {/* 连接后的小提示 */}
@@ -126,6 +112,9 @@ export default function ReliableWalletConnect() {
             <span className="text-xs text-walawow-gold-light">Ready for surprises!</span>
           </div>
         </div>
+      )}
+      {statusBadge && (
+        <div className="text-xs text-walawow-neutral-text-secondary">{statusBadge}</div>
       )}
     </div>
   )
