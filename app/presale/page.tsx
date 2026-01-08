@@ -212,29 +212,44 @@ export default function PresalePage() {
         <div className="absolute -bottom-16 right-4 h-72 w-72 bg-walawow-purple/10 rounded-full blur-3xl"></div>
 
         <div className="relative z-10">
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
-            <div className="max-w-2xl">
-              <h1 className="title-gradient text-4xl md:text-5xl lg:text-6xl">
-                Walawow Presale
-              </h1>
-              <p className="mt-4 text-lg md:text-xl text-walawow-neutral-text-secondary">
-                Early access at a fixed price. Immediate delivery, transfers locked
-                until the official liquidity launch.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <span className="px-4 py-2 rounded-full bg-walawow-purple/20 text-walawow-purple-light text-sm">
-                  1 WALAWOW = {PRICE_USDC} USDC
-                </span>
-                <span className="px-4 py-2 rounded-full bg-walawow-gold/15 text-walawow-gold-light text-sm">
-                  Per-wallet cap: {MAX_USDC.toLocaleString()} USDC
-                </span>
-                <span className="px-4 py-2 rounded-full bg-walawow-neutral-card/70 text-walawow-neutral-text-secondary text-sm">
-                  Devnet preview
-                </span>
+          <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 items-stretch">
+            <div className="flex flex-col">
+              <div>
+                <h1 className="title-gradient text-4xl md:text-5xl lg:text-6xl">
+                  Walawow Presale
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-walawow-neutral-text-secondary">
+                  Early access at a fixed price. Immediate delivery, transfers locked
+                  until the official liquidity launch.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <span className="px-4 py-2 rounded-full bg-walawow-purple/20 text-walawow-purple-light text-sm">
+                    1 WALAWOW = {PRICE_USDC} USDC
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-walawow-gold/15 text-walawow-gold-light text-sm">
+                    Per-wallet cap: {MAX_USDC.toLocaleString()} USDC
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-walawow-neutral-card/70 text-walawow-neutral-text-secondary text-sm">
+                    Devnet preview
+                  </span>
+                </div>
               </div>
+
+              {config?.endTs && Number(config.endTs) > 0 && (
+                <div className="mt-auto pt-6">
+                  <div className="glass-card px-6 py-5 flex flex-col items-center justify-center text-center min-h-[120px]">
+                    <div className="text-sm text-walawow-neutral-text-secondary">
+                      Presale ends in
+                    </div>
+                    <div className="mt-2 text-3xl md:text-4xl font-semibold text-walawow-gold-light tracking-wide">
+                      {formatCountdown(Number(config.endTs), now)}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="glass-card p-6 w-full lg:w-[380px]">
+            <div className="glass-card p-6 w-full lg:w-[380px] self-stretch">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-sm text-walawow-neutral-text-secondary">Wallet</div>
@@ -318,17 +333,7 @@ export default function PresalePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {config?.endTs && Number(config.endTs) > 0 && (
-              <div className="glass-card p-6 md:col-span-2 md:row-start-1 flex flex-col items-center justify-center text-center min-h-[140px]">
-                <div className="text-sm text-walawow-neutral-text-secondary">
-                  Presale ends in
-                </div>
-                <div className="mt-2 text-3xl md:text-4xl font-semibold text-walawow-gold-light tracking-wide">
-                  {formatCountdown(Number(config.endTs), now)}
-                </div>
-              </div>
-            )}
-            <div className="glass-card p-6 md:col-start-1 md:row-start-2">
+            <div className="glass-card p-6 md:col-start-1 md:row-start-1">
               <div className="data-label">Presale Supply</div>
               <div className="data-value">
                 {config
@@ -357,14 +362,14 @@ export default function PresalePage() {
                   : 'Fixed allocation for community early access.'}
               </div>
             </div>
-            <div className="glass-card p-6 md:col-start-2 md:row-start-2">
+            <div className="glass-card p-6 md:col-start-2 md:row-start-1">
               <div className="data-label">Delivery</div>
               <div className="data-value text-walawow-gold-light">Instant</div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
                 Tokens are minted directly to your wallet.
               </div>
             </div>
-            <div className="glass-card p-6 md:col-start-3 md:row-start-2">
+            <div className="glass-card p-6 md:col-start-3 md:row-start-1">
               <div className="data-label">Transfer Status</div>
               <div className="data-value text-walawow-purple-light">Locked</div>
               <div className="text-xs text-walawow-neutral-text-secondary mt-2">
