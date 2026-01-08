@@ -233,7 +233,7 @@ export default function PresalePage() {
                 </span>
               </div>
               {config?.endTs && Number(config.endTs) > 0 && (
-                <div className="mt-6">
+                <div className="mt-6 w-full md:w-[70%] glass-card px-4 py-3">
                   <div className="text-sm text-walawow-neutral-text-secondary">
                     Presale ends in
                   </div>
