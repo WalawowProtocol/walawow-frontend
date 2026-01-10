@@ -1,0 +1,10 @@
+{
+  "name": "Walawow Protocol",
+  "symbol": "WALAWOW",
+  "description": "TODO: Add project description.",
+  "image": "https://walawow.fun/walawow.svg",
+  "external_url": "https://walawow.fun",
+  "attributes": [
+    { "trait_type": "Category", "value": "Protocol" }
+  ]
+}
