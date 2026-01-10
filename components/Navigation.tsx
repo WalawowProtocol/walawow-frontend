@@ -1,6 +1,7 @@
 // components/Navigation.tsx
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useState } from 'react'
@@ -29,6 +30,14 @@ export default function Navigation() {
           <div className="flex items-center">
             {/* Logo - 应用新的渐变标题样式 */}
             <div className="notranslate flex-shrink-0 flex items-center">
+              <Image
+                src="/walawow.svg"
+                alt="Walawow logo"
+                width={32}
+                height={32}
+                className="mr-2 h-8 w-8"
+                priority
+              />
               <Link 
                 href="/" 
                 className="title-gradient text-2xl font-bold tracking-tight"
