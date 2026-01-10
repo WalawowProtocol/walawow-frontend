@@ -31,7 +31,7 @@ export default function Navigation() {
             {/* Logo - 应用新的渐变标题样式 */}
             <div className="notranslate flex-shrink-0 flex items-center">
               <Image
-                src="/walawow.png"
+                src="/walawow2.png"
                 alt="Walawow logo"
                 width={55}
                 height={55}
