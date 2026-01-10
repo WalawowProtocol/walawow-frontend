@@ -33,8 +33,8 @@ export default function Navigation() {
               <Image
                 src="/walawow.png"
                 alt="Walawow logo"
-                width={39}
-                height={39}
+                width={55}
+                height={55}
                 className="mr-2 h-8 w-8"
                 priority
               />
