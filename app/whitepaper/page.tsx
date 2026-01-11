@@ -268,20 +268,20 @@ export default function Whitepaper() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-walawow-neutral-text-secondary">Development:</span>
-                    <span className="font-bold text-white">10%</span>
-                  </div>
-                  <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
-                    <div className="h-full bg-walawow-purple-light rounded-full" style={{ width: '10%' }}></div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
                     <span className="text-walawow-neutral-text-secondary">Initial Liquidity:</span>
                     <span className="font-bold text-white">10%</span>
                   </div>
                   <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
                     <div className="h-full bg-walawow-purple rounded-full" style={{ width: '10%' }}></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-walawow-neutral-text-secondary">Development:</span>
+                    <span className="font-bold text-white">10%</span>
+                  </div>
+                  <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
+                    <div className="h-full bg-walawow-purple-light rounded-full" style={{ width: '10%' }}></div>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -295,7 +295,7 @@ export default function Whitepaper() {
                 </div>
               </div>
               <p className="text-xs text-walawow-neutral-text-secondary mt-4">
-                The 70% allocation is held by program-derived addresses (PDAs) with no human access and is streamed into liquidity over time until fully deployed.
+                The 70% allocation is held by program-derived addresses (PDAs) with no human access and is not a releasable or sellable stash. It is paired with USDC and added to liquidity over time to deepen the pool.
               </p>
             </div>
           </div>
