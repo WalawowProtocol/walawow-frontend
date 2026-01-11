@@ -6,14 +6,14 @@ export default function CommunityFooter() {
           <img
             src="/walawow-logo.png"
             alt="Walawow"
-            className="h-12 w-12 animate-float"
+            className="h-15 w-15 animate-float"
           />
           Join the community
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
           <a
             href="https://x.com/walawow"
-            className="btn-outline px-4 py-2 inline-flex items-center"
+            className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
             target="_blank"
             rel="noreferrer"
             aria-label="X (Twitter)"
@@ -25,7 +25,7 @@ export default function CommunityFooter() {
           </a>
           <a
             href="https://t.me/Walawow"
-            className="btn-outline px-4 py-2 inline-flex items-center"
+            className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
             target="_blank"
             rel="noreferrer"
             aria-label="Telegram"
@@ -37,7 +37,7 @@ export default function CommunityFooter() {
           </a>
           <a
             href="https://discord.gg/walawow.fun"
-            className="btn-outline px-4 py-2 inline-flex items-center"
+            className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
             target="_blank"
             rel="noreferrer"
             aria-label="Discord"
@@ -49,7 +49,7 @@ export default function CommunityFooter() {
           </a>
           <a
             href="https://github.com/walawow"
-            className="btn-outline px-4 py-2 inline-flex items-center"
+            className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
@@ -61,7 +61,7 @@ export default function CommunityFooter() {
           </a>
           <a
             href="mailto:hello@walawow.fun"
-            className="btn-outline px-4 py-2 inline-flex items-center"
+            className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
             aria-label="Email"
             title="Email"
           >
