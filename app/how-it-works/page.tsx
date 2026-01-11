@@ -203,7 +203,7 @@ export default function HowItWorks() {
                 <span className="title-gradient text-lg">Security Measures</span>
               </h3>
               <ul className="space-y-3">
-                {["Solana Program Derived Addresses", "Multi-signature treasury guardians", 
+                {["Solana Program Derived Addresses", "Treasury controlled by program-derived addresses (PDAs)", 
                   "Time-locked administrative actions", "Comprehensive error handling", 
                   "Regular security reviews"].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
