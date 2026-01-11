@@ -70,6 +70,14 @@ export default function CommunityFooter() {
             </svg>
           </a>
         </div>
+        <div className="mt-4">
+          <a
+            href="/trigger-script"
+            className="text-xs text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
+          >
+            Developer Docs
+          </a>
+        </div>
       </div>
     </footer>
   )
