@@ -9,11 +9,10 @@ import { useState } from 'react'
 const navigation = [
   { name: 'Home', href: '/home' },
   { name: 'Presale', href: '/presale' },
-  { name: 'Web Trigger', href: '/trigger' },
+  { name: 'Trigger', href: '/trigger' },
   { name: 'Winners', href: '/winners' },
   { name: 'Whitepaper', href: '/whitepaper' },
   { name: 'How It Works', href: '/how-it-works' },
-  { name: 'Developer Docs', href: '/trigger-script' },
 ]
 
 export default function Navigation() {
