@@ -4,6 +4,7 @@ import ReliableWalletConnect from '../../components/ReliableWalletConnect'
 import Dashboard from '../../components/Dashboard'
 import { useProtocolStats } from '../../hooks/useProtocolStats'
 import { Sparkles } from 'lucide-react'
+import CommunityFooter from '../../components/CommunityFooter'
 
 function formatUsdc(amountRaw: number) {
   const amount = Number.isFinite(amountRaw) ? amountRaw / 1e6 : 0
@@ -80,7 +81,7 @@ export default function Home() {
             <div className="max-w-2xl mx-auto">
               <div className="glass-card p-8 md:p-12 rounded-3xl mb-10 border-2 border-dashed border-walawow-purple/30 hover:border-walawow-gold/50 transition-all duration-500">
                 <div className="flex justify-center mb-6 animate-float">
-                  <img src="/walawow-logo.png" alt="Walawow" className="h-60 w-70" />
+                  <img src="/walawow-logo.png" alt="Walawow" className="h-14 w-14" />
                 </div>
                 <h2 className="section-title text-3xl md:text-4xl !border-0 !pl-0 mb-4">
                   Your <span className="text-walawow-gold">WALAWOW Moment</span> Awaits
@@ -132,6 +133,7 @@ export default function Home() {
           </div>
         )}
       </section>
+      <CommunityFooter />
     </main>
   )
 }
