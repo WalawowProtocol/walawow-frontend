@@ -6,7 +6,7 @@ export default function CommunityFooter() {
           <img
             src="/walawow-logo.png"
             alt="Walawow"
-            className="h-9 w-9 animate-float"
+            className="h-[70px] w-[70px] animate-float"
           />
           Join the community
         </div>
