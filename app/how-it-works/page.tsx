@@ -121,11 +121,11 @@ export default function HowItWorks() {
               title: "Treasure Distribution",
               icon: <Coins className="h-5 w-5" />,
               items: [
-                "Winner receives the remaining prize pool after triggerer reward",
-                "Triggerer rewarded with the configured bonus share",
-                "Automatic USDC transfer to the winner's wallet",
-                "Unclaimed rewards return to the distributor after the claim window",
-                "Complete on-chain transaction history preserved"
+                "The winner receives all rewards except the trigger bonus, which is paid to the draw triggerer",
+                "The draw triggerer receives a trigger reward at the configured rate",
+                "After connecting a wallet, the winner clicks “Claim Reward”; the contract sends USDC to the winner and the trigger reward to the triggerer",
+                "Unclaimed rewards return to the contract for redistribution after the claim window ends",
+                "A complete on-chain transaction history is preserved"
               ],
               accent: "gold"
             }
