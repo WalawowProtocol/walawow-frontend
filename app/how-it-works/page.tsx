@@ -1,6 +1,7 @@
 // app/how-it-works/page.tsx
 'use client'
 import { Zap, Users, Target, Shield, Cpu, GitBranch, Coins, TrendingUp, Lock, Globe, Code, CheckCircle } from 'lucide-react'
+import CommunityFooter from '@/components/CommunityFooter'
 
 export default function HowItWorks() {
   return (
@@ -295,21 +296,7 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <div className="text-center py-8">
-        <div className="inline-flex flex-col items-center gap-4 p-8 rounded-3xl 
-          bg-gradient-to-br from-walawow-purple/10 via-walawow-purple/5 to-walawow-gold/10 
-          border border-walawow-purple/30 max-w-2xl">
-          <div className="text-5xl animate-float">🎁</div>
-          <h3 className="text-2xl font-bold text-white">Ready for Your WOW Moment?</h3>
-          <p className="text-walawow-neutral-text-secondary">
-            Join thousands of community members already participating
-          </p>
-          <button className="btn-gold px-8 py-3 mt-4">
-            Start Exploring Now →
-          </button>
-        </div>
-      </div>
+      <CommunityFooter />
     </div>
   )
 }
