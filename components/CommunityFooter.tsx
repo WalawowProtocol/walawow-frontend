@@ -2,7 +2,14 @@ export default function CommunityFooter() {
   return (
     <footer className="mt-12 py-10 border-t border-walawow-purple/20">
       <div className="max-w-4xl mx-auto text-center px-4">
-        <div className="text-sm text-walawow-neutral-text-secondary">Join the community</div>
+        <div className="text-sm text-walawow-neutral-text-secondary inline-flex items-center gap-2">
+          <img
+            src="/walawow-logo.png"
+            alt="Walawow"
+            className="h-5 w-5 animate-float"
+          />
+          Join the community
+        </div>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
           <a
             href="https://x.com/walawow"
