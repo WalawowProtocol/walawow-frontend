@@ -95,28 +95,7 @@ export default function TriggerPage() {
             <div className="flex flex-wrap gap-3"></div>
           </div>
 
-          <div className="space-y-4">
-            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/60">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm text-walawow-neutral-text-secondary">Weekly Window</div>
-                <span className={`text-xs font-semibold ${weeklyStatus.tone}`}>{weeklyStatus.label}</span>
-              </div>
-              <div className="text-white font-semibold">
-                {formatUtcDate(weeklyEligibility.nextTriggerTime)}
-              </div>
-              <div className="text-xs text-walawow-neutral-text-secondary mt-1">{weeklyStatus.detail}</div>
-            </div>
-            <div className="glass-card p-4 rounded-2xl border border-walawow-neutral-border/60">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm text-walawow-neutral-text-secondary">Monthly Window</div>
-                <span className={`text-xs font-semibold ${monthlyStatus.tone}`}>{monthlyStatus.label}</span>
-              </div>
-              <div className="text-white font-semibold">
-                {formatUtcDate(monthlyEligibility.nextTriggerTime)}
-              </div>
-              <div className="text-xs text-walawow-neutral-text-secondary mt-1">{monthlyStatus.detail}</div>
-            </div>
-          </div>
+          <div className="space-y-4"></div>
         </div>
       </section>
 
