@@ -29,12 +29,12 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-purple-dark flex items-center justify-center">
             <Target className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">1. Surprise-Driven Protocol</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Surprise-Driven Protocol</h2>
         </div>
         
         <div className="text-walawow-neutral-text-secondary space-y-6 text-lg leading-relaxed">
           <p>
-            Walawow Protocol is a Solana-based, smart-contract-driven on-chain wealth aggregation protocol. It is an experiment in collecting and redistributing
+            Walawow Protocol is an experimental, Solana-based, smart-contract-driven on-chain wealth aggregation protocol. It collects and redistributes
             on-chain value through transfer taxes. Walawow builds a positive economic loop that converts trading activity into periodic capital gains for holders,
             centered on weekly and monthly surprise pools as its core narrative.
           </p>
@@ -61,7 +61,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-gold to-walawow-gold-dark flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">2. Three-Phase Evolution</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Three-Phase Evolution</h2>
         </div>
         
         <div className="space-y-8">
@@ -125,7 +125,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-gold flex items-center justify-center">
             <Coins className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">3. Protocol Economics</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Protocol Economics</h2>
         </div>
         
         <div className="mb-8">
@@ -133,7 +133,7 @@ export default function Whitepaper() {
             <div className="h-8 w-8 rounded-lg bg-walawow-purple/20 flex items-center justify-center">
               <Zap className="h-4 w-4 text-walawow-purple-light" />
             </div>
-            <span className="title-gradient text-xl">3.1 Source of Funds: The Transfer Tax</span>
+            <span className="title-gradient text-xl">Source of Funds: The Transfer Tax</span>
           </h3>
           <p className="text-walawow-neutral-text-secondary text-lg leading-relaxed">
             The protocol applies a 10% transfer tax on all $WALAWOW trades, and the contract automatically converts the tax to USDC and allocates it across the pools below.
@@ -215,7 +215,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-gold to-walawow-gold-dark flex items-center justify-center">
             <Gift className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">3.2 Token Details: Fair Launch</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Token Details: Fair Launch</h2>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -308,7 +308,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple-light to-walawow-gold flex items-center justify-center">
             <Shield className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">4. Technical Architecture</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Technical Architecture</h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 text-walawow-neutral-text-secondary">
@@ -318,12 +318,12 @@ export default function Whitepaper() {
               desc: 'Transfer Fee withheld on Token-2022 accounts.'
             },
             {
-              title: 'Harvest',
-              desc: 'Batch harvests withheld fees to mint and withdraws to swap_tax_vault.'
+              title: 'Liquidity Injection',
+              desc: 'Pairs accumulated USDC with WALAWOW and adds liquidity on-chain to deepen the pool.'
             },
             {
               title: 'Swap',
-              desc: 'Off-chain WALAWOW -> USDC swap; on-chain forward_usdc routes USDC to distributor_vault.'
+              desc: 'On-chain WALAWOW -> USDC swap; forward_usdc routes USDC to distributor_vault.'
             },
             {
               title: 'Distributor',
@@ -360,7 +360,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-walawow-purple to-walawow-purple-dark flex items-center justify-center">
             <Rocket className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">5. Roadmap</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Roadmap</h2>
         </div>
         
         <div className="space-y-8">
@@ -422,7 +422,7 @@ export default function Whitepaper() {
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
             <Shield className="h-5 w-5 text-white" />
           </div>
-          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">6. Important Risk Warnings</h2>
+          <h2 className="section-title text-2xl md:text-3xl !border-0 !pl-0">Important Risk Warnings</h2>
         </div>
         
         <div className="text-walawow-neutral-text-secondary space-y-6 text-lg leading-relaxed">
