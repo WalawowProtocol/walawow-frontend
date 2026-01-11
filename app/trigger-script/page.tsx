@@ -2,6 +2,7 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Code2, Cpu, Zap, Target, BookOpen, Search, Trophy, Globe, Timer, Shield, Rocket } from 'lucide-react'
+import CommunityFooter from '@/components/CommunityFooter'
 import { WALAWOW_PROTOCOL_ADDRESSES } from '../../config/addresses'
 
 export default function TriggerScriptPage() {
@@ -369,33 +370,7 @@ pub mod trigger_client {
         </div>
       </div>
 
-      {/* Trigger Community Call */}
-      <div className="text-center py-8">
-        <div className="inline-flex flex-col items-center gap-6 p-8 rounded-3xl 
-          bg-gradient-to-br from-walawow-purple/15 via-walawow-purple/10 to-walawow-gold/15 
-          border border-walawow-purple/30 max-w-2xl">
-          <div className="flex items-center justify-center gap-3">
-            <Globe className="h-8 w-8 text-walawow-purple-light" />
-            <h3 className="text-2xl font-bold text-white">Join the Global Trigger Competition</h3>
-            <Globe className="h-8 w-8 text-walawow-gold" />
-          </div>
-          <p className="text-walawow-neutral-text-secondary max-w-xl">
-            Build, optimize, and compete with developers worldwide. Share strategies, learn from others, 
-            and become part of the decentralized trigger ecosystem.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
-            {[
-              { label: "🏆 Weekly Competition", color: "bg-walawow-gold/20 text-walawow-gold border-walawow-gold/30" },
-              { label: "💰 Trigger Reward", color: "bg-walawow-purple/20 text-walawow-purple-light border-walawow-purple/30" },
-              { label: "🌍 Global Scale", color: "bg-walawow-gold/20 text-walawow-gold border-walawow-gold/30" }
-            ].map((badge, i) => (
-              <div key={i} className={`px-4 py-2 rounded-lg border ${badge.color}`}>
-                {badge.label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <CommunityFooter />
     </div>
   )
 }
