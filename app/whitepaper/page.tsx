@@ -34,9 +34,9 @@ export default function Whitepaper() {
         
         <div className="text-walawow-neutral-text-secondary space-y-6 text-lg leading-relaxed">
           <p>
-            Walawow is not merely another token in the vast crypto cosmos. It is an <span className="text-walawow-gold font-semibold">on-chain surprise protocol</span> 
-            powered by smart contracts on Solana. This is an experiment in creating moments of delight through decentralized mechanisms—transforming 
-            everyday interactions into periodic surprise outcomes.
+            Walawow Protocol is a Solana-based, smart-contract-driven on-chain wealth aggregation protocol. It is an experiment in collecting and redistributing
+            on-chain value through transfer taxes. Walawow builds a positive economic loop that converts trading activity into periodic capital gains for holders,
+            centered on weekly and monthly surprise pools as its core narrative.
           </p>
           <p>
             Unlike traditional financial protocols that focus solely on yield, Walawow introduces the element of <span className="text-walawow-purple-light font-semibold">unexpected joy</span>. 
@@ -136,8 +136,7 @@ export default function Whitepaper() {
             <span className="title-gradient text-xl">3.1 Source of Funds: The Transfer Tax</span>
           </h3>
           <p className="text-walawow-neutral-text-secondary text-lg leading-relaxed">
-            The protocol applies a 10% transfer tax on all $WALAWOW trades using Token-2022 Transfer Fee. Taxes are harvested on-chain,
-            swapped to USDC off-chain, then forwarded to the distributor vault for on-chain allocation across pools.
+            The protocol applies a 10% transfer tax on all $WALAWOW trades, and the contract automatically converts the tax to USDC and allocates it across the pools below.
           </p>
         </div>
 
@@ -260,16 +259,7 @@ export default function Whitepaper() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-walawow-neutral-text-secondary">Initial Liquidity:</span>
-                    <span className="font-bold text-white">80%</span>
-                  </div>
-                  <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
-                    <div className="h-full bg-walawow-purple rounded-full" style={{ width: '80%' }}></div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-walawow-neutral-text-secondary">Community & Incentives:</span>
+                    <span className="text-walawow-neutral-text-secondary">Presale:</span>
                     <span className="font-bold text-white">10%</span>
                   </div>
                   <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
@@ -285,7 +275,28 @@ export default function Whitepaper() {
                     <div className="h-full bg-walawow-purple-light rounded-full" style={{ width: '10%' }}></div>
                   </div>
                 </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-walawow-neutral-text-secondary">Initial Liquidity:</span>
+                    <span className="font-bold text-white">10%</span>
+                  </div>
+                  <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
+                    <div className="h-full bg-walawow-purple rounded-full" style={{ width: '10%' }}></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-walawow-neutral-text-secondary">PDA-Controlled Liquidity Allocation:</span>
+                    <span className="font-bold text-white">70%</span>
+                  </div>
+                  <div className="h-2 bg-walawow-neutral-card rounded-full overflow-hidden">
+                    <div className="h-full bg-walawow-gold-dark rounded-full" style={{ width: '70%' }}></div>
+                  </div>
+                </div>
               </div>
+              <p className="text-xs text-walawow-neutral-text-secondary mt-4">
+                The 70% allocation is held by program-derived addresses (PDAs) with no human access and is streamed into liquidity over time until fully deployed.
+              </p>
             </div>
           </div>
         </div>
