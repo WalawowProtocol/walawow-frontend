@@ -188,22 +188,22 @@ export default function TriggerPage() {
           {[
             {
               icon: <Clock className="h-6 w-6" />,
-              title: 'Watch the Window',
-              description: 'Triggering only counts during the open window for each pool.',
+              title: 'Open Window Only',
+              description: 'Calls are only valid inside the scheduled trigger window for each pool.',
               color: 'from-walawow-purple/20 to-walawow-purple/5',
               iconColor: 'text-walawow-purple-light',
             },
             {
               icon: <Zap className="h-6 w-6" />,
-              title: 'Submit Fast',
-              description: 'The first confirmed trigger locks the reward share.',
+              title: 'First draw_winner Wins',
+              description: 'The first successful on-chain draw_winner call becomes the triggerer and earns the trigger reward.',
               color: 'from-walawow-gold/20 to-walawow-gold/5',
               iconColor: 'text-walawow-gold',
             },
             {
               icon: <Trophy className="h-6 w-6" />,
-              title: 'Reward Distribution',
-              description: 'Trigger reward is paid together when the winner claims.',
+              title: 'Reward Settlement',
+              description: 'The trigger reward is paid out alongside the winner claim.',
               color: 'from-walawow-purple/15 to-walawow-gold/10',
               iconColor: 'text-walawow-purple-light',
             },
