@@ -1,6 +1,7 @@
 // app/whitepaper/page.tsx
 import Link from 'next/link'
 import { ScrollText, Sparkles, Target, TrendingUp, Coins, Globe, Zap, Shield, Users, Rocket, Lock, Gift } from 'lucide-react'
+import CommunityFooter from '@/components/CommunityFooter'
 
 export default function Whitepaper() {
   return (
@@ -437,26 +438,7 @@ export default function Whitepaper() {
         </div>
       </section>
 
-      {/* Final Call */}
-      <div className="text-center py-8">
-        <div className="inline-flex flex-col items-center gap-6 p-10 rounded-3xl 
-          bg-gradient-to-br from-walawow-purple/20 via-walawow-purple/10 to-walawow-gold/20 
-          border border-walawow-purple/30 max-w-2xl">
-          <div className="text-6xl animate-float">📜</div>
-          <h3 className="text-3xl font-bold text-white">Ready for Surprise Rewards?</h3>
-          <p className="text-walawow-neutral-text-secondary text-lg">
-            Join the community building transparent, on-chain reward moments together.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
-            <button className="btn-gold px-8 py-3">
-              Begin Your Journey →
-            </button>
-            <button className="btn-outline px-8 py-3">
-              Read Community Updates
-            </button>
-          </div>
-        </div>
-      </div>
+      <CommunityFooter />
     </div>
   )
 }
