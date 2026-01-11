@@ -92,18 +92,7 @@ export default function TriggerPage() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/"
-                className="btn-gold px-5 py-3 rounded-xl font-semibold inline-flex items-center gap-2"
-              >
-                <Sparkles className="h-5 w-5" />
-                Go to Dashboard
-              </Link>
-              <div className="px-4 py-3 rounded-xl border border-walawow-neutral-border text-sm text-walawow-neutral-text-secondary">
-                Status updates refresh automatically.
-              </div>
-            </div>
+            <div className="flex flex-wrap gap-3"></div>
           </div>
 
           <div className="space-y-4">
@@ -160,7 +149,7 @@ export default function TriggerPage() {
           </div>
         </div>
 
-        <div className="glass-card p-7 rounded-3xl border border-walawow-neutral-border hover:glow-gold">
+        <div className="glass-card p-7 rounded-3xl border border-walawow-neutral-border">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="text-2xl font-bold text-white mb-1 notranslate" translate="no">Monthly Spectacular</h3>
