@@ -136,7 +136,7 @@ export default function Whitepaper() {
             <span className="title-gradient text-xl">Source of Funds: The Transfer Tax</span>
           </h3>
           <p className="text-walawow-neutral-text-secondary text-lg leading-relaxed">
-            The protocol applies a 10% transfer tax on all $WALAWOW trades, and the contract automatically converts the tax to USDC and allocates it across the pools below.
+            The protocol applies a 10% transfer tax on all $WALAWOW trades, and the contract automatically converts the tax to USDC and allocates it across the pools below. Liquidity allocation is only used while the PDA-controlled WALAWOW liquidity supply is being injected; once fully deployed, that share is set to zero and reallocated.
           </p>
         </div>
 
