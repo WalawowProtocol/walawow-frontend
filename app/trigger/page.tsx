@@ -83,13 +83,13 @@ export default function TriggerPage() {
                 instruction. The first successful call becomes the Lucky Messenger and earns the trigger reward
                 (<span className="text-walawow-gold font-semibold">5% of the current prize pool</span>).
               </p>
-              <div className="text-sm text-walawow-neutral-text-secondary space-y-1">
-                <div>
-                  1) Click the draw button on the <Link href="/" className="text-walawow-purple-light hover:text-walawow-gold">Home page</Link>.
-                </div>
-                <div>
-                  2) Build your own script via the <Link href="/trigger-script" className="text-walawow-purple-light hover:text-walawow-gold">Developer Docs</Link>.
-                </div>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link href="/" className="btn-outline px-4 py-2">
+                  Home: Draw Button
+                </Link>
+                <Link href="/trigger-script" className="btn-outline px-4 py-2">
+                  Developer Docs
+                </Link>
               </div>
             </div>
             <div className="flex flex-wrap gap-3"></div>
