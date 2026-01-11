@@ -64,11 +64,11 @@ export default function TriggerPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-12 px-4 py-10">
       <section className="relative overflow-hidden glass-card rounded-3xl border border-walawow-neutral-border p-8 md:p-10">
-        <div className="absolute -top-8 right-16 h-40 w-40 bg-walawow-gold/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-10 left-10 h-48 w-48 bg-walawow-purple/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-8 right-16 h-40 w-40 bg-walawow-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-10 left-10 h-48 w-48 bg-walawow-purple/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center">
-          <div className="space-y-5">
+          <div className="space-y-5 relative z-10">
             <div className="flex items-center gap-3">
               <Zap className="h-9 w-9 text-walawow-purple-light animate-pulse" />
               <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Draw Overview</span>
@@ -84,18 +84,16 @@ export default function TriggerPage() {
                 (<span className="text-walawow-gold font-semibold">5% of the current prize pool</span>).
               </p>
               <div className="flex flex-wrap gap-3 text-sm">
-                <Link href="/home" className="btn-outline px-4 py-2">
+                <Link href="/home" className="btn-outline px-4 py-2 inline-flex items-center cursor-pointer">
                   ☞ Draw
                 </Link>
-                <Link href="/trigger-script" className="btn-outline px-4 py-2">
+                <Link href="/trigger-script" className="btn-outline px-4 py-2 inline-flex items-center cursor-pointer">
                   Developer Docs
                 </Link>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3"></div>
           </div>
 
-          <div className="space-y-4"></div>
         </div>
       </section>
 
