@@ -71,7 +71,7 @@ export default function TriggerPage() {
           <div className="space-y-5">
             <div className="flex items-center gap-3">
               <Zap className="h-9 w-9 text-walawow-purple-light animate-pulse" />
-              <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Draw Winner Overview</span>
+              <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Draw Overview</span>
             </div>
             <h1 className="title-gradient text-4xl md:text-5xl font-bold">
               Trigger the Surprise Draw
@@ -85,7 +85,7 @@ export default function TriggerPage() {
               </p>
               <div className="flex flex-wrap gap-3 text-sm">
                 <Link href="/home" className="btn-outline px-4 py-2">
-                  Home: Draw Button
+                  ☞ Draw
                 </Link>
                 <Link href="/trigger-script" className="btn-outline px-4 py-2">
                   Developer Docs
