@@ -71,15 +71,27 @@ export default function TriggerPage() {
           <div className="space-y-5">
             <div className="flex items-center gap-3">
               <Zap className="h-9 w-9 text-walawow-purple-light animate-pulse" />
-              <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Trigger Overview</span>
+              <span className="text-xs tracking-[0.2em] text-walawow-neutral-text-secondary uppercase">Draw Winner Overview</span>
             </div>
             <h1 className="title-gradient text-4xl md:text-5xl font-bold">
               Trigger the Surprise Draw
             </h1>
-            <p className="text-lg text-walawow-neutral-text-secondary">
-              First confirmed trigger earns <span className="text-walawow-gold font-semibold">5% of the prize pool</span>. Triggering
-              happens on the Dashboard during the open window.
-            </p>
+            <div className="text-lg text-walawow-neutral-text-secondary space-y-3">
+              <p>
+                The draw must be triggered during the 1-hour window by calling the on-chain
+                <span className="text-walawow-gold font-semibold"> draw_winner </span>
+                instruction. The first successful call becomes the Lucky Messenger and earns the trigger reward
+                (<span className="text-walawow-gold font-semibold">5% of the current prize pool</span>).
+              </p>
+              <div className="text-sm text-walawow-neutral-text-secondary space-y-1">
+                <div>
+                  1) Click the draw button on the <Link href="/" className="text-walawow-purple-light hover:text-walawow-gold">Home page</Link>.
+                </div>
+                <div>
+                  2) Build your own script via the <Link href="/trigger-script" className="text-walawow-purple-light hover:text-walawow-gold">Developer Docs</Link>.
+                </div>
+              </div>
+            </div>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/"
