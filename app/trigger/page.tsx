@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useTriggerEligibility } from '../../hooks/useTriggerEligibility'
 import { usePoolInfo } from '../../hooks/usePoolInfo'
 import { Zap, Trophy, Clock, Target, Sparkles, Timer, Award } from 'lucide-react'
+import CommunityFooter from '../../components/CommunityFooter'
 
 export default function TriggerPage() {
   const weeklyEligibility = useTriggerEligibility('weekly')
@@ -242,6 +243,7 @@ export default function TriggerPage() {
           </ul>
         </div>
       </section>
+      <CommunityFooter />
     </div>
   )
 }
