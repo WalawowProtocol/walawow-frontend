@@ -9,7 +9,7 @@ import { useState } from 'react'
 const navigation = [
   { name: 'Home', href: '/home' },
   { name: 'Presale', href: '/presale' },
-  { name: 'Draw', href: '/trigger' },
+  { name: 'Trigger Draw', href: '/trigger' },
   { name: 'Winners', href: '/winners' },
   { name: 'Whitepaper', href: '/whitepaper' },
   { name: 'How It Works', href: '/how-it-works' },
