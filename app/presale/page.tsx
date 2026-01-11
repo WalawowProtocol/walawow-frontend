@@ -264,9 +264,6 @@ export default function PresalePage() {
                   <span className="px-4 py-2 rounded-full bg-walawow-gold/15 text-walawow-gold-light text-sm">
                     Per-wallet cap: {MAX_USDC.toLocaleString()} USDC
                   </span>
-                  <span className="px-4 py-2 rounded-full bg-walawow-neutral-card/70 text-walawow-neutral-text-secondary text-sm">
-                    Devnet preview
-                  </span>
                 </div>
               </div>
 
