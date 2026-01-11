@@ -2,6 +2,7 @@
 'use client'
 import { useState } from 'react'
 import { Trophy, Crown, Sparkles, Gift, Zap, Users, TrendingUp, Star, Medal, Award, Coins, Calendar } from 'lucide-react'
+import CommunityFooter from '@/components/CommunityFooter'
 
 // Mock data - in real implementation, this would come from on-chain events
 const mockWinners = [
@@ -310,42 +311,7 @@ export default function Winners() {
         </div>
       </div>
 
-      {/* Final Call */}
-      <div className="text-center py-8">
-        <div className="inline-flex flex-col items-center gap-8 p-10 rounded-3xl 
-          bg-gradient-to-br from-walawow-purple/20 via-walawow-purple/10 to-walawow-gold/20 
-          border border-walawow-purple/30 max-w-2xl">
-          <div className="relative">
-            <div className="text-6xl animate-float">👑</div>
-            <div className="absolute -top-2 -right-2">
-              <Sparkles className="h-6 w-6 text-walawow-gold animate-pulse" />
-            </div>
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Your Next Win Awaits!
-            </h3>
-            <p className="text-walawow-neutral-text-secondary text-lg max-w-xl mx-auto">
-              Hold $WALAWOW tokens to automatically enter every draw. 
-              The more you hold, the higher your chances of receiving <span className="text-walawow-gold font-semibold">surprise rewards</span>.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button className="btn-gold px-8 py-3">
-              <div className="flex items-center gap-2">
-                <Medal className="h-5 w-5" />
-                View Winners Now
-              </div>
-            </button>
-            <button className="btn-outline px-8 py-3">
-              Learn Winning Strategies
-            </button>
-          </div>
-          <div className="text-sm text-walawow-neutral-text-secondary">
-            Join thousands of community members already participating
-          </div>
-        </div>
-      </div>
+      <CommunityFooter />
     </div>
   )
 }
