@@ -8,7 +8,6 @@ export default function CommunityFooter() {
             alt="Walawow"
             className="h-[50px] w-[50px] animate-float"
           />
-          Join the community
         </div>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
           <a
