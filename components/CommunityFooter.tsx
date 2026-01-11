@@ -6,11 +6,11 @@ export default function CommunityFooter() {
           <img
             src="/walawow-logo.png"
             alt="Walawow"
-            className="h-5 w-5 animate-float"
+            className="h-9 w-9 animate-float"
           />
           Join the community
         </div>
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
           <a
             href="https://x.com/walawow"
             className="inline-flex items-center text-walawow-neutral-text-secondary hover:text-walawow-purple-light transition-colors"
