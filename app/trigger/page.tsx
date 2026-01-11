@@ -84,7 +84,7 @@ export default function TriggerPage() {
                 (<span className="text-walawow-gold font-semibold">5% of the current prize pool</span>).
               </p>
               <div className="flex flex-wrap gap-3 text-sm">
-                <Link href="/" className="btn-outline px-4 py-2">
+                <Link href="/home" className="btn-outline px-4 py-2">
                   Home: Draw Button
                 </Link>
                 <Link href="/trigger-script" className="btn-outline px-4 py-2">
