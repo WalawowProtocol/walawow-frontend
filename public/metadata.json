@@ -1,8 +1,8 @@
 {
   "name": "Walawow Protocol",
   "symbol": "WALAWOW",
-  "description": "TODO: Add project description.",
-  "image": "https://walawow.fun/walawow.png",
+  "description": "Walawow Protocol is a transparent, on-chain surprise reward system on Solana.",
+  "image": "https://walawow.fun/walawow-token.png",
   "external_url": "https://walawow.fun",
   "attributes": [
     { "trait_type": "Category", "value": "Protocol" }
